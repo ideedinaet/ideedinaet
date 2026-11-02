@@ -1,0 +1,6 @@
+{
+  "name": "sito-vetrina",
+  "private": true,
+  "scripts": { "build": "node build.js", "anteprima": "node build.js --anteprima" },
+  "dependencies": { "qrcode": "^1.5.4" }
+}

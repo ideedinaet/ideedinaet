@@ -1,0 +1,65 @@
+# Il vostro sito vetrina
+
+Sito semplice e veloce, con un **pannello di gestione** (`/admin`) dove potete,
+senza toccare codice:
+
+- aggiungere, rinominare, riordinare o eliminare **categorie** (Taglieri, Lavori in carta, Profumato, …);
+- caricare **foto** dei lavori, con titolo, descrizione e prezzo facoltativo;
+- modificare nome, testo "Chi siamo", foto principale e **contatti** (email, WhatsApp, Instagram, Facebook, Etsy).
+
+Ogni volta che salvate dal pannello, il sito si aggiorna da solo in 1–2 minuti.
+Hosting gratuito su Netlify.
+
+---
+
+## Messa online (una volta sola, ~20 minuti)
+
+1. **GitHub** – Create un account gratuito su github.com, poi un nuovo repository
+   (es. `bottega`) e caricate tutto il contenuto di questa cartella
+   ("Add file → Upload files", trascinando i file e le cartelle).
+2. **Netlify** – Create un account gratuito su netlify.com accedendo con GitHub.
+   "Add new site → Import an existing project → GitHub" e scegliete il repository.
+   Le impostazioni si leggono da sole (`netlify.toml`): premete **Deploy**.
+3. **Accesso al pannello** – Su Netlify, nel vostro sito:
+   - *Project configuration → Identity* → **Enable Identity**;
+   - in *Registration* scegliete **Invite only** (così nessun altro può registrarsi);
+   - in *Services → Git Gateway* → **Enable Git Gateway**;
+   - in *Identity → Invite users* invitate le vostre due email.
+   Cliccate il link nell'email, scegliete una password: si apre il pannello.
+4. **Indirizzo del sito** – Netlify vi dà un indirizzo tipo `bottega.netlify.app`
+   (rinominabile in *Site configuration → Change site name*). Se volete un dominio
+   vostro (es. `bottegaquattromani.it`, ~10–15 €/anno) lo collegate in *Domain management*.
+5. **Inserite l'indirizzo nel pannello** – In *Impostazioni del sito → Indirizzo del sito*
+   scrivete l'indirizzo completo (es. `https://bottega.netlify.app`): serve a generare
+   la mappa del sito per Google.
+
+## Farvi trovare su Google
+
+- Andate su **Google Search Console** (search.google.com/search-console), aggiungete
+  il sito e inviate la sitemap: `https://IL-VOSTRO-SITO/sitemap.xml`.
+- Mettete il link del sito nella bio di Instagram/Facebook: aiuta molto.
+- Facoltativo ma utile: una scheda gratuita su **Google Business Profile**.
+- Usate titoli e descrizioni concrete nelle foto (es. "Tagliere in noce con manico"):
+  sono testi che Google legge.
+
+## Uso quotidiano
+
+Aprite `https://IL-VOSTRO-SITO/admin/` (funziona anche dal telefono):
+- **Categorie** → scegliete una categoria → **Lavori** → "Aggiungi lavoro" → caricate la foto → **Pubblica**.
+- Per una nuova categoria: **Categorie → Nuova categoria**. Comparirà nel menu e in home.
+- Il numero "Posizione nel menu" decide l'ordine delle categorie.
+- **Link Instagram** di un lavoro (facoltativo): incollate il link del post
+  (su Instagram: ··· → Copia link) oppure scrivete `@nomeprofilo`. Sul sito compare
+  "Vedi su Instagram" sotto la foto e, aprendo la foto in grande dal computer,
+  un QR code da inquadrare con il telefono.
+
+Le foto dal telefono vanno benissimo: il sito le ridimensiona automaticamente
+(servizio immagini di Netlify) per caricarsi veloci.
+
+## Per chi vuole smanettare
+
+- `content/` contiene i testi (file JSON), `immagini/` le foto.
+- `npm install` una volta (installa la libreria dei QR code; su Netlify avviene da solo).
+- `node build.js` genera il sito in `_site/`; `node build.js --anteprima` crea un
+  unico `anteprima.html` da aprire nel browser.
+- Colori e caratteri si cambiano in cima a `src/stile.css`.

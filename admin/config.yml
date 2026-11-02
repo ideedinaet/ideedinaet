@@ -1,0 +1,63 @@
+# Configurazione del pannello di gestione (Decap CMS)
+# Il pannello si apre su: https://IL-TUO-SITO/admin/
+
+backend:
+  name: git-gateway
+  branch: main
+
+locale: it
+media_folder: "immagini"
+public_folder: "/immagini"
+
+collections:
+  - name: categorie
+    label: "Categorie"
+    label_singular: "categoria"
+    description: "Ogni categoria è una pagina del sito (es. Taglieri, Lavori in carta, Profumato). Puoi crearne di nuove quando vuoi."
+    folder: "content/categorie"
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: titolo
+    slug: "{{slug}}"
+    sortable_fields: ["ordine", "titolo"]
+    summary: "{{titolo}}"
+    fields:
+      - { label: "Nome della categoria", name: titolo, widget: string }
+      - { label: "Posizione nel menu (1 = prima)", name: ordine, widget: number, value_type: int, default: 10, min: 1 }
+      - { label: "Descrizione", name: descrizione, widget: text, required: false }
+      - { label: "Foto di copertina", name: copertina, widget: image, required: false, hint: "Se la lasci vuota uso la prima foto dei lavori." }
+      - label: "Lavori"
+        name: lavori
+        widget: list
+        label_singular: "lavoro"
+        add_to_top: true
+        summary: "{{fields.titolo}}"
+        fields:
+          - { label: "Foto", name: foto, widget: image }
+          - { label: "Titolo", name: titolo, widget: string, required: false }
+          - { label: "Descrizione", name: descrizione, widget: text, required: false }
+          - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }
+          - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code." }
+
+  - name: impostazioni
+    label: "Impostazioni del sito"
+    files:
+      - name: sito
+        label: "Informazioni generali e contatti"
+        file: "content/sito.json"
+        fields:
+          - { label: "Nome del sito / del marchio", name: nome, widget: string }
+          - { label: "Frase sotto il nome", name: sottotitolo, widget: string, required: false }
+          - { label: "Descrizione per Google (max ~160 caratteri)", name: descrizione_seo, widget: text, required: false }
+          - { label: "Indirizzo del sito (es. https://www.nomesito.it)", name: url, widget: string, required: false, hint: "Serve per la mappa del sito che legge Google." }
+          - { label: "Città o zona", name: citta, widget: string, required: false }
+          - { label: "Foto principale della home", name: immagine_copertina, widget: image, required: false }
+          - { label: "Chi siamo", name: chi_siamo, widget: text, required: false }
+          - { label: "Foto 'Chi siamo'", name: foto_chi_siamo, widget: image, required: false }
+          - { label: "Email", name: email, widget: string, required: false }
+          - { label: "Telefono / WhatsApp", name: telefono, widget: string, required: false }
+          - { label: "Link Instagram", name: instagram, widget: string, required: false }
+          - { label: "Link Facebook", name: facebook, widget: string, required: false }
+          - { label: "Link Etsy o negozio online", name: etsy, widget: string, required: false }

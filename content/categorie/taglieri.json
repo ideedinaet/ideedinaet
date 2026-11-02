@@ -1,0 +1,36 @@
+{
+  "titolo": "Taglieri",
+  "ordine": 1,
+  "descrizione": "Taglieri in legno massello, levigati a mano e trattati con olio alimentare. Noce, ulivo, ciliegio e acero.",
+  "copertina": "/immagini/tagliere-noce.jpg",
+  "lavori": [
+    {
+      "titolo": "Tagliere in noce con manico",
+      "foto": "/immagini/tagliere-noce.jpg",
+      "descrizione": "45 × 22 cm, ricavato da un'unica tavola.",
+      "prezzo": "",
+      "instagram": "https://www.instagram.com/p/esempio-tagliere/"
+    },
+    {
+      "titolo": "Tagliere tondo in ulivo",
+      "foto": "/immagini/tagliere-ulivo.jpg",
+      "descrizione": "Diametro 30 cm, perfetto per pizza e formaggi.",
+      "prezzo": "",
+      "instagram": ""
+    },
+    {
+      "titolo": "Tagliere in ciliegio",
+      "foto": "/immagini/tagliere-ciliegio.jpg",
+      "descrizione": "Venatura calda, con foro per appenderlo.",
+      "prezzo": "",
+      "instagram": ""
+    },
+    {
+      "titolo": "Tagliere tondo in acero",
+      "foto": "/immagini/tagliere-acero.jpg",
+      "descrizione": "Chiaro e leggero, ideale come piatto da portata.",
+      "prezzo": "",
+      "instagram": ""
+    }
+  ]
+}

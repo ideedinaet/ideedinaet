@@ -1,0 +1,36 @@
+{
+  "titolo": "Lavori in carta",
+  "ordine": 2,
+  "descrizione": "Origami, biglietti, quaderni rilegati a mano e decorazioni di carta per la casa e per le feste.",
+  "copertina": "/immagini/carta-origami.jpg",
+  "lavori": [
+    {
+      "titolo": "Composizione di origami",
+      "foto": "/immagini/carta-origami.jpg",
+      "descrizione": "Carta giapponese piegata a mano.",
+      "prezzo": "",
+      "instagram": ""
+    },
+    {
+      "titolo": "Biglietti d'auguri",
+      "foto": "/immagini/carta-biglietti.jpg",
+      "descrizione": "Set da 5, personalizzabili.",
+      "prezzo": "",
+      "instagram": ""
+    },
+    {
+      "titolo": "Quaderno rilegato a mano",
+      "foto": "/immagini/carta-quaderno.jpg",
+      "descrizione": "Cucitura copta, 96 pagine.",
+      "prezzo": "",
+      "instagram": ""
+    },
+    {
+      "titolo": "Ghirlanda di carta",
+      "foto": "/immagini/carta-ghirlanda.jpg",
+      "descrizione": "Lunghezza 2 metri, colori su richiesta.",
+      "prezzo": "",
+      "instagram": ""
+    }
+  ]
+}

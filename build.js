@@ -1,0 +1,238 @@
+#!/usr/bin/env node
+/*
+ * Generatore del sito vetrina — nessuna dipendenza, basta Node.
+ *   node build.js              → crea il sito completo nella cartella _site/
+ *   node build.js --anteprima  → crea un unico file anteprima.html (per vederlo al volo)
+ * I contenuti stanno in content/ (modificabili dal pannello /admin), le foto in immagini/.
+ */
+const fs = require('fs');
+const path = require('path');
+
+const RADICE = __dirname;
+const USCITA = path.join(RADICE, '_site');
+const ANTEPRIMA = process.argv.includes('--anteprima');
+const NETLIFY = process.env.NETLIFY === 'true';
+
+const leggi = (f) => JSON.parse(fs.readFileSync(path.join(RADICE, f), 'utf8'));
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const paragrafi = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('\n');
+
+const sito = leggi('content/sito.json');
+const urlBase = (sito.url || '').replace(/\/+$/, '');
+const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
+  .filter((f) => f.endsWith('.json'))
+  .map((f) => {
+    const c = leggi(path.join('content/categorie', f));
+    c.slug = path.basename(f, '.json');
+    c.lavori = (c.lavori || []).filter((l) => l && l.foto);
+    c.copertina = c.copertina || (c.lavori[0] && c.lavori[0].foto) || '';
+    return c;
+  })
+  .sort((a, b) => (a.ordine || 99) - (b.ordine || 99) || String(a.titolo).localeCompare(String(b.titolo), 'it'));
+
+// ---- Instagram e QR code ----
+let QRCode = null;
+try { QRCode = require('qrcode'); } catch (e) { console.warn('Attenzione: libreria "qrcode" non installata (npm install): i QR code non verranno creati.'); }
+function normalizzaInstagram(v) {
+  v = String(v || '').trim();
+  if (!v) return '';
+  if (/^https?:\/\//i.test(v)) return v;
+  if (/^(www\.)?instagram\.com\//i.test(v)) return 'https://' + v;
+  const nome = v.replace(/^@/, '');
+  if (/^[A-Za-z0-9._]{1,30}$/.test(nome)) return `https://www.instagram.com/${nome}/`;
+  return '';
+}
+const codiciQR = {};
+async function preparaQR() {
+  for (const c of categorie) for (const l of c.lavori) {
+    l.instagram = normalizzaInstagram(l.instagram);
+    if (l.instagram && QRCode && !codiciQR[l.instagram]) {
+      codiciQR[l.instagram] = await QRCode.toString(l.instagram, { type: 'svg', margin: 1, errorCorrectionLevel: 'M', color: { dark: '#2a2420ff', light: '#ffffffff' } });
+    }
+  }
+}
+const iconaInstagram = '<svg class="icona-ig" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
+
+// ---- Indirizzi di immagini e pagine ----
+const cacheDati = {};
+function immagine(p, larghezza, livello) {
+  if (!p) return '';
+  if (/^https?:\/\//.test(p)) return p;
+  const rel = p.replace(/^\/+/, '');
+  if (ANTEPRIMA) {
+    if (!cacheDati[rel]) {
+      const ext = path.extname(rel).slice(1).toLowerCase().replace('jpg', 'jpeg');
+      cacheDati[rel] = `data:image/${ext};base64,` + fs.readFileSync(path.join(RADICE, rel)).toString('base64');
+    }
+    return cacheDati[rel];
+  }
+  if (NETLIFY && larghezza) return `/.netlify/images?url=${encodeURIComponent('/' + rel)}&w=${larghezza}`;
+  return '../'.repeat(livello) + rel;
+}
+function collegamento(slug, livello) {
+  if (ANTEPRIMA) return '#' + (slug || 'home');
+  return '../'.repeat(livello) + (slug ? slug + '/' : '') || './';
+}
+
+// ---- Pezzi comuni ----
+function testata(attiva, livello) {
+  const voci = categorie.map((c) =>
+    `<a href="${collegamento(c.slug, livello)}"${attiva === c.slug ? ' aria-current="page"' : ''}>${esc(c.titolo)}</a>`).join('');
+  return `<header class="testata"><div class="contenitore">
+  <a class="marchio" href="${collegamento('', livello)}">${esc(sito.nome)}</a>
+  <nav class="menu" aria-label="Menu principale">${voci}<a href="#contatti">Contatti</a></nav>
+</div></header>`;
+}
+
+function contatti() {
+  const voci = [];
+  if (sito.email) voci.push(`<a href="mailto:${esc(sito.email)}">${esc(sito.email)}</a>`);
+  if (sito.telefono) {
+    const num = sito.telefono.replace(/[^\d+]/g, '');
+    voci.push(`<a href="https://wa.me/${esc(num.replace(/^\+/, ''))}" rel="noopener">WhatsApp ${esc(sito.telefono)}</a>`);
+  }
+  if (sito.instagram) voci.push(`<a href="${esc(sito.instagram)}" rel="noopener">Instagram</a>`);
+  if (sito.facebook) voci.push(`<a href="${esc(sito.facebook)}" rel="noopener">Facebook</a>`);
+  if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" rel="noopener">Negozio online</a>`);
+  return `<section class="sezione contatti" id="contatti"><div class="contenitore">
+  <h2>Scrivici</h2>
+  <p>Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri.</p>
+  <div class="lista">${voci.join('')}</div>
+</div></section>
+<footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''} · Fatto a mano</div></footer>`;
+}
+
+const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area">
+  <img alt=""><div class="didascalia"><div class="testi"><strong></strong><span></span></div>
+  <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
+  <button class="chiudi" aria-label="Chiudi">×</button><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button>
+</dialog>`;
+
+// ---- Contenuto delle pagine ----
+function corpoHome(livello) {
+  const schede = categorie.map((c) => `<a class="scheda" href="${collegamento(c.slug, livello)}">
+    <div class="foto">${c.copertina ? `<img src="${immagine(c.copertina, 700, livello)}" alt="${esc(c.titolo)}" loading="lazy">` : ''}</div>
+    <h3>${esc(c.titolo)}</h3>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
+    <span class="conta">${c.lavori.length} ${c.lavori.length === 1 ? 'lavoro' : 'lavori'} →</span></a>`).join('\n');
+  return `<section class="apertura"><div class="contenitore">
+  <div><p class="occhiello">Fatto a mano${sito.citta ? ' · ' + esc(sito.citta) : ''}</p>
+    <h1>${esc(sito.nome)}</h1>${sito.sottotitolo ? `<p class="sotto">${esc(sito.sottotitolo)}</p>` : ''}
+    <a class="bottone" href="#lavori">Guarda i nostri lavori</a></div>
+  ${sito.immagine_copertina ? `<div class="cornice"><img src="${immagine(sito.immagine_copertina, 900, livello)}" alt="${esc(sito.nome)}"></div>` : ''}
+</div></section>
+<section class="sezione" id="lavori"><div class="contenitore">
+  <div class="intestazione"><h2>I nostri lavori</h2></div>
+  <div class="categorie">${schede}</div>
+</div></section>
+${sito.chi_siamo ? `<section class="sezione" id="chi-siamo"><div class="contenitore chi-siamo">
+  ${sito.foto_chi_siamo ? `<div class="foto"><img src="${immagine(sito.foto_chi_siamo, 700, livello)}" alt="Chi siamo" loading="lazy"></div>` : '<div></div>'}
+  <div><p class="occhiello">Chi siamo</p><h2>Due persone, quattro mani</h2>${paragrafi(sito.chi_siamo)}</div>
+</div></section>` : ''}`;
+}
+
+function corpoCategoria(c, livello) {
+  const lavori = c.lavori.map((l) => `<figure class="lavoro">
+    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}">
+      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"></button>
+    ${l.titolo || l.descrizione || l.prezzo || l.instagram ? `<figcaption>${l.titolo ? `<strong>${esc(l.titolo)}</strong>` : ''}${l.descrizione ? `<span>${esc(l.descrizione)}</span>` : ''}${l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : ''}${l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : ''}</figcaption>` : ''}
+    ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
+  </figure>`).join('\n');
+  return `<section class="titolo-pagina"><div class="contenitore">
+  <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${esc(c.titolo)}</div>
+  <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
+</div></section>
+<section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : '<p class="vuoto">Presto nuove foto.</p>'}</div></section>`;
+}
+
+// ---- Documento completo ----
+function documento({ titolo, descrizione, corpo, livello, percorso, foto, extraTesta = '', script }) {
+  const canonico = urlBase ? urlBase + '/' + percorso : '';
+  const og = foto && urlBase ? urlBase + '/' + foto.replace(/^\/+/, '') : '';
+  const sameAs = [sito.instagram, sito.facebook, sito.etsy].filter((u) => u && /^https?:\/\/.+\/.+/.test(u));
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Organization', name: sito.nome, description: sito.descrizione_seo || undefined, url: urlBase || undefined, email: sito.email || undefined, sameAs: sameAs.length ? sameAs : undefined };
+  const css = ANTEPRIMA ? `<style>${fs.readFileSync(path.join(RADICE, 'src/stile.css'), 'utf8')}</style>` : `<link rel="stylesheet" href="${'../'.repeat(livello)}stile.css">`;
+  const js = ANTEPRIMA ? `<script>${fs.readFileSync(path.join(RADICE, 'src/script.js'), 'utf8')}</script>` : `<script src="${'../'.repeat(livello)}script.js" defer></script>`;
+  return `<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(titolo)}</title>
+<meta name="description" content="${esc(descrizione)}">
+${canonico ? `<link rel="canonical" href="${esc(canonico)}">` : ''}
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(titolo)}">
+<meta property="og:description" content="${esc(descrizione)}">
+${og ? `<meta property="og:image" content="${esc(og)}">` : ''}
+<meta property="og:locale" content="it_IT">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
+${css}
+<script type="application/ld+json">${JSON.stringify(jsonld)}</script>
+${extraTesta}
+</head>
+<body>
+${corpo}
+${visore}
+${js}${script || ''}
+</body>
+</html>
+`;
+}
+
+// ---- Costruzione ----
+preparaQR().then(costruisci).catch((e) => { console.error(e); process.exit(1); });
+function costruisci() {
+if (ANTEPRIMA) {
+  const pagine = [`<div data-pagina="home">${testata('', 0)}${corpoHome(0)}</div>`]
+    .concat(categorie.map((c) => `<div data-pagina="${c.slug}" hidden>${testata(c.slug, 0)}${corpoCategoria(c, 0)}</div>`));
+  const router = `<script>(function(){var pagine=[].slice.call(document.querySelectorAll('[data-pagina]'));
+function vai(){var h=(location.hash||'#home').slice(1);var p=pagine.filter(function(x){return x.getAttribute('data-pagina')===h})[0];
+var el=!p&&document.getElementById(h);if(!p)p=el?(el.closest('[data-pagina]')||null):null;if(!p&&!el)p=pagine[0];
+if(p){pagine.forEach(function(x){x.hidden=x!==p});}if(el){el.scrollIntoView();}else{window.scrollTo(0,0);}}
+window.addEventListener('hashchange',vai);vai();})();</script>`;
+  const html = documento({ titolo: sito.nome + ' — anteprima', descrizione: sito.descrizione_seo, corpo: pagine.join('\n') + contatti(), livello: 0, percorso: '', script: router });
+  fs.writeFileSync(path.join(RADICE, 'anteprima.html'), html);
+  console.log('Anteprima creata: anteprima.html (' + Math.round(html.length / 1024) + ' KB)');
+  process.exit(0);
+}
+
+fs.rmSync(USCITA, { recursive: true, force: true });
+fs.mkdirSync(USCITA, { recursive: true });
+const scrivi = (rel, testo) => { const f = path.join(USCITA, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, testo); };
+const copia = (da, a) => fs.cpSync(path.join(RADICE, da), path.join(USCITA, a), { recursive: true });
+
+// Reindirizza i link di invito/recupero password del pannello verso /admin/
+const invito = `<script>if(/(invite|recovery|confirmation|email_change)_token=/.test(location.hash)){location.replace('/admin/'+location.hash);}</script>`;
+
+scrivi('index.html', documento({
+  titolo: sito.nome + (sito.sottotitolo ? ' — ' + sito.sottotitolo : ''),
+  descrizione: sito.descrizione_seo || sito.sottotitolo || '',
+  corpo: testata('', 0) + corpoHome(0) + contatti(), livello: 0, percorso: '', foto: sito.immagine_copertina, extraTesta: invito,
+}));
+for (const c of categorie) {
+  scrivi(c.slug + '/index.html', documento({
+    titolo: `${c.titolo} — ${sito.nome}`,
+    descrizione: c.descrizione || sito.descrizione_seo || '',
+    corpo: testata(c.slug, 1) + corpoCategoria(c, 1) + contatti(), livello: 1, percorso: c.slug + '/', foto: c.copertina,
+  }));
+}
+scrivi('404.html', documento({
+  titolo: 'Pagina non trovata — ' + sito.nome, descrizione: '', livello: 0, percorso: '404.html',
+  corpo: testata('', 0) + `<section class="titolo-pagina"><div class="contenitore"><h1>Pagina non trovata</h1><p>Torna alla <a href="/">pagina principale</a>.</p></div></section>` + contatti(),
+}).replace(/href="(stile\.css|script\.js)"/g, 'href="/$1"').replace(/src="script\.js"/, 'src="/script.js"'));
+
+copia('src/stile.css', 'stile.css');
+copia('src/script.js', 'script.js');
+copia('immagini', 'immagini');
+copia('admin', 'admin');
+
+if (urlBase) {
+  const indirizzi = [''].concat(categorie.map((c) => c.slug + '/'));
+  scrivi('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indirizzi.map((u) => `  <url><loc>${esc(urlBase + '/' + u)}</loc></url>`).join('\n')}\n</urlset>\n`);
+  scrivi('robots.txt', `User-agent: *\nDisallow: /admin/\nSitemap: ${urlBase}/sitemap.xml\n`);
+} else {
+  scrivi('robots.txt', 'User-agent: *\nDisallow: /admin/\n');
+}
+console.log(`Sito creato in _site/: home + ${categorie.length} categorie (${categorie.reduce((n, c) => n + c.lavori.length, 0)} lavori, ${Object.keys(codiciQR).length} QR code).`);
+}
