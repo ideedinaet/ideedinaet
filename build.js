@@ -25,6 +25,10 @@ const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
     const c = leggi(path.join('content/categorie', f));
     c.slug = path.basename(f, '.json');
     c.lavori = (c.lavori || []).filter((l) => l && l.foto);
+    c.lavori.forEach((l) => {
+      l.altre_foto = (Array.isArray(l.altre_foto) ? l.altre_foto : [])
+        .map((x) => (typeof x === 'string' ? x : x && x.foto)).filter(Boolean);
+    });
     c.copertina = c.copertina || (c.lavori[0] && c.lavori[0].foto) || '';
     return c;
   })
@@ -103,7 +107,7 @@ function contatti() {
 }
 
 const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area">
-  <img alt=""><div class="didascalia"><div class="testi"><strong></strong><span></span></div>
+  <img alt=""><div class="didascalia"><div class="testi"><strong></strong><span></span><em class="contatore"></em></div>
   <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
   <button class="chiudi" aria-label="Chiudi">×</button><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button>
 </dialog>`;
@@ -132,8 +136,8 @@ ${sito.chi_siamo ? `<section class="sezione" id="chi-siamo"><div class="contenit
 
 function corpoCategoria(c, livello) {
   const lavori = c.lavori.map((l) => `<figure class="lavoro">
-    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}">
-      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"></button>
+    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
+      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}</button>
     ${l.titolo || l.descrizione || l.prezzo || l.instagram ? `<figcaption>${l.titolo ? `<strong>${esc(l.titolo)}</strong>` : ''}${l.descrizione ? `<span>${esc(l.descrizione)}</span>` : ''}${l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : ''}${l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : ''}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
   </figure>`).join('\n');

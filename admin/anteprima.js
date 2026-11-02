@@ -18,8 +18,13 @@
         h('section', {}, h('div', { className: 'contenitore' },
           lavori.length ? h('div', { className: 'galleria' }, lavori.map(function (l, i) {
             var g = function (k) { return l.get ? l.get(k) : l[k]; };
+            var altre = g('altre_foto'); altre = altre && altre.toArray ? altre.toArray() : (altre || []);
+            altre = altre.map(function (x) { return typeof x === 'string' ? x : (x && x.get ? x.get('foto') : x && x.foto); }).filter(Boolean);
             return h('figure', { className: 'lavoro', key: i },
               g('foto') ? h('img', { src: src(g('foto')), style: { borderRadius: '6px' } }) : h('div', { className: 'vuoto' }, '(foto mancante)'),
+              altre.length ? h('div', { style: { display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' } }, altre.map(function (f, j) {
+                return h('img', { key: j, src: src(f), style: { width: '56px', height: '56px', objectFit: 'cover', borderRadius: '4px' } });
+              })) : null,
               h('figcaption', {},
                 g('titolo') ? h('strong', {}, g('titolo')) : null,
                 g('descrizione') ? h('span', {}, g('descrizione')) : null,
