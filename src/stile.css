@@ -79,6 +79,10 @@ h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -0.0
 .lavoro .prezzo { color: var(--accento); font-weight: 600; margin-top: 0.2rem; }
 .vuoto { color: var(--tenue); padding: 2rem 0 5rem; }
 .icona-ig { flex: none; }
+.lavoro button { position: relative; }
+.lavoro .piu-foto { display: inline-block;  position: absolute; right: 10px; bottom: 10px; background: rgba(42, 36, 32, 0.78); color: #fff; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: 999px; letter-spacing: 0.02em; backdrop-filter: blur(4px); }
+.visore .contatore { display: block; font-style: normal; color: #b8ad9f; font-size: 0.82rem; margin-top: 0.3rem; }
+.visore .contatore:empty { display: none; }
 .lavoro .ig { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.45rem; font-size: 0.88rem; color: var(--accento); text-decoration: none; font-weight: 600; }
 .lavoro .ig:hover { text-decoration: underline; }
 
