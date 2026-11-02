@@ -9,7 +9,11 @@
       "foto": "/immagini/20251026_171216.jpg",
       "descrizione": "Arancia e bergamotto nuovo test",
       "prezzo": "",
-      "instagram": ""
+      "instagram": "",
+      "altre_foto": [
+        "/immagini/20251026_172827.jpg",
+        "/immagini/20251026_172734.jpg"
+      ]
     },
     {
       "titolo": "Candela alla lavanda",
