@@ -1,13 +1,18 @@
-:root {
-  --carta: #f4efe6;
-  --carta-2: #ebe3d6;
-  --inchiostro: #2a2420;
-  --tenue: #75695e;
-  --linea: #ddd2c2;
-  --accento: #a8502e;
-  --display: "Fraunces", Georgia, "Times New Roman", serif;
-  --testo: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+/* Tema 1 — "Bottega" (predefinito): carta calda, nero e oro del logo */
+:root, .tema-bottega {
+  --carta: #f6f1e8;
+  --carta-2: #ece4d6;
+  --inchiostro: #1f1b17;
+  --tenue: #6f665c;
+  --linea: #ddd3c3;
+  --accento: #8c6a12;
+  --oro: #c9a54a;
+  --scuro: #1f1b17;
+  --su-scuro: #f1e9dc;
+  --display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --testo: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
   --larghezza: 1180px;
+  --raggio: 6px;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -32,7 +37,7 @@ a { color: inherit; }
 .apertura { padding: clamp(2.5rem, 7vw, 6rem) 0 clamp(2rem, 5vw, 4rem); }
 .apertura .contenitore { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
 .occhiello { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.75rem; color: var(--accento); font-weight: 600; margin: 0 0 1rem; }
-h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -0.02em; line-height: 1.08; margin: 0; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; line-height: 1.08; margin: 0; }
 .apertura h1 { font-size: clamp(2.6rem, 6.5vw, 5rem); }
 .apertura .sotto { font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--tenue); margin: 1.25rem 0 2rem; max-width: 34ch; }
 .bottone { display: inline-block; background: var(--inchiostro); color: var(--carta); text-decoration: none; padding: 0.8rem 1.4rem; border-radius: 999px; font-size: 0.95rem; transition: background .2s; }
@@ -87,13 +92,13 @@ h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -0.0
 .lavoro .ig:hover { text-decoration: underline; }
 
 /* Contatti e piede */
-.contatti { background: var(--inchiostro); color: var(--carta); }
+.contatti { background: var(--scuro); color: var(--su-scuro); }
 .contatti h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
 .contatti p { color: #cfc4b6; max-width: 50ch; }
 .contatti .lista { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
 .contatti .lista a { border: 1px solid #5b5047; padding: 0.65rem 1.2rem; border-radius: 999px; text-decoration: none; transition: background .2s, border-color .2s; }
 .contatti .lista a:hover { background: var(--accento); border-color: var(--accento); }
-.piede { background: var(--inchiostro); color: #9d9184; font-size: 0.85rem; padding: 1.5rem 0 2rem; border-top: 1px solid #3d352f; }
+.piede { background: var(--scuro); color: #9d9184; font-size: 0.85rem; padding: 1.5rem 0 2rem; border-top: 1px solid #3d352f; }
 
 /* Visualizzatore */
 .visore { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; margin: 0; }
@@ -129,3 +134,148 @@ h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -0.0
   .visore .codice-qr, .visore .social small { display: none; }
   .visore .didascalia { text-align: center; padding-bottom: 4rem; }
 }
+
+/* ===== Elementi comuni: logo, barra avviso, punti di forza, categorie ===== */
+.marchio { display: flex; align-items: center; }
+.logo { height: 54px; width: auto; }
+.logo-chiaro, .logo-grande { display: none; }
+.avviso-top { display: none; }
+.punti { display: none; }
+.punti ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem 2.5rem; }
+.punti li { display: flex; align-items: center; gap: 0.55rem; font-weight: 500; }
+.punti svg { color: var(--accento); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.75rem; }
+.chips a { text-decoration: none; font-size: 0.9rem; padding: 0.45rem 0.95rem; border: 1px solid var(--linea); border-radius: 999px; color: var(--tenue); transition: all .2s; }
+.chips a small { opacity: 0.6; margin-left: 0.15rem; }
+.chips a:hover { border-color: var(--accento); color: var(--inchiostro); }
+.chips a[aria-current="page"] { background: var(--inchiostro); border-color: var(--inchiostro); color: var(--carta); }
+.occhiello { color: var(--accento); }
+.tema-bottega .apertura h1, :root .apertura h1 { letter-spacing: -0.01em; }
+.scheda .conta { color: var(--accento); }
+.contatti .lista a:hover { background: var(--oro); border-color: var(--oro); color: var(--scuro); }
+
+/* ===== Tema 2 — "Catalogo": luminoso, ordinato, schede tutte uguali ===== */
+.tema-catalogo {
+  --carta: #ffffff;
+  --carta-2: #f4f1ec;
+  --inchiostro: #1d1d1f;
+  --tenue: #66615b;
+  --linea: #e8e3dc;
+  --accento: #8c6a12;
+  --oro: #c9a54a;
+  --scuro: #1d1d1f;
+  --su-scuro: #f5f2ec;
+  --display: "Outfit", system-ui, sans-serif;
+  --testo: "Nunito Sans", system-ui, sans-serif;
+  --raggio: 14px;
+  font-size: 16px;
+}
+.tema-catalogo h1, .tema-catalogo h2, .tema-catalogo h3 { font-weight: 600; letter-spacing: -0.025em; }
+.tema-catalogo .avviso-top { display: block; background: var(--scuro); color: var(--oro); text-align: center; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.5rem 1rem; }
+.tema-catalogo .testata { background: #fff; box-shadow: 0 1px 0 var(--linea); border: 0; }
+.tema-catalogo .testata .contenitore { min-height: 76px; }
+.tema-catalogo .menu a { color: var(--inchiostro); font-weight: 600; font-size: 0.93rem; padding: 0.45rem 0.85rem; border-radius: 999px; border: 0; }
+.tema-catalogo .menu a:hover, .tema-catalogo .menu a[aria-current="page"] { background: var(--carta-2); }
+.tema-catalogo .apertura { padding: 1.5rem 0 0; }
+.tema-catalogo .apertura .contenitore { display: block; position: relative; border-radius: 22px; overflow: hidden; min-height: clamp(360px, 46vw, 520px); background: #2a241e; }
+.tema-catalogo .apertura .contenitore > div:first-child { position: relative; z-index: 2; color: #fff; padding: clamp(2rem, 5vw, 4rem); max-width: 560px; }
+.tema-catalogo .apertura h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); }
+.tema-catalogo .apertura .sotto { color: rgba(255,255,255,0.85); }
+.tema-catalogo .occhiello { color: var(--oro); }
+.tema-catalogo .cornice { position: absolute; inset: 0; aspect-ratio: auto; border-radius: 0; z-index: 1; }
+.tema-catalogo .cornice::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,16,12,0.82) 0%, rgba(20,16,12,0.45) 55%, rgba(20,16,12,0.05) 100%); }
+.tema-catalogo .bottone { background: var(--oro); color: var(--scuro); font-weight: 700; }
+.tema-catalogo .bottone:hover { background: #fff; }
+.tema-catalogo .punti { display: block; padding: 1.75rem 0 0.5rem; }
+.tema-catalogo .punti ul { justify-content: space-around; background: var(--carta-2); border-radius: 14px; padding: 1.1rem 1.5rem; }
+.tema-catalogo .sezione + .sezione { border-top: 0; }
+.tema-catalogo #chi-siamo { background: var(--carta-2); }
+.tema-catalogo .categorie { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; text-align: center; }
+.tema-catalogo .scheda .foto { aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 6px #fff, 0 0 0 7px var(--linea); margin: 0 auto; max-width: 220px; }
+.tema-catalogo .scheda h3 { font-size: 1.25rem; }
+.tema-catalogo .scheda p { display: none; }
+.tema-catalogo .scheda .conta { letter-spacing: 0.02em; text-transform: none; font-weight: 700; }
+.tema-catalogo .chi-siamo .foto { border-radius: 22px; aspect-ratio: 4/5; }
+.tema-catalogo .titolo-pagina { padding: 2rem 0 1.5rem; }
+.tema-catalogo .titolo-pagina h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); }
+.tema-catalogo .chips a { color: var(--inchiostro); font-weight: 600; background: #fff; }
+.tema-catalogo .galleria { columns: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
+.tema-catalogo .lavoro { margin: 0; background: #fff; border: 1px solid var(--linea); border-radius: var(--raggio); overflow: hidden; transition: box-shadow .25s, transform .25s; }
+.tema-catalogo .lavoro:hover { box-shadow: 0 12px 30px rgba(30,25,20,0.10); transform: translateY(-2px); }
+.tema-catalogo .lavoro button { width: 100%; aspect-ratio: 1; border-radius: 0; }
+.tema-catalogo .lavoro button img { width: 100%; height: 100%; object-fit: cover; }
+.tema-catalogo .lavoro figcaption { padding: 0.9rem 1rem 1.1rem; }
+.tema-catalogo .lavoro strong { font-family: var(--testo); font-weight: 700; font-size: 1rem; }
+.tema-catalogo .lavoro .prezzo { color: var(--inchiostro); font-size: 1.1rem; font-weight: 800; }
+.tema-catalogo .lavoro .piu-foto { left: 10px; right: auto; top: 10px; bottom: auto; background: #fff; color: var(--inchiostro); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.tema-catalogo .contatti .lista a { border-color: #444; }
+
+/* ===== Tema 3 — "Notte": scuro, elegante, il legno e l'oro in risalto ===== */
+.tema-notte {
+  --carta: #1b1815;
+  --carta-2: #262119;
+  --inchiostro: #f1e9dc;
+  --tenue: #b3a796;
+  --linea: #3a332b;
+  --accento: #d4b260;
+  --oro: #d4b260;
+  --scuro: #12100e;
+  --su-scuro: #f1e9dc;
+  --display: "Italiana", Georgia, serif;
+  --testo: "Jost", system-ui, sans-serif;
+  --raggio: 2px;
+  font-weight: 300;
+}
+.tema-notte .logo-scuro { display: none; }
+.tema-notte .logo-chiaro { display: block; }
+.tema-notte h1, .tema-notte h2, .tema-notte h3 { font-weight: 400; letter-spacing: 0.01em; }
+.tema-notte .avviso-top { display: block; text-align: center; font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--oro); padding: 0.55rem 1rem; border-bottom: 1px solid var(--linea); }
+.tema-notte .testata { background: rgba(27,24,21,0.9); }
+.tema-notte .menu a { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.75rem; }
+.tema-notte .apertura { text-align: center; padding-top: clamp(3rem, 8vw, 6rem); }
+.tema-notte .apertura .contenitore { grid-template-columns: 1fr; justify-items: center; }
+.tema-notte .logo-grande { display: block; width: min(620px, 92%); margin: 0 auto 1.5rem; }
+.tema-notte .apertura h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.tema-notte .apertura .sotto { margin-inline: auto; font-size: 1.15rem; max-width: 40ch; }
+.tema-notte .occhiello { letter-spacing: 0.3em; }
+.tema-notte .bottone { background: transparent; color: var(--oro); border: 1px solid var(--oro); border-radius: 0; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; padding: 1rem 1.8rem; }
+.tema-notte .bottone:hover { background: var(--oro); color: var(--scuro); }
+.tema-notte .cornice { width: min(100%, 980px); aspect-ratio: 16 / 9; border-radius: 0; margin-top: 2.5rem; }
+.tema-notte .punti { display: block; padding: 2.5rem 0 0; }
+.tema-notte .punti li { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.78rem; font-weight: 400; color: var(--tenue); }
+.tema-notte .intestazione { justify-content: center; text-align: center; }
+.tema-notte .intestazione h2, .tema-notte .chi-siamo h2 { font-size: clamp(2.4rem, 5vw, 3.6rem); }
+.tema-notte .categorie { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.tema-notte .scheda { position: relative; overflow: hidden; }
+.tema-notte .scheda .foto { aspect-ratio: 3 / 4; border-radius: 0; }
+.tema-notte .scheda .foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(10,8,6,0.88)); }
+.tema-notte .scheda h3, .tema-notte .scheda p, .tema-notte .scheda .conta { position: absolute; left: 1.4rem; right: 1.4rem; z-index: 2; }
+.tema-notte .scheda h3 { bottom: 4.6rem; font-size: 2rem; margin: 0; }
+.tema-notte .scheda p { bottom: 2.4rem; font-size: 0.88rem; color: var(--tenue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tema-notte .scheda .conta { bottom: 1.1rem; letter-spacing: 0.2em; font-size: 0.7rem; }
+.tema-notte .scheda { border: 1px solid var(--linea); }
+.tema-notte .scheda:hover { border-color: var(--oro); }
+.tema-notte .chi-siamo .foto { border-radius: 0; aspect-ratio: 4/5; outline: 1px solid var(--oro); outline-offset: 12px; }
+.tema-notte .titolo-pagina { text-align: center; }
+.tema-notte .titolo-pagina p { margin-inline: auto; }
+.tema-notte .titolo-pagina h1 { font-size: clamp(3rem, 7vw, 5rem); }
+.tema-notte .chips { justify-content: center; }
+.tema-notte .chips a { border-radius: 0; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem; }
+.tema-notte .chips a[aria-current="page"] { background: var(--oro); border-color: var(--oro); color: var(--scuro); }
+.tema-notte .galleria { columns: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem 1.5rem; }
+.tema-notte .lavoro { margin: 0; }
+.tema-notte .lavoro button { width: 100%; aspect-ratio: 4 / 5; border-radius: 0; border: 1px solid var(--linea); }
+.tema-notte .lavoro button img { width: 100%; height: 100%; object-fit: cover; }
+.tema-notte .lavoro strong { font-size: 1.5rem; }
+.tema-notte .lavoro .piu-foto { background: rgba(18,16,14,0.8); color: var(--oro); border: 1px solid var(--oro); border-radius: 0; letter-spacing: 0.1em; }
+.tema-notte .contatti { border-top: 1px solid var(--linea); }
+.tema-notte .contatti .lista a { border-radius: 0; }
+.tema-notte .briciole { letter-spacing: 0.1em; }
+
+@media (max-width: 760px) {
+  .logo { height: 36px; }
+  .tema-catalogo .apertura .contenitore { width: calc(100% - 1.5rem); }
+  .tema-catalogo .punti ul { justify-content: flex-start; gap: 0.6rem 1.5rem; }
+  .tema-notte .scheda h3 { font-size: 1.6rem; }
+}
+.tema-notte .cornice img { object-position: center 40%; }

@@ -57,6 +57,24 @@ collections:
         file: "content/sito.json"
         fields:
           - { label: "Nome del sito / del marchio", name: nome, widget: string }
+          - label: "Tema grafico"
+            name: tema
+            widget: select
+            default: notte
+            options:
+              - { label: "1 · Bottega (chiaro, carta e oro)", value: bottega }
+              - { label: "2 · Catalogo (bianco, schede ordinate)", value: catalogo }
+              - { label: "3 · Notte (scuro ed elegante)", value: notte }
+            hint: "Cambia l'aspetto di tutto il sito. Dopo aver pubblicato, il sito si aggiorna in 1–2 minuti."
+          - { label: "Logo", name: logo, widget: image, required: false, hint: "Meglio PNG con sfondo trasparente. Se vuoto, in alto compare il nome scritto." }
+          - { label: "Logo per sfondo scuro (tema Notte)", name: logo_chiaro, widget: image, required: false, hint: "Versione chiara del logo. Se vuoto uso il logo normale." }
+          - { label: "Barra in alto (temi Catalogo e Notte)", name: avviso, widget: string, required: false, hint: "Es. 'Ordini per Natale entro il 10 dicembre'. Se vuoto mostra i punti di forza." }
+          - label: "Punti di forza"
+            name: punti_forza
+            widget: list
+            required: false
+            hint: "Brevi frasi mostrate sotto la foto principale della home (temi Catalogo e Notte), es. 'Fatto a mano'."
+            field: { label: "Punto", name: testo, widget: string }
           - { label: "Frase sotto il nome", name: sottotitolo, widget: string, required: false }
           - { label: "Descrizione per Google (max ~160 caratteri)", name: descrizione_seo, widget: text, required: false }
           - { label: "Indirizzo del sito (es. https://www.nomesito.it)", name: url, widget: string, required: false, hint: "Serve per la mappa del sito che legge Google." }

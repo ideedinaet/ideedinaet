@@ -1,7 +1,7 @@
 // Anteprima nel pannello: mostra la categoria con lo stesso stile del sito vero
 (function () {
   var base = window.PANNELLO_BASE || '/';
-  CMS.registerPreviewStyle('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap');
+  CMS.registerPreviewStyle('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500;600&family=Outfit:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Italiana&display=swap');
   CMS.registerPreviewStyle(base + 'stile.css');
   var h = window.h;
 
@@ -11,7 +11,7 @@
       var dato = function (k) { return e.getIn(['data', k]); };
       var lavori = (dato('lavori') || []).toArray ? dato('lavori').toArray() : [];
       var src = function (p) { if (!p) return ''; var a = getAsset(p); return a ? a.toString() : p; };
-      return h('div', { style: { background: 'var(--carta)', minHeight: '100vh' } },
+      return h('div', { className: 'tema-' + (window.TEMA_SITO || 'bottega'), style: { background: 'var(--carta)', color: 'var(--inchiostro)', fontFamily: 'var(--testo)', minHeight: '100vh' } },
         h('section', { className: 'titolo-pagina' }, h('div', { className: 'contenitore' },
           h('h1', {}, dato('titolo') || 'Nuova categoria'),
           dato('descrizione') ? h('p', {}, dato('descrizione')) : null)),

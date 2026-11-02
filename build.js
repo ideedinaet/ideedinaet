@@ -34,6 +34,24 @@ const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
   })
   .sort((a, b) => (a.ordine || 99) - (b.ordine || 99) || String(a.titolo).localeCompare(String(b.titolo), 'it'));
 
+// ---- Temi grafici ----
+const TEMI = {
+  bottega: 'family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600',
+  catalogo: 'family=Outfit:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700',
+  notte: 'family=Italiana&family=Jost:wght@300;400;500',
+};
+const PROPOSTE = process.argv.includes('--proposte');
+const tema = TEMI[sito.tema] ? sito.tema : 'bottega';
+const fontTemi = PROPOSTE ? Object.values(TEMI).join('&') : TEMI[tema];
+const puntiForza = (Array.isArray(sito.punti_forza) && sito.punti_forza.length ? sito.punti_forza : ['Fatto a mano', 'Pezzi unici', 'Anche su misura'])
+  .map((x) => (typeof x === 'string' ? x : x && x.testo)).filter(Boolean);
+const iconePunti = [
+  '<path d="M12 21c-4-3-8-6.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 4.5-4 8-8 11z"/>',
+  '<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/>',
+  '<path d="M4 20l4-1 11-11-3-3L5 16zM14 6l3 3"/>',
+  '<path d="M3 7h13v10H3zM16 10h3l2 3v4h-5M7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm11 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>',
+];
+
 // ---- Instagram e QR code ----
 let QRCode = null;
 try { QRCode = require('qrcode'); } catch (e) { console.warn('Attenzione: libreria "qrcode" non installata (npm install): i QR code non verranno creati.'); }
@@ -82,8 +100,12 @@ function collegamento(slug, livello) {
 function testata(attiva, livello) {
   const voci = categorie.map((c) =>
     `<a href="${collegamento(c.slug, livello)}"${attiva === c.slug ? ' aria-current="page"' : ''}>${esc(c.titolo)}</a>`).join('');
-  return `<header class="testata"><div class="contenitore">
-  <a class="marchio" href="${collegamento('', livello)}">${esc(sito.nome)}</a>
+  const marchio = sito.logo
+    ? `<img class="logo logo-scuro" src="${immagine(sito.logo, 0, livello)}" alt="${esc(sito.nome)}"><img class="logo logo-chiaro" src="${immagine(sito.logo_chiaro || sito.logo, 0, livello)}" alt="${esc(sito.nome)}">`
+    : esc(sito.nome);
+  const avviso = sito.avviso || puntiForza.join(' · ');
+  return `${avviso ? `<div class="avviso-top">${esc(avviso)}</div>` : ''}<header class="testata"><div class="contenitore">
+  <a class="marchio" href="${collegamento('', livello)}">${marchio}</a>
   <nav class="menu" aria-label="Menu principale">${voci}<a href="#contatti">Contatti</a></nav>
 </div></header>`;
 }
@@ -120,10 +142,11 @@ function corpoHome(livello) {
     <span class="conta">${c.lavori.length} ${c.lavori.length === 1 ? 'lavoro' : 'lavori'} →</span></a>`).join('\n');
   return `<section class="apertura"><div class="contenitore">
   <div><p class="occhiello">Fatto a mano${sito.citta ? ' · ' + esc(sito.citta) : ''}</p>
-    <h1>${esc(sito.nome)}</h1>${sito.sottotitolo ? `<p class="sotto">${esc(sito.sottotitolo)}</p>` : ''}
+    ${sito.logo ? `<img class="logo-grande" src="${immagine(sito.logo_chiaro || sito.logo, 0, livello)}" alt="">` : ''}<h1>${esc(sito.nome)}</h1>${sito.sottotitolo ? `<p class="sotto">${esc(sito.sottotitolo)}</p>` : ''}
     <a class="bottone" href="#lavori">Guarda i nostri lavori</a></div>
   ${sito.immagine_copertina ? `<div class="cornice"><img src="${immagine(sito.immagine_copertina, 900, livello)}" alt="${esc(sito.nome)}"></div>` : ''}
 </div></section>
+<section class="punti"><div class="contenitore"><ul>${puntiForza.map((t, i) => `<li><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">${iconePunti[i % iconePunti.length]}</svg>${esc(t)}</li>`).join('')}</ul></div></section>
 <section class="sezione" id="lavori"><div class="contenitore">
   <div class="intestazione"><h2>I nostri lavori</h2></div>
   <div class="categorie">${schede}</div>
@@ -144,6 +167,7 @@ function corpoCategoria(c, livello) {
   return `<section class="titolo-pagina"><div class="contenitore">
   <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${esc(c.titolo)}</div>
   <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
+  <nav class="chips" aria-label="Categorie">${categorie.map((x) => `<a href="${collegamento(x.slug, livello)}"${x.slug === c.slug ? ' aria-current="page"' : ''}>${esc(x.titolo)} <small>${x.lavori.length}</small></a>`).join('')}</nav>
 </div></section>
 <section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : '<p class="vuoto">Presto nuove foto.</p>'}</div></section>`;
 }
@@ -170,12 +194,12 @@ ${canonico ? `<link rel="canonical" href="${esc(canonico)}">` : ''}
 ${og ? `<meta property="og:image" content="${esc(og)}">` : ''}
 <meta property="og:locale" content="it_IT">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fontTemi}&display=swap">
 ${css}
 <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 ${extraTesta}
 </head>
-<body>
+<body class="tema-${tema}">
 ${corpo}
 ${visore}
 ${js}${script || ''}
@@ -187,6 +211,14 @@ ${js}${script || ''}
 // ---- Costruzione ----
 preparaQR().then(costruisci).catch((e) => { console.error(e); process.exit(1); });
 function costruisci() {
+const selettore = `<div class="selettore-proposte" role="group" aria-label="Proposte grafiche"><span>Proposta:</span>
+<button data-tema="bottega" aria-pressed="true"><b>1</b> Bottega</button><button data-tema="catalogo"><b>2</b> Catalogo</button><button data-tema="notte"><b>3</b> Notte</button></div>
+<style>.selettore-proposte{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:4px;background:#111;color:#fff;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.3);font:500 14px/1 system-ui,sans-serif}
+.selettore-proposte span{padding:0 8px 0 10px;opacity:.7}.selettore-proposte button{all:unset;cursor:pointer;padding:9px 14px;border-radius:999px;white-space:nowrap}
+.selettore-proposte button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#333;margin-right:6px;font-size:12px}
+.selettore-proposte button[aria-pressed=true]{background:#c9a54a;color:#111}.selettore-proposte button[aria-pressed=true] b{background:#111;color:#c9a54a}
+@media(max-width:520px){.selettore-proposte span{display:none}.selettore-proposte button{padding:9px 10px}}</style>
+<script>(function(){var bs=document.querySelectorAll('.selettore-proposte button');bs.forEach(function(b){b.addEventListener('click',function(){document.body.className='tema-'+b.dataset.tema;bs.forEach(function(x){x.setAttribute('aria-pressed',x===b)});});});})();</script>`;
 if (ANTEPRIMA) {
   const pagine = [`<div data-pagina="home">${testata('', 0)}${corpoHome(0)}</div>`]
     .concat(categorie.map((c) => `<div data-pagina="${c.slug}" hidden>${testata(c.slug, 0)}${corpoCategoria(c, 0)}</div>`));
@@ -195,7 +227,7 @@ function vai(){var h=(location.hash||'#home').slice(1);var p=pagine.filter(funct
 var el=!p&&document.getElementById(h);if(!p)p=el?(el.closest('[data-pagina]')||null):null;if(!p&&!el)p=pagine[0];
 if(p){pagine.forEach(function(x){x.hidden=x!==p});}if(el){el.scrollIntoView();}else{window.scrollTo(0,0);}}
 window.addEventListener('hashchange',vai);vai();})();</script>`;
-  const html = documento({ titolo: sito.nome + ' — anteprima', descrizione: sito.descrizione_seo, corpo: pagine.join('\n') + contatti(), livello: 0, percorso: '', script: router });
+  const html = documento({ titolo: sito.nome + ' — anteprima', descrizione: sito.descrizione_seo, corpo: pagine.join('\n') + contatti(), livello: 0, percorso: '', script: router + (PROPOSTE ? selettore : '') });
   fs.writeFileSync(path.join(RADICE, 'anteprima.html'), html);
   console.log('Anteprima creata: anteprima.html (' + Math.round(html.length / 1024) + ' KB)');
   process.exit(0);
@@ -230,6 +262,7 @@ copia('src/stile.css', 'stile.css');
 copia('src/script.js', 'script.js');
 copia('immagini', 'immagini');
 copia('admin', 'admin');
+scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\n`);
 
 if (urlBase) {
   const indirizzi = [''].concat(categorie.map((c) => c.slug + '/'));
