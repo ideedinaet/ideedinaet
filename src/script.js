@@ -1,5 +1,5 @@
 (function () {
-  // Visualizzatore a schermo intero: scorre tutte le foto di ogni lavoro, poi passa al lavoro successivo
+  // Visualizzatore a schermo intero: scorre le foto del lavoro aperto, senza passare ad altri lavori
   var visore = document.querySelector('.visore');
   if (!visore || typeof visore.showModal !== 'function') return;
   var img = visore.querySelector('img');
@@ -9,49 +9,46 @@
   var social = visore.querySelector('.social');
   var linkIG = visore.querySelector('.bottone-ig');
   var codice = visore.querySelector('.codice-qr');
-  var foto = [], indice = 0;
-
-  function fotoDelLavoro(b) {
-    var altre = (b.getAttribute('data-altre') || '').split('|').filter(Boolean);
-    return [b.getAttribute('data-grande')].concat(altre);
-  }
+  var prec = visore.querySelector('.prec');
+  var succ = visore.querySelector('.succ');
+  var foto = [], indice = 0, bottone = null;
 
   function mostra(i) {
-    indice = (i + foto.length) % foto.length;
-    var f = foto[indice], b = f.bottone;
-    img.src = f.src;
+    if (i < 0 || i >= foto.length) return;
+    indice = i;
+    img.src = foto[indice];
+    contatore.textContent = foto.length > 1 ? 'Foto ' + (indice + 1) + ' di ' + foto.length : '';
+    prec.hidden = indice === 0;
+    succ.hidden = indice === foto.length - 1;
+    if (foto[indice + 1]) { var p = new Image(); p.src = foto[indice + 1]; }
+  }
+
+  function apri(b) {
+    bottone = b;
+    var altre = (b.getAttribute('data-altre') || '').split('|').filter(Boolean);
+    foto = [b.getAttribute('data-grande')].concat(altre);
     img.alt = b.getAttribute('data-titolo') || '';
     titolo.textContent = b.getAttribute('data-titolo') || '';
     testo.textContent = b.getAttribute('data-testo') || '';
-    contatore.textContent = f.totale > 1 ? 'Foto ' + (f.n + 1) + ' di ' + f.totale : '';
     var ig = b.getAttribute('data-instagram');
     var modello = b.closest('figure') && b.closest('figure').querySelector('template.qr');
     social.hidden = !ig;
     linkIG.href = ig || '#';
     codice.innerHTML = modello ? modello.innerHTML : '';
     codice.parentNode.classList.toggle('senza-qr', !modello);
-    // precarica la foto successiva
-    var dopo = foto[(indice + 1) % foto.length];
-    if (dopo) { var p = new Image(); p.src = dopo.src; }
+    mostra(0);
+    visore.showModal();
   }
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-grande]');
-    if (!b) return;
-    var galleria = b.closest('.galleria');
-    foto = []; var inizio = 0;
-    Array.prototype.forEach.call(galleria.querySelectorAll('[data-grande]'), function (bt) {
-      var elenco = fotoDelLavoro(bt);
-      if (bt === b) inizio = foto.length;
-      elenco.forEach(function (src, n) { foto.push({ src: src, bottone: bt, n: n, totale: elenco.length }); });
-    });
-    mostra(inizio);
-    visore.showModal();
+    if (b) apri(b);
   });
   visore.querySelector('.chiudi').addEventListener('click', function () { visore.close(); });
-  visore.querySelector('.prec').addEventListener('click', function () { mostra(indice - 1); });
-  visore.querySelector('.succ').addEventListener('click', function () { mostra(indice + 1); });
+  prec.addEventListener('click', function () { mostra(indice - 1); });
+  succ.addEventListener('click', function () { mostra(indice + 1); });
   visore.addEventListener('click', function (e) { if (e.target === visore || e.target.classList.contains('area')) visore.close(); });
+  visore.addEventListener('close', function () { if (bottone) bottone.focus(); });
   document.addEventListener('keydown', function (e) {
     if (!visore.open) return;
     if (e.key === 'ArrowLeft') mostra(indice - 1);
