@@ -51,6 +51,8 @@
     foto = [b.getAttribute('data-grande')].concat(altre);
     img.alt = b.getAttribute('data-titolo') || '';
     titolo.textContent = b.getAttribute('data-titolo') || '';
+    var chiedi = visore.querySelector('.bottone-chiedi');
+    if (chiedi) chiedi.setAttribute('data-chiedi', b.getAttribute('data-titolo') || '');
     testo.textContent = b.getAttribute('data-testo') || '';
     var ig = b.getAttribute('data-instagram');
     var modello = b.closest('figure') && b.closest('figure').querySelector('template.qr');
@@ -86,4 +88,55 @@
     if (Math.abs(dx) > 50) mostra(indice + (dx < 0 ? 1 : -1));
     x0 = null;
   });
+})();
+
+(function () {
+  // «Chiedi info»: apre WhatsApp (o l'email) con un messaggio già scritto che nomina il lavoro.
+  // Con più numeri WhatsApp il visitatore sceglie a chi scrivere.
+  var wa = [];
+  try { wa = JSON.parse(document.body.getAttribute('data-whatsapp') || '[]'); } catch (e) {}
+  var email = document.body.getAttribute('data-email') || '';
+  var scelta = document.querySelector('.scelta');
+  var voci = scelta && scelta.querySelector('.voci');
+  var pagina = location.href.split('#')[0];
+
+  function messaggio(t) {
+    return t ? 'Ciao! Mi interessa «' + t + '», che ho visto sul vostro sito (' + pagina + '). Potete darmi qualche informazione?'
+             : 'Ciao! Vi scrivo dal vostro sito: vorrei qualche informazione.';
+  }
+  function linkWA(n, t) { return 'https://wa.me/' + n + '?text=' + encodeURIComponent(messaggio(t)); }
+  function linkEmail(t) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t ? 'Informazioni: ' + t : 'Informazioni') + '&body=' + encodeURIComponent(messaggio(t)); }
+  function voce(href, testo, nuova) {
+    var a = document.createElement('a'); a.href = href; a.textContent = testo;
+    if (nuova) { a.target = '_blank'; a.rel = 'noopener'; }
+    a.addEventListener('click', function () { scelta.close(); });
+    voci.appendChild(a);
+  }
+  function chiedi(t) {
+    if (wa.length === 1) { window.open(linkWA(wa[0].w, t), '_blank', 'noopener'); return true; }
+    if (!wa.length) { if (!email) return false; location.href = linkEmail(t); return true; }
+    if (!scelta || typeof scelta.showModal !== 'function') return false;
+    voci.innerHTML = '';
+    wa.forEach(function (c) { voce(linkWA(c.w, t), 'WhatsApp ' + c.n, true); });
+    if (email) voce(linkEmail(t), 'Email', false);
+    scelta.showModal();
+    return true;
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-chiedi]');
+    if (b && chiedi(b.getAttribute('data-chiedi'))) e.preventDefault();
+  });
+  if (scelta) {
+    scelta.querySelector('.annulla').addEventListener('click', function () { scelta.close(); });
+    scelta.addEventListener('click', function (e) { if (e.target === scelta) scelta.close(); });
+  }
+
+  // Pulsante «torna su»: compare dopo aver scorso un po' la pagina
+  var su = document.querySelector('.torna-su');
+  if (su) {
+    var aggiorna = function () { su.classList.toggle('visibile', window.scrollY > 700); };
+    window.addEventListener('scroll', aggiorna, { passive: true });
+    aggiorna();
+    su.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  }
 })();

@@ -94,3 +94,9 @@ Alla fine si manda tutto online insieme = **una sola pubblicazione**.
 5. Chiudete la finestra nera del programma (o Ctrl + C).
 
 Consiglio: non usate contemporaneamente il pannello online e quello locale, per non creare versioni diverse.
+- **WhatsApp**: in *Impostazioni del sito → WhatsApp* aggiungete uno o due numeri, ognuno con il
+  nome da mostrare sul pulsante (es. «Andrea» e 347 1234567). Con i numeri compilati compaiono:
+  i pulsanti «WhatsApp Andrea» nei contatti, il pulsante verde fisso sul telefono e, sotto ogni
+  lavoro, **«Chiedi info»**, che apre WhatsApp con un messaggio già scritto che nomina il lavoro
+  (con due numeri il visitatore sceglie a chi scrivere). Senza numeri, «Chiedi info» apre l'email.
+- Se un lavoro non ha prezzo compare «Prezzo su richiesta» (modificabile in *Testi del sito*).

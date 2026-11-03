@@ -64,7 +64,9 @@ const TESTI_PREDEFINITI = {
   "titolo_novita": "Novità",
   "testo_novita": "Gli ultimi lavori aggiunti, da tutte le categorie.",
   "etichetta_nuovo": "Nuovo",
-  "nessuna_novita": "Al momento non ci sono novità: dai un'occhiata alle categorie!"
+  "nessuna_novita": "Al momento non ci sono novità: dai un'occhiata alle categorie!",
+  "prezzo_vuoto": "Prezzo su richiesta",
+  "bottone_chiedi": "Chiedi info"
 };
 const testi = { ...TESTI_PREDEFINITI };
 for (const [k, v] of Object.entries(sito.testi || {})) if (typeof v === 'string' && v.trim()) testi[k] = v.trim() === '-' ? '' : v.trim();
@@ -124,6 +126,24 @@ async function preparaQR() {
 }
 const iconaInstagram = '<svg class="icona-ig" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
 
+// ---- WhatsApp: uno o più numeri, ognuno con il suo nome ----
+function numeroWA(v) {
+  let d = String(v || '').trim();
+  if (!d || /[_a-z]/i.test(d)) return '';           // numeri incompleti o mascherati: niente link rotti
+  d = d.replace(/[^\d+]/g, '');
+  if (d.startsWith('+')) d = d.slice(1);
+  else if (d.startsWith('00')) d = d.slice(2);
+  else if (/^[03]\d{5,10}$/.test(d)) d = '39' + d;   // numero italiano senza prefisso
+  return /^\d{10,15}$/.test(d) ? d : '';
+}
+const numeriWA = (Array.isArray(sito.whatsapp) && sito.whatsapp.length
+  ? sito.whatsapp.map((x) => (typeof x === 'string' ? { numero: x } : x || {}))
+  : String(sito.telefono || '').split(/\s[-–]\s|[,;]|\s+e\s+/).map((n) => ({ numero: n })))
+  .map((x) => ({ nome: String(x.nome || '').trim(), testo: String(x.numero || '').trim(), numero: numeroWA(x.numero) }))
+  .filter((x) => x.numero);
+const PUO_CHIEDERE = numeriWA.length > 0 || !!sito.email;
+const iconaWA = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20.5 11.6a8.6 8.6 0 0 1-12.7 7.5L3.5 20.5l1.4-4.1a8.6 8.6 0 1 1 15.6-4.8z"/><path d="M9 8.6c.2-.4.4-.5.7-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .5-.1.6l-.5.6c.6 1.2 1.5 2.1 2.7 2.7l.6-.5c.2-.2.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.5-.5.7-.6.4-1.5.5-2.4.2-2.2-.8-3.9-2.5-4.7-4.7-.3-.9-.2-1.8.2-2.4z" fill="currentColor" stroke="none"/></svg>';
+
 // ---- Indirizzi di immagini e pagine ----
 const cacheDati = {};
 function immagine(p, larghezza, livello) {
@@ -156,17 +176,14 @@ function testata(attiva, livello) {
   const avviso = sito.avviso || puntiForza.join(' · ');
   return `${avviso ? `<div class="avviso-top">${esc(avviso)}</div>` : ''}<header class="testata"><div class="contenitore">
   <a class="marchio" href="${collegamento('', livello)}">${marchio}</a>
-  <nav class="menu" aria-label="Menu principale">${voci}<a href="#contatti">Contatti</a></nav>
+  <nav class="menu" aria-label="Menu principale">${voci}<a class="voce-contatti" href="#contatti">Contatti</a></nav>
 </div></header>`;
 }
 
 function contatti() {
   const voci = [];
   if (sito.email) voci.push(`<a href="mailto:${esc(sito.email)}">${esc(sito.email)}</a>`);
-  if (sito.telefono) {
-    const num = sito.telefono.replace(/[^\d+]/g, '');
-    voci.push(`<a href="https://wa.me/${esc(num.replace(/^\+/, ''))}" rel="noopener">WhatsApp ${esc(sito.telefono)}</a>`);
-  }
+  for (const n of numeriWA) voci.push(`<a class="wa" href="https://wa.me/${n.numero}" target="_blank" rel="noopener">${iconaWA}WhatsApp ${esc(n.nome || n.testo)}</a>`);
   if (sito.instagram) voci.push(`<a href="${esc(sito.instagram)}" rel="noopener">Instagram</a>`);
   if (sito.facebook) voci.push(`<a href="${esc(sito.facebook)}" rel="noopener">Facebook</a>`);
   if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" rel="noopener">Negozio online</a>`);
@@ -179,7 +196,7 @@ function contatti() {
 }
 
 const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area"><div class="sfondo" aria-hidden="true"></div>
-  <span class="quadro"><img alt=""></span><div class="didascalia"><div class="testi"><strong></strong><span></span><em class="contatore"></em></div>
+  <span class="quadro"><img alt=""></span><div class="didascalia"><div class="testi"><strong></strong><span></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
   <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
   <button class="chiudi" aria-label="Chiudi">×</button><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button>
 </dialog>`;
@@ -218,9 +235,10 @@ function figura(l, livello, conCategoria) {
     conCategoria ? `<a class="cat" href="${collegamento(c.slug, livello)}">${esc(c.titolo)}</a>` : '',
     l.titolo ? `<strong>${esc(l.titolo)}</strong>` : '',
     l.descrizione ? `<span>${esc(l.descrizione)}</span>` : '',
-    l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : '',
+    l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : (testi.prezzo_vuoto ? `<span class="prezzo su-richiesta">${T('prezzo_vuoto')}</span>` : ''),
     l.data ? `<span class="data">Aggiunto il ${dataLeggibile(l.data)}</span>` : '',
     l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : '',
+    PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
     <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
@@ -281,9 +299,11 @@ ${css}
 <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 ${extraTesta}
 </head>
-<body class="tema-${tema}" data-novita-giorni="${MOSTRA_NOVITA ? GIORNI_NOVITA : 0}">
+<body class="tema-${tema}" data-novita-giorni="${MOSTRA_NOVITA ? GIORNI_NOVITA : 0}" data-whatsapp="${esc(JSON.stringify(numeriWA.map((n) => ({ n: n.nome || n.testo, w: n.numero }))))}" data-email="${esc(sito.email || '')}">
 ${corpo}
 ${visore}
+<dialog class="scelta" aria-label="A chi vuoi scrivere?"><p>A chi vuoi scrivere?</p><div class="voci"></div><button type="button" class="annulla">Annulla</button></dialog>
+<div class="flottanti"><button type="button" class="torna-su" aria-label="Torna su"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>${numeriWA.length ? `<a class="wa-fisso" href="#contatti" data-chiedi="" aria-label="Scrivici su WhatsApp">${iconaWA}</a>` : ''}</div>
 ${js}${script || ''}
 ${statistiche()}
 </body>

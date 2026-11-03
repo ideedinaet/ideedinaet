@@ -329,3 +329,61 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
   .visore .quadro { animation: none; }
   .lavoro .luce { display: none; }
 }
+
+/* ===== Chiedi info, prezzo su richiesta ===== */
+.lavoro .su-richiesta { color: var(--tenue); font-weight: 400; font-style: italic; }
+.lavoro .chiedi { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.7rem; font-size: 0.85rem; font-weight: 500; color: var(--accento); text-decoration: none; border: 1px solid color-mix(in srgb, var(--accento) 55%, transparent); padding: 0.42rem 0.9rem; border-radius: 999px; transition: background .2s, color .2s, border-color .2s; }
+.lavoro .chiedi:hover, .lavoro .chiedi:focus-visible { background: var(--accento); border-color: var(--accento); color: var(--carta); }
+.tema-notte .lavoro .chiedi { border-radius: 0; letter-spacing: 0.06em; }
+.tema-notte .lavoro .chiedi:hover { color: var(--scuro); }
+.visore a.bottone-chiedi { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.75rem; background: var(--oro); color: #1b1815; text-decoration: none; padding: 0.55rem 1.05rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+.visore a.bottone-chiedi:hover { background: #fff; }
+.tema-notte .visore a.bottone-chiedi { border-radius: 0; letter-spacing: 0.05em; }
+.contatti .lista a.wa { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+/* Finestrella «A chi vuoi scrivere?» */
+.scelta { border: 1px solid var(--linea); background: var(--carta-2); color: var(--inchiostro); padding: 1.5rem; border-radius: var(--raggio); width: min(92vw, 340px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+.scelta::backdrop { background: rgba(10, 8, 6, 0.6); }
+.scelta p { margin: 0 0 1rem; font-family: var(--display); font-size: 1.5rem; line-height: 1.2; }
+.scelta .voci a { display: block; padding: 0.8rem 1rem; margin-bottom: 0.55rem; border: 1px solid var(--linea); border-radius: var(--raggio); text-decoration: none; font-weight: 500; transition: border-color .2s, background .2s; }
+.scelta .voci a:hover, .scelta .voci a:focus-visible { border-color: var(--oro); background: color-mix(in srgb, var(--oro) 12%, transparent); }
+.scelta .annulla { all: unset; cursor: pointer; color: var(--tenue); font-size: 0.9rem; margin-top: 0.35rem; }
+.scelta .annulla:hover { color: var(--inchiostro); }
+
+/* Pulsanti fissi: torna su (sempre) e WhatsApp (solo sul telefono) */
+.flottanti { position: fixed; right: 16px; bottom: 16px; z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: none; }
+.flottanti > * { pointer-events: auto; }
+.torna-su { all: unset; cursor: pointer; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--carta-2) 92%, transparent); color: var(--inchiostro); border: 1px solid var(--linea); box-shadow: 0 6px 18px rgba(0,0,0,.25); backdrop-filter: blur(6px); transition: opacity .3s, transform .3s, border-color .2s; }
+.torna-su:hover, .torna-su:focus-visible { border-color: var(--oro); color: var(--oro); }
+.torna-su:not(.visibile) { opacity: 0; transform: translateY(10px); pointer-events: none; }
+.wa-fisso { display: none; width: 56px; height: 56px; border-radius: 50%; background: #25d366; color: #fff; place-items: center; box-shadow: 0 8px 22px rgba(0,0,0,.35); }
+.wa-fisso svg { width: 28px; height: 28px; }
+
+/* ===== Telefono ===== */
+@media (max-width: 760px) {
+  /* «Contatti» resta sempre visibile a destra del menu che scorre */
+  .menu .voce-contatti { position: sticky; right: 0; padding-left: 1.1rem; background: var(--carta); box-shadow: -16px 0 12px -2px var(--carta); color: var(--accento); }
+  .tema-catalogo .menu .voce-contatti { background: #fff; box-shadow: -16px 0 12px -2px #fff; }
+  .testata, .tema-notte .testata { background: var(--carta); backdrop-filter: none; }
+  .tema-catalogo .testata { background: #fff; }
+
+  /* Due foto per riga */
+  .galleria, .tema-catalogo .galleria, .tema-notte .galleria, .galleria.galleria-novita { columns: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 0.8rem; }
+  .lavoro { margin: 0; }
+  .lavoro button, .tema-notte .lavoro button, .tema-catalogo .lavoro button, .galleria-novita .lavoro button { width: 100%; aspect-ratio: 4 / 5; }
+  .lavoro button img { width: 100%; height: 100%; object-fit: cover; }
+  .lavoro figcaption { padding-top: 0.55rem; }
+  .tema-catalogo .lavoro figcaption { padding: 0.6rem 0.65rem 0.8rem; }
+  .lavoro strong, .tema-notte .lavoro strong { font-size: 1.08rem; line-height: 1.25; }
+  .lavoro span { font-size: 0.8rem; line-height: 1.4; }
+  .lavoro .chiedi { font-size: 0.76rem; padding: 0.35rem 0.7rem; gap: 0.35rem; margin-top: 0.55rem; }
+  .lavoro .chiedi svg { width: 14px; height: 14px; }
+  .lavoro button::before, .lavoro button::after { width: 16px; height: 16px; }
+  .lavoro button::before { top: 7px; left: 7px; }
+  .lavoro button::after { bottom: 7px; right: 7px; }
+  .lavoro .piu-foto, .tema-notte .lavoro .piu-foto { font-size: 0.66rem; padding: 0.2rem 0.45rem; left: 7px; bottom: 7px; }
+  .lavoro .nuovo { font-size: 0.62rem; padding: 0.2rem 0.45rem; top: 7px; right: 7px; }
+
+  .wa-fisso { display: grid; }
+  .piede { padding-bottom: 6rem; }
+}

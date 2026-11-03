@@ -86,7 +86,16 @@ collections:
           - { label: "Chi siamo", name: chi_siamo, widget: text, required: false }
           - { label: "Foto 'Chi siamo'", name: foto_chi_siamo, widget: image, required: false }
           - { label: "Email", name: email, widget: string, required: false }
-          - { label: "Telefono / WhatsApp", name: telefono, widget: string, required: false }
+          - label: "WhatsApp"
+            name: whatsapp
+            widget: list
+            required: false
+            label_singular: "numero"
+            summary: "{{fields.nome}} · {{fields.numero}}"
+            hint: "Uno o due numeri di cellulare, ognuno con il nome che compare sul pulsante (es. «WhatsApp Andrea»). Scrivete il numero completo, es. 347 1234567. Con due numeri, il visitatore sceglie a chi scrivere."
+            fields:
+              - { label: "Nome sul pulsante", name: nome, widget: string, required: false, hint: "Es. Andrea" }
+              - { label: "Numero di cellulare", name: numero, widget: string, pattern: ['^[+0-9 ./-]{9,20}$', "Solo cifre (e spazi), es. 347 1234567"] }
           - { label: "Link Instagram", name: instagram, widget: string, required: false }
           - { label: "Link Facebook", name: facebook, widget: string, required: false }
           - { label: "Link Etsy o negozio online", name: etsy, widget: string, required: false }
@@ -112,4 +121,6 @@ collections:
               - { label: "Titolo «Novità» (menu, home e pagina)", name: titolo_novita, widget: string, required: false, default: "Novità" }
               - { label: "Testo sotto il titolo della pagina Novità", name: testo_novita, widget: string, required: false, default: "Gli ultimi lavori aggiunti, da tutte le categorie." }
               - { label: "Etichetta sui lavori nuovi", name: etichetta_nuovo, widget: string, required: false, default: "Nuovo" }
+              - { label: "Scritta al posto del prezzo, se non c'è", name: prezzo_vuoto, widget: string, required: false, default: "Prezzo su richiesta", hint: "Scrivete solo un trattino - per non mostrare niente." }
+              - { label: "Pulsante per chiedere informazioni su un lavoro", name: bottone_chiedi, widget: string, required: false, default: "Chiedi info", hint: "Apre WhatsApp (o l'email) con un messaggio già scritto che nomina il lavoro." }
               - { label: "Messaggio quando non ci sono novità", name: nessuna_novita, widget: string, required: false, default: "Al momento non ci sono novità: dai un'occhiata alle categorie!" }
