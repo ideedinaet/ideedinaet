@@ -94,7 +94,7 @@ collections:
             widget: object
             collapsed: true
             required: false
-            hint: "Le scritte fisse delle pagine. Se lasciate vuoto un campo, si usa il testo predefinito."
+            hint: "Le scritte fisse delle pagine. Campo vuoto = testo predefinito. Scrivete solo un trattino - per nascondere la scritta."
             fields:
               - { label: "Scritta piccola sopra il titolo in home", name: occhiello_home, widget: string, required: false, default: "Fatto a mano", hint: "Se avete compilato «Città o zona», viene aggiunta dopo (es. «Fatto a mano · Italia»)." }
               - { label: "Pulsante in home", name: bottone_home, widget: string, required: false, default: "Guarda i nostri lavori" }
