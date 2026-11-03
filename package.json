@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "decap-server": "^3.11.6"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
