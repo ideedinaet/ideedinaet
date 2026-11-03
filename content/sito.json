@@ -1,6 +1,6 @@
 {
   "avviso": "",
-  "tema": "notte",
+  "tema": "catalogo",
   "sottotitolo": "Materiali di pregio e cura nei dettagli, per regalare un'emozione autentica.",
   "facebook": "",
   "immagine_copertina": "/immagini/taglierehome1.jpg",
@@ -13,23 +13,23 @@
     "Progettazione su misura"
   ],
   "url": "https://ideedinaet.it",
-  "chi_siamo": "Siamo una coppia unita dalla passione per la lavorazione manuale e dalla cura per i dettagli. Diamo vita a creazioni uniche in legno, carta e pelle: dai taglieri di pregio per la cucina ai profumatori d'ambiente, fino a gioielli, biglietti d'auguri, bomboniere e confezioni regalo pensate per emozionare.\n\nPer farlo ci piace mescolare la tradizione con l'innovazione, unendo l'uso degli utensili da falegnameria alla precisione di tecnologie come il taglio e l'incisione laser, la stampa 3D e fustellatrici.\n\nOgni nostro oggetto è realizzato a mano e totalmente personalizzabile, per trasformare la materia prima in un'idea regalo speciale e fatta su misura per voi.",
+  "chi_siamo": "Siamo una coppia unita dalla passione per la lavorazione manuale e dalla cura per i dettagli. Diamo vita a creazioni uniche in legno, carta e pelle: dai taglieri di pregio per la cucina ai profumatori d'ambiente, fino a gioielli, biglietti d'auguri, bomboniere e confezioni regalo pensate per emozionare.\n\nPer farlo ci piace mescolare la tradizione con l'innovazione, unendo l'uso degli utensili da falegnameria alla precisione di tecnologie come il taglio e l'incisione laser, la stampa 3D e le fustellatrici.\n\nOgni nostro oggetto è realizzato a mano e totalmente personalizzabile, per trasformare la materia prima in un'idea regalo speciale e fatta su misura per voi.",
   "instagram": "https://www.instagram.com/andrea.millet.75?utm_source=qr&exln=MXA4cjFkeWRvZGh5Mg==",
-  "telefono": "",
+  "telefono": "347/2_02_6_ - 333/3_73_4_",
   "etsy": "",
-  "foto_chi_siamo": "/immagini/immaginelaboratorio1.jpg",
-  "nome": "Idee di NaeT",
-  "citta": "",
-  "email": "info@ideedinaet.it",
   "testi": {
-    "occhiello_home": "Fatto a mano",
+    "occhiello_home": "La nostra passione nelle tue mani",
     "bottone_home": "Guarda i nostri lavori",
-    "titolo_lavori": "I nostri lavori",
-    "occhiello_chi_siamo": "Chi siamo",
     "titolo_chi_siamo": "Due persone, quattro mani",
     "titolo_contatti": "Scrivici",
-    "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri.",
-    "piede": "Fatto a mano",
-    "nessuna_foto": "Presto nuove foto."
-  }
+    "occhiello_chi_siamo": "Chi siamo",
+    "piede": "La nostra passione nelle tue mani",
+    "titolo_lavori": "Le nostre creazioni",
+    "nessuna_foto": "Presto nuove foto.",
+    "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci e valuteremo insieme la soluzione migliore per la tua idea."
+  },
+  "foto_chi_siamo": "/immagini/immaginelaboratorioconnoireali.jpg",
+  "nome": "Idee di NaeT",
+  "citta": "",
+  "email": "info@ideedinaet.it"
 }

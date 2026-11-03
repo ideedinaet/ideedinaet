@@ -5,14 +5,25 @@
   "copertina": "/immagini/20260804_212634.jpg",
   "lavori": [
     {
-      "titolo": "Ghirlanda di carta",
+      "titolo": "Acquisto casa",
+      "foto": "/immagini/20230821_094226.jpg",
+      "altre_foto": [
+        "/immagini/20230821_094323.jpg",
+        "/immagini/20230821_094329.jpg",
+        "/immagini/20230821_094345.jpg",
+        "/immagini/20230821_094703.jpg"
+      ]
+    },
+    {
+      "titolo": "Compleanno ",
       "foto": "/immagini/20260804_212943.jpg",
-      "descrizione": "Lunghezza 2 metri, colori su richiesta.",
+      "descrizione": "Portachiavi in legno massello di Rovere, Wengè con inserto puzzle in Amaranto,  con passante in cuoio e dettagli in acciaio.",
       "prezzo": "",
       "instagram": "",
       "altre_foto": [
         "/immagini/20260817_185202.jpg",
-        "/immagini/20260818_185655.jpg"
+        "/immagini/20260817_185214.jpg",
+        "/immagini/20260817_185218.jpg"
       ]
     }
   ]

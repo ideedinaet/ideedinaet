@@ -2,35 +2,46 @@
   "titolo": "Taglieri",
   "ordine": 1,
   "descrizione": "Taglieri in legno massello, levigati a mano e trattati con olio alimentare. Noce, ulivo, ciliegio e acero.",
-  "copertina": "/immagini/tagliere-noce.jpg",
+  "copertina": "/immagini/20250906_090949.jpg",
   "lavori": [
     {
-      "titolo": "Tagliere in noce con manico",
-      "foto": "/immagini/tagliere-noce.jpg",
+      "titolo": "Tagliere double face con incisioni bottiglia e capello da cuoco.",
+      "foto": "/immagini/20241019_103051.jpg",
       "descrizione": "45 × 22 cm, ricavato da un'unica tavola.",
       "prezzo": "",
-      "instagram": "https://www.instagram.com/p/esempio-tagliere/"
+      "instagram": ""
     },
     {
       "titolo": "Tagliere tondo in ulivo",
-      "foto": "/immagini/tagliere-ulivo.jpg",
+      "foto": "/immagini/20241019_103225.jpg",
       "descrizione": "Diametro 30 cm, perfetto per pizza e formaggi.",
       "prezzo": "",
-      "instagram": ""
+      "instagram": "",
+      "altre_foto": [
+        "/immagini/20241011_200041.jpg",
+        "/immagini/20241019_103327.jpg"
+      ]
     },
     {
       "titolo": "Tagliere in ciliegio",
-      "foto": "/immagini/tagliere-ciliegio.jpg",
+      "foto": "/immagini/20251221_165518.jpg",
       "descrizione": "Venatura calda, con foro per appenderlo.",
       "prezzo": "",
-      "instagram": ""
+      "instagram": "",
+      "altre_foto": [
+        "/immagini/20251222_193924.jpg"
+      ]
     },
     {
       "titolo": "Tagliere tondo in acero",
-      "foto": "/immagini/tagliere-acero.jpg",
+      "foto": "/immagini/taglierehome1.jpg",
       "descrizione": "Chiaro e leggero, ideale come piatto da portata.",
       "prezzo": "",
-      "instagram": ""
+      "instagram": "",
+      "altre_foto": [
+        "/immagini/tmp_1c549d4a-f673-4794-9250-1de9a5952782.jpeg",
+        "/immagini/tmp_e8b5c8a1-988b-4ec4-af91-505e9fb76099.jpeg"
+      ]
     }
   ]
 }
