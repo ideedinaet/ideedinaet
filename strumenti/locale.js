@@ -15,8 +15,25 @@ const { spawn, exec } = require('child_process');
 
 const RADICE = path.join(__dirname, '..');
 const SITO = path.join(RADICE, '_site');
-const PORTA = Number(process.env.PORTA_SITO || 8080);
-const PORTA_PANNELLO = 8081;
+const net = require('net');
+
+// Trova una porta libera a partire da quella preferita (8080, 8081, ... se occupate)
+function portaLibera(da, esclusa) {
+  return new Promise((ok) => {
+    const prova = (p) => {
+      if (p === esclusa) return prova(p + 1);
+      const srv = net.createServer();
+      srv.once('error', () => prova(p + 1));
+      srv.once('listening', () => srv.close(() => ok(p)));
+      srv.listen(p, '127.0.0.1');
+    };
+    prova(da);
+  });
+}
+
+(async () => {
+const PORTA = await portaLibera(Number(process.env.PORTA_SITO || 8080));
+const PORTA_PANNELLO = await portaLibera(8081, PORTA);
 
 // ---- 1. Server locale del pannello (scrive i file nella cartella) ----
 const binDecap = path.join(RADICE, 'node_modules', 'decap-server', 'dist', 'index.js');
@@ -73,7 +90,7 @@ http.createServer((req, res) => {
   // Il pannello in locale usa il server locale (niente login, niente bozze: si salva direttamente nei file)
   if (url === '/admin/config.yml') {
     let cfg = fs.readFileSync(path.join(RADICE, 'admin', 'config.yml'), 'utf8');
-    cfg = cfg.replace(/^publish_mode:.*$/m, '').replace(/^backend:/m, 'local_backend: true\nbackend:');
+    cfg = cfg.replace(/^publish_mode:.*$/m, '').replace(/^backend:/m, `local_backend:\n  url: http://localhost:${PORTA_PANNELLO}/api/v1\nbackend:`);
     res.writeHead(200, { 'Content-Type': 'text/yaml; charset=utf-8', 'Cache-Control': 'no-store' });
     return res.end(cfg);
   }
@@ -104,3 +121,4 @@ http.createServer((req, res) => {
 genera();
 
 process.on('SIGINT', () => { decap.kill(); process.exit(0); });
+})();
