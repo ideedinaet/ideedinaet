@@ -1,24 +1,25 @@
 {
-  "nome": "Idee di NaeT",
-  "sottotitolo": "Oggetti fatti a mano, uno alla volta, nel nostro piccolo laboratorio.",
-  "descrizione_seo": "Taglieri in legno, lavori in carta e creazioni profumate fatti a mano. Scopri i nostri lavori e contattaci per pezzi su misura.",
-  "url": "https://ideedinaet.it",
-  "citta": "Italia",
-  "immagine_copertina": "/immagini/20251026_171216.jpg",
-  "chi_siamo": "Siamo una coppia con la passione per le cose fatte bene e fatte con le mani.\n\nOgni pezzo nasce nel nostro laboratorio: scegliamo i materiali, li lavoriamo con calma e non ne esistono due uguali. Realizziamo anche lavori su richiesta, per regali, matrimoni e occasioni speciali.",
-  "foto_chi_siamo": "/immagini/laboratorio.jpg",
-  "email": "ciao@esempio.it",
-  "telefono": "",
-  "instagram": "https://www.instagram.com/",
-  "facebook": "",
-  "etsy": "",
-  "logo": "/immagini/logo-ideedinaet.png",
-  "logo_chiaro": "/immagini/logo-ideedinaet-chiaro.png",
+  "avviso": "Materiali di pregio e cura nei dettagli, per regalare un'emozione autentica.",
   "tema": "notte",
-  "avviso": "",
+  "sottotitolo": "Oggetti fatti a mano, uno alla volta, con tanta .",
+  "facebook": "",
+  "immagine_copertina": "/immagini/20251026_171216.jpg",
+  "logo": "/immagini/logo-ideedinaet.png",
+  "descrizione_seo": "Taglieri in legno, lavori in carta e creazioni profumate fatti a mano. Scopri i nostri lavori e contattaci per pezzi su misura.",
+  "logo_chiaro": "/immagini/logo-ideedinaet-chiaro.png",
   "punti_forza": [
     "Fatto a mano",
     "Pezzi unici",
-    "Anche su misura"
-  ]
+    "Personalizzabili",
+    "Progettazione su misura"
+  ],
+  "url": "https://ideedinaet.it",
+  "chi_siamo": "Siamo una coppia unita dalla passione per la lavorazione manuale e dalla cura per i dettagli. Diamo vita a creazioni uniche in legno, carta e pelle: dai taglieri di pregio per la cucina ai profumatori d'ambiente, fino a gioielli, biglietti d'auguri, bomboniere e confezioni regalo pensate per emozionare.\n\nPer farlo ci piace mescolare la tradizione con l'innovazione, unendo l'uso degli utensili da falegnameria alla precisione di tecnologie come il taglio e l'incisione laser, la stampa 3D e macchinari dedicati al fustellamento.\n\nOgni nostro oggetto è realizzato a mano e totalmente personalizzabile, per trasformare la materia prima in un'idea regalo speciale e fatta su misura per voi.",
+  "instagram": "https://www.instagram.com/andrea.millet.75?utm_source=qr&exln=MXA4cjFkeWRvZGh5Mg==",
+  "telefono": "",
+  "etsy": "",
+  "foto_chi_siamo": "/immagini/laboratorio.jpg",
+  "nome": "Idee di NaeT",
+  "citta": "Italia",
+  "email": "info@ideedinaet.it"
 }
