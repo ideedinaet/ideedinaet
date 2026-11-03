@@ -89,6 +89,7 @@ collections:
           - { label: "Link Instagram", name: instagram, widget: string, required: false }
           - { label: "Link Facebook", name: facebook, widget: string, required: false }
           - { label: "Link Etsy o negozio online", name: etsy, widget: string, required: false }
+          - { label: "Statistiche visite: codice GoatCounter", name: statistiche_goatcounter, widget: string, required: false, hint: "Il nome scelto su goatcounter.com (es. ideedinaet). Le visite si contano solo sul sito pubblicato." }
           - label: "Testi del sito"
             name: testi
             widget: object

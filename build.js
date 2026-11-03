@@ -52,6 +52,17 @@ const T = (k) => esc(testi[k]);
 // Mostra un elemento solo se il suo testo non è stato nascosto con «-»
 const se = (k, html) => (testi[k] ? html : '');
 
+// ---- Statistiche visite (solo sul sito pubblicato, non in locale né nelle anteprime) ----
+const PRODUZIONE = NETLIFY && (process.env.CONTEXT || 'production') === 'production';
+function statistiche() {
+  if (!PRODUZIONE || ANTEPRIMA) return '';
+  const gc = String(sito.statistiche_goatcounter || '').trim().replace(/^https?:\/\//, '').replace(/\.goatcounter\.com.*$/, '');
+  if (/^[a-z0-9-]+$/i.test(gc)) return `<script data-goatcounter="https://${gc}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`;
+  const cf = String(sito.statistiche_cloudflare || '').trim();
+  if (/^[a-f0-9]{20,}$/i.test(cf)) return `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${cf}"}'></script>`;
+  return '';
+}
+
 // ---- Temi grafici ----
 const TEMI = {
   bottega: 'family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600',
@@ -221,6 +232,7 @@ ${extraTesta}
 ${corpo}
 ${visore}
 ${js}${script || ''}
+${statistiche()}
 </body>
 </html>
 `;
