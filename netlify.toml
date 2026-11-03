@@ -12,3 +12,8 @@
   from = "/lavori-in-carta/*"
   to = "/bomboniere/"
   status = 301
+
+[[redirects]]
+  from = "/profumato/*"
+  to = "/profumatori/"
+  status = 301
