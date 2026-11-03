@@ -6,3 +6,9 @@
   for = "/immagini/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# Vecchi indirizzi di categorie rinominate → nuovo indirizzo
+[[redirects]]
+  from = "/lavori-in-carta/*"
+  to = "/bomboniere/"
+  status = 301
