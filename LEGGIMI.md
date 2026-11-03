@@ -44,6 +44,12 @@ Hosting gratuito su Netlify.
 
 ## Uso quotidiano
 
+**Bozze e pubblicazione.** Nel pannello «Salva» crea una *bozza*: il sito vero non cambia
+e non si consumano crediti Netlify. Dopo qualche minuto in alto compare **«Controlla l'anteprima»**,
+un link gratuito per vedere la bozza com'è. Quando siete soddisfatti premete **Pubblica → Pubblica ora**:
+solo allora il sito si aggiorna (ogni pubblicazione costa 15 crediti, circa 20 al mese nel piano gratuito).
+Conviene fare più modifiche e pubblicarle insieme. Le bozze in sospeso si vedono in **Flusso editoriale**.
+
 Aprite `https://IL-VOSTRO-SITO/admin/` (funziona anche dal telefono):
 - **Categorie** → scegliete una categoria → **Lavori** → "Aggiungi lavoro" → caricate la foto → **Pubblica**.
 - Per una nuova categoria: **Categorie → Nuova categoria**. Comparirà nel menu e in home.

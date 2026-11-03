@@ -6,6 +6,8 @@ backend:
   branch: main
 
 locale: it
+# Bozze: «Salva» crea una bozza con anteprima gratuita; il sito vero cambia solo con «Pubblica»
+publish_mode: editorial_workflow
 media_folder: "immagini"
 public_folder: "/immagini"
 
