@@ -38,6 +38,7 @@ collections:
         summary: "{{fields.titolo}}"
         fields:
           - { label: "Foto principale", name: foto, widget: image }
+          - { label: "Data di inserimento", name: data, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, default: "{{now}}", required: false, hint: "Si compila da sola per i lavori nuovi. I lavori recenti compaiono in «Novità» con l'etichetta «Nuovo»." }
           - label: "Altre foto (facoltative)"
             name: altre_foto
             widget: list
@@ -89,6 +90,8 @@ collections:
           - { label: "Link Instagram", name: instagram, widget: string, required: false }
           - { label: "Link Facebook", name: facebook, widget: string, required: false }
           - { label: "Link Etsy o negozio online", name: etsy, widget: string, required: false }
+          - { label: "Mostra la sezione «Novità»", name: novita_attiva, widget: boolean, default: true, required: false }
+          - { label: "Per quanti giorni un lavoro resta «Nuovo»", name: novita_giorni, widget: number, value_type: int, default: 30, min: 1, required: false }
           - { label: "Statistiche visite: codice GoatCounter", name: statistiche_goatcounter, widget: string, required: false, hint: "Il nome scelto su goatcounter.com (es. ideedinaet). Le visite si contano solo sul sito pubblicato." }
           - label: "Testi del sito"
             name: testi
@@ -106,3 +109,7 @@ collections:
               - { label: "Testo della sezione contatti", name: testo_contatti, widget: text, required: false, default: "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri." }
               - { label: "Scritta in fondo alla pagina (dopo © anno e nome)", name: piede, widget: string, required: false, default: "Fatto a mano" }
               - { label: "Messaggio per una categoria ancora senza lavori", name: nessuna_foto, widget: string, required: false, default: "Presto nuove foto." }
+              - { label: "Titolo «Novità» (menu, home e pagina)", name: titolo_novita, widget: string, required: false, default: "Novità" }
+              - { label: "Testo sotto il titolo della pagina Novità", name: testo_novita, widget: string, required: false, default: "Gli ultimi lavori aggiunti, da tutte le categorie." }
+              - { label: "Etichetta sui lavori nuovi", name: etichetta_nuovo, widget: string, required: false, default: "Nuovo" }
+              - { label: "Messaggio quando non ci sono novità", name: nessuna_novita, widget: string, required: false, default: "Al momento non ci sono novità: dai un'occhiata alle categorie!" }

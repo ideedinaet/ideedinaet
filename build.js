@@ -34,6 +34,22 @@ const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
   })
   .sort((a, b) => (a.ordine || 99) - (b.ordine || 99) || String(a.titolo).localeCompare(String(b.titolo), 'it'));
 
+// ---- Novità: lavori con data di inserimento recente ----
+const MOSTRA_NOVITA = sito.novita_attiva !== false;
+const GIORNI_NOVITA = Math.max(1, parseInt(sito.novita_giorni, 10) || 30);
+const OGGI = new Date();
+const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+const dataLeggibile = (d) => { const [a, m, g] = d.split('-'); return `${Number(g)} ${MESI[Number(m) - 1]} ${a}`; };
+const recente = (d) => !!d && (OGGI - new Date(d + 'T00:00:00')) / 864e5 <= GIORNI_NOVITA;
+categorie.forEach((c) => c.lavori.forEach((l) => {
+  const m = String(l.data || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  l.data = m ? `${m[1]}-${m[2]}-${m[3]}` : '';
+  l.categoria = c;
+}));
+const novita = MOSTRA_NOVITA
+  ? categorie.flatMap((c) => c.lavori).filter((l) => recente(l.data)).sort((a, b) => b.data.localeCompare(a.data))
+  : [];
+
 // ---- Testi del sito (modificabili dal pannello) ----
 const TESTI_PREDEFINITI = {
   "occhiello_home": "Fatto a mano",
@@ -44,7 +60,11 @@ const TESTI_PREDEFINITI = {
   "titolo_contatti": "Scrivici",
   "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri.",
   "piede": "Fatto a mano",
-  "nessuna_foto": "Presto nuove foto."
+  "nessuna_foto": "Presto nuove foto.",
+  "titolo_novita": "Novità",
+  "testo_novita": "Gli ultimi lavori aggiunti, da tutte le categorie.",
+  "etichetta_nuovo": "Nuovo",
+  "nessuna_novita": "Al momento non ci sono novità: dai un'occhiata alle categorie!"
 };
 const testi = { ...TESTI_PREDEFINITI };
 for (const [k, v] of Object.entries(sito.testi || {})) if (typeof v === 'string' && v.trim()) testi[k] = v.trim() === '-' ? '' : v.trim();
@@ -127,7 +147,8 @@ function collegamento(slug, livello) {
 
 // ---- Pezzi comuni ----
 function testata(attiva, livello) {
-  const voci = categorie.map((c) =>
+  const voci = (novita.length ? `<a href="${collegamento('novita', livello)}"${attiva === 'novita' ? ' aria-current="page"' : ''}>${T('titolo_novita')}</a>` : '')
+    + categorie.map((c) =>
     `<a href="${collegamento(c.slug, livello)}"${attiva === c.slug ? ' aria-current="page"' : ''}>${esc(c.titolo)}</a>`).join('');
   const marchio = sito.logo
     ? `<img class="logo logo-scuro" src="${immagine(sito.logo, 0, livello)}" alt="${esc(sito.nome)}"><img class="logo logo-chiaro" src="${immagine(sito.logo_chiaro || sito.logo, 0, livello)}" alt="${esc(sito.nome)}">`
@@ -176,6 +197,10 @@ function corpoHome(livello) {
   ${sito.immagine_copertina ? `<div class="cornice"><img src="${immagine(sito.immagine_copertina, 900, livello)}" alt="${esc(sito.nome)}"></div>` : ''}
 </div></section>
 <section class="punti"><div class="contenitore"><ul>${puntiForza.map((t, i) => `<li><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">${iconePunti[i % iconePunti.length]}</svg>${esc(t)}</li>`).join('')}</ul></div></section>
+${novita.length ? `<section class="sezione novita-home" data-novita-sezione><div class="contenitore">
+  <div class="intestazione"><h2>${T('titolo_novita')}</h2><a class="vedi-tutte" href="${collegamento('novita', livello)}">Vedi tutte →</a></div>
+  <div class="galleria galleria-novita" data-solo-novita>${novita.slice(0, 4).map((l) => figura(l, livello, true)).join('\n')}</div>
+</div></section>` : ''}
 <section class="sezione" id="lavori"><div class="contenitore">
   ${se('titolo_lavori', `<div class="intestazione"><h2>${T('titolo_lavori')}</h2></div>`)}
   <div class="categorie">${schede}</div>
@@ -186,17 +211,45 @@ ${sito.chi_siamo ? `<section class="sezione" id="chi-siamo"><div class="contenit
 </div></section>` : ''}`;
 }
 
-function corpoCategoria(c, livello) {
-  const lavori = c.lavori.map((l) => `<figure class="lavoro">
+function figura(l, livello, conCategoria) {
+  const c = l.categoria;
+  const nuovo = recente(l.data);
+  const didascalia = [
+    conCategoria ? `<a class="cat" href="${collegamento(c.slug, livello)}">${esc(c.titolo)}</a>` : '',
+    l.titolo ? `<strong>${esc(l.titolo)}</strong>` : '',
+    l.descrizione ? `<span>${esc(l.descrizione)}</span>` : '',
+    l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : '',
+    l.data ? `<span class="data">Aggiunto il ${dataLeggibile(l.data)}</span>` : '',
+    l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : '',
+  ].join('');
+  return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
     <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
-      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}</button>
-    ${l.titolo || l.descrizione || l.prezzo || l.instagram ? `<figcaption>${l.titolo ? `<strong>${esc(l.titolo)}</strong>` : ''}${l.descrizione ? `<span>${esc(l.descrizione)}</span>` : ''}${l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : ''}${l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : ''}</figcaption>` : ''}
+      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
+    ${didascalia ? `<figcaption>${didascalia}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
-  </figure>`).join('\n');
+  </figure>`;
+}
+
+function chips(attiva, livello) {
+  return `<nav class="chips" aria-label="Categorie">${novita.length ? `<a href="${collegamento('novita', livello)}"${attiva === 'novita' ? ' aria-current="page"' : ''}>${T('titolo_novita')} <small>${novita.length}</small></a>` : ''}${categorie.map((x) => `<a href="${collegamento(x.slug, livello)}"${x.slug === attiva ? ' aria-current="page"' : ''}>${esc(x.titolo)} <small>${x.lavori.length}</small></a>`).join('')}</nav>`;
+}
+
+function corpoNovita(livello) {
+  return `<section class="titolo-pagina"><div class="contenitore">
+  <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${T('titolo_novita')}</div>
+  <h1>${T('titolo_novita')}</h1>${testi.testo_novita ? `<p>${T('testo_novita')}</p>` : ''}
+  ${chips('novita', livello)}
+</div></section>
+<section><div class="contenitore"><div class="galleria galleria-novita" data-solo-novita>${novita.map((l) => figura(l, livello, true)).join('\n')}</div>
+<p class="vuoto novita-vuoto"${novita.length ? ' hidden' : ''}>${T('nessuna_novita')}</p></div></section>`;
+}
+
+function corpoCategoria(c, livello) {
+  const lavori = c.lavori.map((l) => figura(l, livello, false)).join('\n');
   return `<section class="titolo-pagina"><div class="contenitore">
   <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${esc(c.titolo)}</div>
   <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
-  <nav class="chips" aria-label="Categorie">${categorie.map((x) => `<a href="${collegamento(x.slug, livello)}"${x.slug === c.slug ? ' aria-current="page"' : ''}>${esc(x.titolo)} <small>${x.lavori.length}</small></a>`).join('')}</nav>
+  ${chips(c.slug, livello)}
 </div></section>
 <section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : `<p class="vuoto">${T('nessuna_foto')}</p>`}</div></section>`;
 }
@@ -228,7 +281,7 @@ ${css}
 <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 ${extraTesta}
 </head>
-<body class="tema-${tema}">
+<body class="tema-${tema}" data-novita-giorni="${MOSTRA_NOVITA ? GIORNI_NOVITA : 0}">
 ${corpo}
 ${visore}
 ${js}${script || ''}
@@ -251,7 +304,8 @@ const selettore = `<div class="selettore-proposte" role="group" aria-label="Prop
 <script>(function(){var bs=document.querySelectorAll('.selettore-proposte button');bs.forEach(function(b){b.addEventListener('click',function(){document.body.className='tema-'+b.dataset.tema;bs.forEach(function(x){x.setAttribute('aria-pressed',x===b)});});});})();</script>`;
 if (ANTEPRIMA) {
   const pagine = [`<div data-pagina="home">${testata('', 0)}${corpoHome(0)}</div>`]
-    .concat(categorie.map((c) => `<div data-pagina="${c.slug}" hidden>${testata(c.slug, 0)}${corpoCategoria(c, 0)}</div>`));
+    .concat(categorie.map((c) => `<div data-pagina="${c.slug}" hidden>${testata(c.slug, 0)}${corpoCategoria(c, 0)}</div>`))
+    .concat(MOSTRA_NOVITA ? [`<div data-pagina="novita" hidden>${testata('novita', 0)}${corpoNovita(0)}</div>`] : []);
   const router = `<script>(function(){var pagine=[].slice.call(document.querySelectorAll('[data-pagina]'));
 function vai(){var h=(location.hash||'#home').slice(1);var p=pagine.filter(function(x){return x.getAttribute('data-pagina')===h})[0];
 var el=!p&&document.getElementById(h);if(!p)p=el?(el.closest('[data-pagina]')||null):null;if(!p&&!el)p=pagine[0];
@@ -283,6 +337,13 @@ for (const c of categorie) {
     corpo: testata(c.slug, 1) + corpoCategoria(c, 1) + contatti(), livello: 1, percorso: c.slug + '/', foto: c.copertina,
   }));
 }
+if (MOSTRA_NOVITA) {
+  scrivi('novita/index.html', documento({
+    titolo: `${testi.titolo_novita || 'Novità'} — ${sito.nome}`,
+    descrizione: testi.testo_novita || sito.descrizione_seo || '',
+    corpo: testata('novita', 1) + corpoNovita(1) + contatti(), livello: 1, percorso: 'novita/', foto: novita[0] && novita[0].foto,
+  }));
+}
 scrivi('404.html', documento({
   titolo: 'Pagina non trovata — ' + sito.nome, descrizione: '', livello: 0, percorso: '404.html',
   corpo: testata('', 0) + `<section class="titolo-pagina"><div class="contenitore"><h1>Pagina non trovata</h1><p>Torna alla <a href="/">pagina principale</a>.</p></div></section>` + contatti(),
@@ -295,7 +356,7 @@ copia('admin', 'admin');
 scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\n`);
 
 if (urlBase) {
-  const indirizzi = [''].concat(categorie.map((c) => c.slug + '/'));
+  const indirizzi = [''].concat(MOSTRA_NOVITA ? ['novita/'] : [], categorie.map((c) => c.slug + '/'));
   scrivi('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indirizzi.map((u) => `  <url><loc>${esc(urlBase + '/' + u)}</loc></url>`).join('\n')}\n</urlset>\n`);
   scrivi('robots.txt', `User-agent: *\nDisallow: /admin/\nSitemap: ${urlBase}/sitemap.xml\n`);
 } else {

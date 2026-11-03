@@ -279,3 +279,21 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
   .tema-notte .scheda h3 { font-size: 1.6rem; }
 }
 .tema-notte .cornice img { object-position: center 40%; }
+
+/* ===== Novità ===== */
+.lavoro .nuovo { position: absolute; top: 10px; right: 10px; display: inline-block; background: var(--oro); color: var(--scuro); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.6rem; border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.lavoro .data { font-size: 0.82rem; color: var(--tenue); opacity: 0.85; margin-top: 0.15rem; }
+.lavoro .cat { display: inline-block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accento); text-decoration: none; margin-bottom: 0.2rem; font-weight: 600; }
+.lavoro .cat:hover { text-decoration: underline; }
+.galleria.galleria-novita { columns: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; padding-bottom: 1rem; }
+.galleria-novita .lavoro { margin: 0; }
+.galleria-novita .lavoro button { width: 100%; aspect-ratio: 1; }
+.galleria-novita .lavoro button img { width: 100%; height: 100%; object-fit: cover; }
+.vedi-tutte { color: var(--accento); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.vedi-tutte:hover { text-decoration: underline; }
+.novita-home + .sezione { border-top: 1px solid var(--linea); }
+.tema-catalogo .lavoro .nuovo { background: var(--scuro); color: var(--oro); }
+.tema-notte .lavoro .nuovo { border-radius: 0; letter-spacing: 0.18em; }
+.tema-notte .galleria-novita .lavoro button { aspect-ratio: 4 / 5; }
+.tema-notte .novita-home .intestazione { flex-direction: column; align-items: center; }
+.tema-notte .vedi-tutte { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.75rem; font-weight: 500; }

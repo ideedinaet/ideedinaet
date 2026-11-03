@@ -1,4 +1,23 @@
 (function () {
+  // Novità: dopo il periodo scelto, toglie l'etichetta «Nuovo» e i lavori dalle sezioni Novità,
+  // anche se il sito non viene ripubblicato.
+  var giorni = parseInt(document.body.getAttribute('data-novita-giorni'), 10);
+  if (!giorni) return;
+  var oggi = Date.now();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-data]'), function (f) {
+    var d = Date.parse(f.getAttribute('data-data') + 'T00:00:00');
+    if (isNaN(d) || (oggi - d) / 864e5 <= giorni) return;
+    var b = f.querySelector('.nuovo'); if (b) b.parentNode.removeChild(b);
+    if (f.closest('[data-solo-novita]')) f.parentNode.removeChild(f);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-solo-novita]'), function (box) {
+    if (box.querySelector('figure')) return;
+    var sez = box.closest('[data-novita-sezione]'); if (sez) sez.hidden = true;
+    var msg = box.parentNode.querySelector('.novita-vuoto'); if (msg) msg.hidden = false;
+  });
+})();
+
+(function () {
   // Visualizzatore a schermo intero: scorre le foto del lavoro aperto, senza passare ad altri lavori
   var visore = document.querySelector('.visore');
   if (!visore || typeof visore.showModal !== 'function') return;
