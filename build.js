@@ -178,8 +178,8 @@ function contatti() {
 <footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''}${testi.piede ? ' · ' + T('piede') : ''}</div></footer>`;
 }
 
-const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area">
-  <img alt=""><div class="didascalia"><div class="testi"><strong></strong><span></span><em class="contatore"></em></div>
+const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area"><div class="sfondo" aria-hidden="true"></div>
+  <span class="quadro"><img alt=""></span><div class="didascalia"><div class="testi"><strong></strong><span></span><em class="contatore"></em></div>
   <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
   <button class="chiudi" aria-label="Chiudi">×</button><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button>
 </dialog>`;
@@ -224,7 +224,7 @@ function figura(l, livello, conCategoria) {
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
     <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
-      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
+      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
     ${didascalia ? `<figcaption>${didascalia}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
   </figure>`;

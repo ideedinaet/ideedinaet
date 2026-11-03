@@ -22,6 +22,7 @@
   var visore = document.querySelector('.visore');
   if (!visore || typeof visore.showModal !== 'function') return;
   var img = visore.querySelector('img');
+  var quadro = visore.querySelector('.quadro') || img;
   var titolo = visore.querySelector('.didascalia strong');
   var testo = visore.querySelector('.didascalia span');
   var contatore = visore.querySelector('.contatore');
@@ -36,6 +37,8 @@
     if (i < 0 || i >= foto.length) return;
     indice = i;
     img.src = foto[indice];
+    visore.style.setProperty('--foto', 'url("' + foto[indice] + '")');
+    quadro.style.animation = 'none'; void quadro.offsetWidth; quadro.style.animation = '';
     contatore.textContent = foto.length > 1 ? 'Foto ' + (indice + 1) + ' di ' + foto.length : '';
     prec.hidden = indice === 0;
     succ.hidden = indice === foto.length - 1;

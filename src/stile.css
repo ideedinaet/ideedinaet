@@ -297,3 +297,35 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
 .tema-notte .galleria-novita .lavoro button { aspect-ratio: 4 / 5; }
 .tema-notte .novita-home .intestazione { flex-direction: column; align-items: center; }
 .tema-notte .vedi-tutte { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.75rem; font-weight: 500; }
+
+/* ===== Foto dei lavori: angoli dorati, riflesso di luce e sfondo sfumato ===== */
+.lavoro button::before, .lavoro button::after,
+.visore .quadro::before, .visore .quadro::after { content: ""; position: absolute; width: 26px; height: 26px; border: 2px solid var(--oro); z-index: 3; pointer-events: none; transition: all .35s ease; }
+.lavoro button::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.lavoro button::after { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+.lavoro button:hover::before, .lavoro button:focus-visible::before { top: 16px; left: 16px; width: 40px; height: 40px; }
+.lavoro button:hover::after, .lavoro button:focus-visible::after { bottom: 16px; right: 16px; width: 40px; height: 40px; }
+.lavoro .luce { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255,236,190,.28) 50%, transparent 65%); transform: translateX(-100%); transition: transform .9s ease; }
+.lavoro button:hover .luce { transform: translateX(100%); }
+.lavoro button img { filter: saturate(.92) brightness(.95); transition: filter .4s, transform .6s; }
+.lavoro button:hover img { filter: none; }
+/* la scritta «+N foto» va in basso a sinistra, per lasciare libero l'angolo dorato */
+.lavoro .piu-foto, .tema-notte .lavoro .piu-foto { right: auto; left: 10px; top: auto; bottom: 10px; z-index: 4; }
+.tema-catalogo .lavoro .piu-foto { top: auto; bottom: 10px; }
+.lavoro .nuovo { z-index: 4; }
+
+.visore::backdrop { background: rgba(15, 12, 10, 0.8); }
+.visore .sfondo { position: fixed; inset: -60px; z-index: -1; pointer-events: none; background: var(--foto) center / cover no-repeat; filter: blur(40px) brightness(.35) saturate(1.2); transition: background-image .3s; }
+.visore .quadro { position: relative; display: inline-block; line-height: 0; max-width: 100%; animation: entra .45s cubic-bezier(.2,.7,.2,1); }
+.visore .quadro::before { top: -12px; left: -12px; width: 44px; height: 44px; border-right: 0; border-bottom: 0; }
+.visore .quadro::after { bottom: -12px; right: -12px; width: 44px; height: 44px; border-left: 0; border-top: 0; }
+.visore .quadro img { border-radius: 2px; box-shadow: 0 30px 80px rgba(0,0,0,.7); }
+@keyframes entra { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+@media (max-width: 760px) {
+  .visore .quadro::before { top: -8px; left: -8px; width: 30px; height: 30px; }
+  .visore .quadro::after { bottom: -8px; right: -8px; width: 30px; height: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visore .quadro { animation: none; }
+  .lavoro .luce { display: none; }
+}
