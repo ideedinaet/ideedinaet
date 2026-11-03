@@ -1,6 +1,15 @@
 {
   "name": "sito-vetrina",
   "private": true,
-  "scripts": { "build": "node build.js", "anteprima": "node build.js --anteprima" },
-  "dependencies": { "qrcode": "^1.5.4" }
+  "scripts": {
+    "build": "node build.js",
+    "anteprima": "node build.js --anteprima",
+    "locale": "node strumenti/locale.js"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "decap-server": "^3.11.6"
+  }
 }

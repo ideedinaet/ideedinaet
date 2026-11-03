@@ -69,3 +69,25 @@ Le foto dal telefono vanno benissimo: il sito le ridimensiona automaticamente
 - `node build.js` genera il sito in `_site/`; `node build.js --anteprima` crea un
   unico `anteprima.html` da aprire nel browser.
 - Colori e caratteri si cambiano in cima a `src/stile.css`.
+
+## Lavorare sul proprio computer (veloce e gratis)
+
+Si usa lo stesso pannello, ma sul computer: ogni modifica si vede subito e **non consuma crediti**.
+Alla fine si manda tutto online insieme = **una sola pubblicazione**.
+
+**Preparazione (una volta sola)**
+1. Installate **Node.js** (versione LTS) da https://nodejs.org
+2. Installate **GitHub Desktop** da https://desktop.github.com ed entrate con l'account *ideedinaet*.
+3. In GitHub Desktop: *File → Clone repository → ideedinaet/ideedinaet* e scegliete una cartella.
+
+**Ogni volta**
+1. In GitHub Desktop premete **Fetch origin / Pull origin** (prende le ultime modifiche online).
+2. Nella cartella del sito fate doppio clic su **avvia-sito-locale.bat** (la prima volta scarica i componenti: un paio di minuti).
+3. Si apre il pannello su `http://localhost:8080/admin/` (niente password). Modificate e premete **Pubblica**:
+   il file si salva sul computer e il sito su `http://localhost:8080` si aggiorna da solo
+   (in basso a sinistra c'è la scritta blu *VERSIONE LOCALE*).
+4. Quando avete finito: in GitHub Desktop scrivete una breve descrizione, premete **Commit to main** e poi **Push origin**.
+   Netlify pubblica tutto in 1–2 minuti, con **una sola** pubblicazione.
+5. Chiudete la finestra nera del programma (o Ctrl + C).
+
+Consiglio: non usate contemporaneamente il pannello online e quello locale, per non creare versioni diverse.
