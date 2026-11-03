@@ -76,7 +76,10 @@ Si usa lo stesso pannello, ma sul computer: ogni modifica si vede subito e **non
 Alla fine si manda tutto online insieme = **una sola pubblicazione**.
 
 **Preparazione (una volta sola)**
-1. Installate **Node.js** (versione LTS) da https://nodejs.org
+1. Serve **Node.js 20 o più recente**. Se sul computer avete una versione più vecchia che vi serve per altro,
+   scaricate da https://nodejs.org la versione LTS per Windows **in formato .zip** ed estraetela in `C:\node-sito`
+   (deve esistere `C:\node-sito\node.exe`): il file di avvio la userà solo per il sito, senza toccare le altre.
+   Cartella diversa? Scrivetene il percorso in un file `percorso-node.txt` nella cartella del sito.
 2. Installate **GitHub Desktop** da https://desktop.github.com ed entrate con l'account *ideedinaet*.
 3. In GitHub Desktop: *File → Clone repository → ideedinaet/ideedinaet* e scegliete una cartella.
 
