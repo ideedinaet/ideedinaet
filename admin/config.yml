@@ -89,3 +89,19 @@ collections:
           - { label: "Link Instagram", name: instagram, widget: string, required: false }
           - { label: "Link Facebook", name: facebook, widget: string, required: false }
           - { label: "Link Etsy o negozio online", name: etsy, widget: string, required: false }
+          - label: "Testi del sito"
+            name: testi
+            widget: object
+            collapsed: true
+            required: false
+            hint: "Le scritte fisse delle pagine. Se lasciate vuoto un campo, si usa il testo predefinito."
+            fields:
+              - { label: "Scritta piccola sopra il titolo in home", name: occhiello_home, widget: string, required: false, default: "Fatto a mano", hint: "Se avete compilato «Città o zona», viene aggiunta dopo (es. «Fatto a mano · Italia»)." }
+              - { label: "Pulsante in home", name: bottone_home, widget: string, required: false, default: "Guarda i nostri lavori" }
+              - { label: "Titolo della sezione lavori in home", name: titolo_lavori, widget: string, required: false, default: "I nostri lavori" }
+              - { label: "Scritta piccola sopra «Chi siamo»", name: occhiello_chi_siamo, widget: string, required: false, default: "Chi siamo" }
+              - { label: "Titolo della sezione «Chi siamo»", name: titolo_chi_siamo, widget: string, required: false, default: "Due persone, quattro mani" }
+              - { label: "Titolo della sezione contatti", name: titolo_contatti, widget: string, required: false, default: "Scrivici" }
+              - { label: "Testo della sezione contatti", name: testo_contatti, widget: text, required: false, default: "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri." }
+              - { label: "Scritta in fondo alla pagina (dopo © anno e nome)", name: piede, widget: string, required: false, default: "Fatto a mano" }
+              - { label: "Messaggio per una categoria ancora senza lavori", name: nessuna_foto, widget: string, required: false, default: "Presto nuove foto." }

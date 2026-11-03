@@ -34,6 +34,22 @@ const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
   })
   .sort((a, b) => (a.ordine || 99) - (b.ordine || 99) || String(a.titolo).localeCompare(String(b.titolo), 'it'));
 
+// ---- Testi del sito (modificabili dal pannello) ----
+const TESTI_PREDEFINITI = {
+  "occhiello_home": "Fatto a mano",
+  "bottone_home": "Guarda i nostri lavori",
+  "titolo_lavori": "I nostri lavori",
+  "occhiello_chi_siamo": "Chi siamo",
+  "titolo_chi_siamo": "Due persone, quattro mani",
+  "titolo_contatti": "Scrivici",
+  "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri.",
+  "piede": "Fatto a mano",
+  "nessuna_foto": "Presto nuove foto."
+};
+const testi = { ...TESTI_PREDEFINITI };
+for (const [k, v] of Object.entries(sito.testi || {})) if (typeof v === 'string' && v.trim()) testi[k] = v.trim();
+const T = (k) => esc(testi[k]);
+
 // ---- Temi grafici ----
 const TEMI = {
   bottega: 'family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600',
@@ -121,11 +137,11 @@ function contatti() {
   if (sito.facebook) voci.push(`<a href="${esc(sito.facebook)}" rel="noopener">Facebook</a>`);
   if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" rel="noopener">Negozio online</a>`);
   return `<section class="sezione contatti" id="contatti"><div class="contenitore">
-  <h2>Scrivici</h2>
-  <p>Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri.</p>
+  <h2>${T('titolo_contatti')}</h2>
+  ${paragrafi(testi.testo_contatti)}
   <div class="lista">${voci.join('')}</div>
 </div></section>
-<footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''} · Fatto a mano</div></footer>`;
+<footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''} · ${T('piede')}</div></footer>`;
 }
 
 const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area">
@@ -141,19 +157,19 @@ function corpoHome(livello) {
     <h3>${esc(c.titolo)}</h3>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
     <span class="conta">${c.lavori.length} ${c.lavori.length === 1 ? 'lavoro' : 'lavori'} →</span></a>`).join('\n');
   return `<section class="apertura"><div class="contenitore">
-  <div><p class="occhiello">Fatto a mano${sito.citta ? ' · ' + esc(sito.citta) : ''}</p>
+  <div><p class="occhiello">${T('occhiello_home')}${sito.citta ? ' · ' + esc(sito.citta) : ''}</p>
     ${sito.logo ? `<img class="logo-grande" src="${immagine(sito.logo_chiaro || sito.logo, 0, livello)}" alt="">` : ''}<h1>${esc(sito.nome)}</h1>${sito.sottotitolo ? `<p class="sotto">${esc(sito.sottotitolo)}</p>` : ''}
-    <a class="bottone" href="#lavori">Guarda i nostri lavori</a></div>
+    <a class="bottone" href="#lavori">${T('bottone_home')}</a></div>
   ${sito.immagine_copertina ? `<div class="cornice"><img src="${immagine(sito.immagine_copertina, 900, livello)}" alt="${esc(sito.nome)}"></div>` : ''}
 </div></section>
 <section class="punti"><div class="contenitore"><ul>${puntiForza.map((t, i) => `<li><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">${iconePunti[i % iconePunti.length]}</svg>${esc(t)}</li>`).join('')}</ul></div></section>
 <section class="sezione" id="lavori"><div class="contenitore">
-  <div class="intestazione"><h2>I nostri lavori</h2></div>
+  <div class="intestazione"><h2>${T('titolo_lavori')}</h2></div>
   <div class="categorie">${schede}</div>
 </div></section>
 ${sito.chi_siamo ? `<section class="sezione" id="chi-siamo"><div class="contenitore chi-siamo">
   ${sito.foto_chi_siamo ? `<div class="foto"><img src="${immagine(sito.foto_chi_siamo, 700, livello)}" alt="Chi siamo" loading="lazy"></div>` : '<div></div>'}
-  <div><p class="occhiello">Chi siamo</p><h2>Due persone, quattro mani</h2>${paragrafi(sito.chi_siamo)}</div>
+  <div><p class="occhiello">${T('occhiello_chi_siamo')}</p><h2>${T('titolo_chi_siamo')}</h2>${paragrafi(sito.chi_siamo)}</div>
 </div></section>` : ''}`;
 }
 
@@ -169,7 +185,7 @@ function corpoCategoria(c, livello) {
   <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
   <nav class="chips" aria-label="Categorie">${categorie.map((x) => `<a href="${collegamento(x.slug, livello)}"${x.slug === c.slug ? ' aria-current="page"' : ''}>${esc(x.titolo)} <small>${x.lavori.length}</small></a>`).join('')}</nav>
 </div></section>
-<section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : '<p class="vuoto">Presto nuove foto.</p>'}</div></section>`;
+<section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : `<p class="vuoto">${T('nessuna_foto')}</p>`}</div></section>`;
 }
 
 // ---- Documento completo ----

@@ -20,5 +20,16 @@
   "foto_chi_siamo": "/immagini/immaginelaboratorio1.jpg",
   "nome": "Idee di NaeT",
   "citta": "",
-  "email": "info@ideedinaet.it"
+  "email": "info@ideedinaet.it",
+  "testi": {
+    "occhiello_home": "Fatto a mano",
+    "bottone_home": "Guarda i nostri lavori",
+    "titolo_lavori": "I nostri lavori",
+    "occhiello_chi_siamo": "Chi siamo",
+    "titolo_chi_siamo": "Due persone, quattro mani",
+    "titolo_contatti": "Scrivici",
+    "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci, ti rispondiamo volentieri.",
+    "piede": "Fatto a mano",
+    "nessuna_foto": "Presto nuove foto."
+  }
 }
