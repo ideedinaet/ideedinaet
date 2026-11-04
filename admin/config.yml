@@ -28,7 +28,14 @@ collections:
     fields:
       - { label: "Nome della categoria", name: titolo, widget: string }
       - { label: "Posizione nel menu (1 = prima)", name: ordine, widget: number, value_type: int, default: 10, min: 1 }
-      - { label: "Descrizione", name: descrizione, widget: text, required: false }
+      - label: "Descrizione"
+        name: descrizione
+        widget: markdown
+        required: false
+        buttons: [bold, italic]
+        editor_components: []
+        modes: [rich_text, raw]
+        hint: "Per il grassetto o il corsivo selezionate le parole e premete G o C (oppure Ctrl+B / Ctrl+I). In modalità «Markdown» potete scrivere **grassetto** e *corsivo*."
       - { label: "Foto di copertina", name: copertina, widget: image, required: false, hint: "Se la lasci vuota uso la prima foto dei lavori." }
       - label: "Lavori"
         name: lavori

@@ -15,6 +15,25 @@ const NETLIFY = process.env.NETLIFY === 'true';
 
 const leggi = (f) => JSON.parse(fs.readFileSync(path.join(RADICE, f), 'utf8'));
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// Testo con grassetto e corsivo: **grassetto**, *corsivo* (o _corsivo_), oppure <b>…</b>, <i>…</i>.
+// Tutto il resto viene mostrato così com'è (nessun altro codice passa).
+function formatta(t) {
+  const salvati = [];
+  let s = String(t || '').replace(/&nbsp;|&#x20;|\u00a0/g, ' ')
+    .replace(/\\([\\`*_{}\[\]()#+\-.!<>~|])/g, (m, c) => { salvati.push(c); return '\u0000' + (salvati.length - 1) + '\u0000'; });
+  s = esc(s)
+    .replace(/&lt;(b|strong)&gt;([\s\S]*?)&lt;\/\1&gt;/gi, '<strong>$2</strong>')
+    .replace(/&lt;(i|em)&gt;([\s\S]*?)&lt;\/\1&gt;/gi, '<em>$2</em>')
+    .replace(/\*\*\*(?=\S)([\s\S]*?\S)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/(\*\*|__)(?=\S)([\s\S]*?\S)\1/g, '<strong>$2</strong>')
+    .replace(/\*(?=[^\s*])([^*]*?[^\s*])\*/g, '<em>$1</em>')
+    .replace(/(^|[^\w])_(?=[^\s_])([^_]*?[^\s_])_(?!\w)/g, '$1<em>$2</em>')
+    .replace(/( {2,}|\\)\n/g, '<br>').replace(/\n/g, ' ');
+  return s.replace(/\u0000(\d+)\u0000/g, (m, i) => esc(salvati[i]));
+}
+const paragrafiFormattati = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${formatta(p)}</p>`).join('\n');
+// Per Google e anteprime dei link: solo il testo, senza segni
+const testoSemplice = (t) => formatta(t).replace(/<br>/g, ' ').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
 const paragrafi = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('\n');
 
 const sito = leggi('content/sito.json');
@@ -205,7 +224,7 @@ const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="
 function corpoHome(livello) {
   const schede = categorie.map((c) => `<a class="scheda" href="${collegamento(c.slug, livello)}">
     <div class="foto">${c.copertina ? `<img src="${immagine(c.copertina, 700, livello)}" alt="${esc(c.titolo)}" loading="lazy">` : ''}</div>
-    <h3>${esc(c.titolo)}</h3>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
+    <h3>${esc(c.titolo)}</h3>${c.descrizione ? `<p>${formatta(String(c.descrizione).replace(/\n\s*\n/g, '\n'))}</p>` : ''}
     <span class="conta">${c.lavori.length} ${c.lavori.length === 1 ? 'lavoro' : 'lavori'} →</span></a>`).join('\n');
   return `<section class="apertura"><div class="contenitore">
   <div>${se('occhiello_home', `<p class="occhiello">${T('occhiello_home')}${sito.citta ? ' · ' + esc(sito.citta) : ''}</p>`)}
@@ -266,7 +285,7 @@ function corpoCategoria(c, livello) {
   const lavori = c.lavori.map((l) => figura(l, livello, false)).join('\n');
   return `<section class="titolo-pagina"><div class="contenitore">
   <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${esc(c.titolo)}</div>
-  <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<p>${esc(c.descrizione)}</p>` : ''}
+  <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<div class="descrizione-categoria">${paragrafiFormattati(c.descrizione)}</div>` : ''}
   ${chips(c.slug, livello)}
 </div></section>
 <section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : `<p class="vuoto">${T('nessuna_foto')}</p>`}</div></section>`;
@@ -353,7 +372,7 @@ scrivi('index.html', documento({
 for (const c of categorie) {
   scrivi(c.slug + '/index.html', documento({
     titolo: `${c.titolo} — ${sito.nome}`,
-    descrizione: c.descrizione || sito.descrizione_seo || '',
+    descrizione: testoSemplice(c.descrizione) || sito.descrizione_seo || '',
     corpo: testata(c.slug, 1) + corpoCategoria(c, 1) + contatti(), livello: 1, percorso: c.slug + '/', foto: c.copertina,
   }));
 }

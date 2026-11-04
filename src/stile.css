@@ -387,3 +387,8 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
   .wa-fisso { display: grid; }
   .piede { padding-bottom: 6rem; }
 }
+
+/* Grassetto e corsivo nelle descrizioni delle categorie */
+.descrizione-categoria strong, .scheda p strong { color: var(--inchiostro); font-weight: 500; }
+.tema-bottega .descrizione-categoria strong, .tema-catalogo .descrizione-categoria strong { font-weight: 600; }
+.descrizione-categoria em, .scheda p em { font-style: italic; }

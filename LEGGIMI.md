@@ -100,3 +100,6 @@ Consiglio: non usate contemporaneamente il pannello online e quello locale, per 
   lavoro, **«Chiedi info»**, che apre WhatsApp con un messaggio già scritto che nomina il lavoro
   (con due numeri il visitatore sceglie a chi scrivere). Senza numeri, «Chiedi info» apre l'email.
 - Se un lavoro non ha prezzo compare «Prezzo su richiesta» (modificabile in *Testi del sito*).
+- **Grassetto e corsivo nella descrizione di una categoria**: selezionate le parole e premete
+  **G** (grassetto) o **C** (corsivo) sopra il campo, oppure Ctrl+B / Ctrl+I. Funzionano anche
+  `**parola**` e `*parola*` scritti a mano (in modalità «Markdown» del campo) e i tag `<b>…</b>`, `<i>…</i>`.
