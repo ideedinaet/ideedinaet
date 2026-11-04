@@ -31,6 +31,7 @@ function formatta(t) {
     .replace(/( {2,}|\\)\n/g, '<br>').replace(/\n/g, ' ');
   return s.replace(/\u0000(\d+)\u0000/g, (m, i) => esc(salvati[i]));
 }
+const formattaInRiga = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map(formatta).join('<br>');
 const paragrafiFormattati = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${formatta(p)}</p>`).join('\n');
 // Per Google e anteprime dei link: solo il testo, senza segni
 const testoSemplice = (t) => formatta(t).replace(/<br>/g, ' ').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
@@ -215,7 +216,7 @@ function contatti() {
 }
 
 const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area"><div class="sfondo" aria-hidden="true"></div>
-  <span class="quadro"><img alt=""></span><div class="didascalia"><div class="testi"><strong></strong><span></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
+  <span class="quadro"><img alt=""></span><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
   <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
   <button class="chiudi" aria-label="Chiudi">×</button><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button>
 </dialog>`;
@@ -243,7 +244,7 @@ ${novita.length ? `<section class="sezione novita-home" data-novita-sezione><div
 </div></section>
 ${sito.chi_siamo ? `<section class="sezione" id="chi-siamo"><div class="contenitore chi-siamo">
   ${sito.foto_chi_siamo ? `<div class="foto"><img src="${immagine(sito.foto_chi_siamo, 700, livello)}" alt="Chi siamo" loading="lazy"></div>` : '<div></div>'}
-  <div>${se('occhiello_chi_siamo', `<p class="occhiello">${T('occhiello_chi_siamo')}</p>`)}${se('titolo_chi_siamo', `<h2>${T('titolo_chi_siamo')}</h2>`)}${paragrafi(sito.chi_siamo)}</div>
+  <div>${se('occhiello_chi_siamo', `<p class="occhiello">${T('occhiello_chi_siamo')}</p>`)}${se('titolo_chi_siamo', `<h2>${T('titolo_chi_siamo')}</h2>`)}${paragrafiFormattati(sito.chi_siamo)}</div>
 </div></section>` : ''}`;
 }
 
@@ -253,14 +254,14 @@ function figura(l, livello, conCategoria) {
   const didascalia = [
     conCategoria ? `<a class="cat" href="${collegamento(c.slug, livello)}">${esc(c.titolo)}</a>` : '',
     l.titolo ? `<strong>${esc(l.titolo)}</strong>` : '',
-    l.descrizione ? `<span>${esc(l.descrizione)}</span>` : '',
+    l.descrizione ? `<span class="desc">${formattaInRiga(l.descrizione)}</span>` : '',
     l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : (testi.prezzo_vuoto ? `<span class="prezzo su-richiesta">${T('prezzo_vuoto')}</span>` : ''),
     l.data ? `<span class="data">Aggiunto il ${dataLeggibile(l.data)}</span>` : '',
     l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : '',
     PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
-    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([l.descrizione, l.prezzo].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
+    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
       <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
     ${didascalia ? `<figcaption>${didascalia}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}

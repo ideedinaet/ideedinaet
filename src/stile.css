@@ -392,3 +392,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
 .descrizione-categoria strong, .scheda p strong { color: var(--inchiostro); font-weight: 500; }
 .tema-bottega .descrizione-categoria strong, .tema-catalogo .descrizione-categoria strong { font-weight: 600; }
 .descrizione-categoria em, .scheda p em { font-style: italic; }
+/* …e nelle descrizioni dei lavori e in «Chi siamo» */
+body .lavoro .desc strong, body .visore .didascalia .desc strong { display: inline; font-family: inherit; font-size: inherit; line-height: inherit; letter-spacing: inherit; font-weight: 500; color: var(--inchiostro); }
+body .visore .didascalia .desc strong { color: #fff; }
+.lavoro .desc em, .visore .desc em { font-style: italic; }
+.chi-siamo strong { font-weight: 500; color: var(--inchiostro); }
+.tema-bottega .chi-siamo strong, .tema-catalogo .chi-siamo strong, .tema-bottega .lavoro .desc strong, .tema-catalogo .lavoro .desc strong { font-weight: 600; }

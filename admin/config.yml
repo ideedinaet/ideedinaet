@@ -55,7 +55,7 @@ collections:
             hint: "Altri dettagli o angolazioni: si vedono aprendo il lavoro in grande. Trascinale per cambiare l'ordine."
             field: { label: "Foto", name: foto, widget: image }
           - { label: "Titolo", name: titolo, widget: string, required: false }
-          - { label: "Descrizione", name: descrizione, widget: text, required: false }
+          - { label: "Descrizione", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
           - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }
           - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code." }
 
@@ -90,7 +90,7 @@ collections:
           - { label: "Indirizzo del sito (es. https://www.nomesito.it)", name: url, widget: string, required: false, hint: "Serve per la mappa del sito che legge Google." }
           - { label: "Città o zona", name: citta, widget: string, required: false }
           - { label: "Foto principale della home", name: immagine_copertina, widget: image, required: false }
-          - { label: "Chi siamo", name: chi_siamo, widget: text, required: false }
+          - { label: "Chi siamo", name: chi_siamo, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo. Andate a capo due volte per un nuovo paragrafo." }
           - { label: "Foto 'Chi siamo'", name: foto_chi_siamo, widget: image, required: false }
           - { label: "Email", name: email, widget: string, required: false }
           - label: "WhatsApp"

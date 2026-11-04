@@ -44,7 +44,7 @@
               })) : null,
               h('figcaption', {},
                 g('titolo') ? h('strong', {}, g('titolo')) : null,
-                g('descrizione') ? h('span', {}, g('descrizione')) : null,
+                g('descrizione') ? h('span', { className: 'desc', dangerouslySetInnerHTML: { __html: formatta(g('descrizione')).replace(/<\/p><p>/g, '<br>').replace(/<\/?p>/g, '') } }) : null,
                 g('prezzo') ? h('span', { className: 'prezzo' }, g('prezzo')) : null,
                 g('instagram') ? h('span', { className: 'ig' }, '◎ Instagram + QR code: ' + g('instagram')) : null));
           })) : h('p', { className: 'vuoto' }, 'Aggiungi il primo lavoro con il pulsante "Aggiungi lavoro".'))));

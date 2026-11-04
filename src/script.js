@@ -53,7 +53,7 @@
     titolo.textContent = b.getAttribute('data-titolo') || '';
     var chiedi = visore.querySelector('.bottone-chiedi');
     if (chiedi) chiedi.setAttribute('data-chiedi', b.getAttribute('data-titolo') || '');
-    testo.textContent = b.getAttribute('data-testo') || '';
+    testo.innerHTML = b.getAttribute('data-testo') || '';   // già ripulito dal generatore: solo grassetto e corsivo
     var ig = b.getAttribute('data-instagram');
     var modello = b.closest('figure') && b.closest('figure').querySelector('template.qr');
     social.hidden = !ig;
