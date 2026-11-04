@@ -62,6 +62,8 @@
     codice.parentNode.classList.toggle('senza-qr', !modello);
     mostra(0);
     visore.showModal();
+    var area = visore.querySelector('.area'); if (area) area.scrollTop = 0;
+    testo.scrollTop = 0;
   }
 
   document.addEventListener('click', function (e) {
@@ -139,4 +141,26 @@
     aggiorna();
     su.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   }
+})();
+
+(function () {
+  // Galleria: le descrizioni lunghe si fermano a 3 righe; «Leggi tutto» apre il lavoro con il testo completo
+  var leggi = [].slice.call(document.querySelectorAll('.lavoro .leggi'));
+  if (!leggi.length) return;
+  function controlla() {
+    leggi.forEach(function (a) {
+      var d = a.previousElementSibling;
+      a.hidden = !(d && d.scrollHeight > d.clientHeight + 2);
+    });
+  }
+  controlla();
+  window.addEventListener('load', controlla);
+  window.addEventListener('resize', controlla);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('.lavoro .leggi');
+    if (!a) return;
+    e.preventDefault();
+    var b = a.closest('figure').querySelector('[data-grande]');
+    if (b) b.click();
+  });
 })();

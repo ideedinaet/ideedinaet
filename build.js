@@ -254,16 +254,18 @@ function figura(l, livello, conCategoria) {
   const didascalia = [
     conCategoria ? `<a class="cat" href="${collegamento(c.slug, livello)}">${esc(c.titolo)}</a>` : '',
     l.titolo ? `<strong>${esc(l.titolo)}</strong>` : '',
-    l.descrizione ? `<span class="desc">${formattaInRiga(l.descrizione)}</span>` : '',
+    l.descrizione ? `<span class="desc">${formattaInRiga(l.descrizione)}</span><a class="leggi" href="#" hidden>Leggi tutto ›</a>` : '',
     l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : (testi.prezzo_vuoto ? `<span class="prezzo su-richiesta">${T('prezzo_vuoto')}</span>` : ''),
     l.data ? `<span class="data">Aggiunto il ${dataLeggibile(l.data)}</span>` : '',
-    l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener">${iconaInstagram}Vedi su Instagram</a>` : '',
+  ].join('');
+  const azioni = [
     PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
+    l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener" aria-label="Vedi su Instagram">${iconaInstagram}Instagram</a>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
     <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
       <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
-    ${didascalia ? `<figcaption>${didascalia}</figcaption>` : ''}
+    ${didascalia || azioni ? `<figcaption>${didascalia}${azioni ? `<div class="azioni">${azioni}</div>` : ''}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
   </figure>`;
 }
