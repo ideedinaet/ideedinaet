@@ -28,8 +28,12 @@
       var dato = function (k) { return e.getIn(['data', k]); };
       var lavori = (dato('lavori') || []).toArray ? dato('lavori').toArray() : [];
       var src = function (p) { if (!p) return ''; var a = getAsset(p); return a ? a.toString() : p; };
+      var siNo = function (v) { return v === true || v === 'true'; };
+      // Avviso per gli elementi con «Nascondi dal sito» attivo
+      var avviso = function (testo) { return h('div', { style: { background: '#8a2b1e', color: '#fff', padding: '0.5rem 0.8rem', borderRadius: '6px', fontFamily: 'sans-serif', fontSize: '0.9rem', fontWeight: 600, margin: '0 0 0.6rem' } }, '⛔ ' + testo); };
       return h('div', { className: 'tema-' + (window.TEMA_SITO || 'bottega'), style: { background: 'var(--carta)', color: 'var(--inchiostro)', fontFamily: 'var(--testo)', minHeight: '100vh' } },
         h('section', { className: 'titolo-pagina' }, h('div', { className: 'contenitore' },
+          siNo(dato('nascosto')) ? avviso('Categoria NASCOSTA: non compare sul sito, con tutti i suoi lavori.') : null,
           h('h1', {}, dato('titolo') || 'Nuova categoria'),
           dato('descrizione') ? h('div', { className: 'descrizione-categoria', dangerouslySetInnerHTML: { __html: formatta(dato('descrizione')) } }) : null)),
         h('section', {}, h('div', { className: 'contenitore' },
@@ -37,7 +41,9 @@
             var g = function (k) { return l.get ? l.get(k) : l[k]; };
             var altre = g('altre_foto'); altre = altre && altre.toArray ? altre.toArray() : (altre || []);
             altre = altre.map(function (x) { return typeof x === 'string' ? x : (x && x.get ? x.get('foto') : x && x.foto); }).filter(Boolean);
-            return h('figure', { className: 'lavoro', key: i },
+            var nasc = siNo(g('nascosto'));
+            return h('figure', { className: 'lavoro', key: i, style: nasc ? { opacity: 0.45 } : null },
+              nasc ? avviso('Nascosto: non compare sul sito') : null,
               g('foto') ? h('img', { src: src(g('foto')), style: { borderRadius: '6px' } }) : h('div', { className: 'vuoto' }, '(foto mancante)'),
               altre.length ? h('div', { style: { display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' } }, altre.map(function (f, j) {
                 return h('img', { key: j, src: src(f), style: { width: '56px', height: '56px', objectFit: 'cover', borderRadius: '4px' } });

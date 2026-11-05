@@ -38,13 +38,15 @@ const testoSemplice = (t) => formatta(t).replace(/<br>/g, ' ').replace(/<[^>]+>/
 const paragrafi = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('\n');
 
 const sito = leggi('content/sito.json');
+const nascosto = (x) => x.nascosto === true || x.nascosto === 'true';
 const urlBase = (sito.url || '').replace(/\/+$/, '');
 const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
   .filter((f) => f.endsWith('.json'))
   .map((f) => {
     const c = leggi(path.join('content/categorie', f));
     c.slug = path.basename(f, '.json');
-    c.lavori = (c.lavori || []).filter((l) => l && l.foto);
+    // «Nascondi dal sito»: i lavori nascosti non vengono proprio messi nelle pagine
+    c.lavori = (c.lavori || []).filter((l) => l && l.foto && !nascosto(l));
     c.lavori.forEach((l) => {
       l.altre_foto = (Array.isArray(l.altre_foto) ? l.altre_foto : [])
         .map((x) => (typeof x === 'string' ? x : x && x.foto)).filter(Boolean);
@@ -52,6 +54,7 @@ const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
     c.copertina = c.copertina || (c.lavori[0] && c.lavori[0].foto) || '';
     return c;
   })
+  .filter((c) => !nascosto(c))   // categoria nascosta: niente pagina, menu, home né Novità
   .sort((a, b) => (a.ordine || 99) - (b.ordine || 99) || String(a.titolo).localeCompare(String(b.titolo), 'it'));
 
 // ---- Novità: lavori con data di inserimento recente ----

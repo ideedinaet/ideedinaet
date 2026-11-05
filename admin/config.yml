@@ -24,8 +24,9 @@ collections:
     identifier_field: titolo
     slug: "{{slug}}"
     sortable_fields: ["ordine", "titolo"]
-    summary: "{{titolo}}"
+    summary: "{{fields.nascosto | ternary('⛔ NASCOSTA · ', '')}}{{titolo}}"
     fields:
+      - { label: "Nascondi dal sito", name: nascosto, widget: boolean, default: false, required: false, hint: "Attivo = la categoria e tutti i suoi lavori non compaiono sul sito (menu, home, Novità). Restano salvati qui e potete rimostrarli quando volete." }
       - { label: "Nome della categoria", name: titolo, widget: string }
       - { label: "Posizione nel menu (1 = prima)", name: ordine, widget: number, value_type: int, default: 10, min: 1 }
       - label: "Descrizione"
@@ -42,8 +43,9 @@ collections:
         widget: list
         label_singular: "lavoro"
         add_to_top: true
-        summary: "{{fields.titolo}}"
+        summary: "{{fields.nascosto | ternary('⛔ NASCOSTO · ', '')}}{{fields.titolo}}"
         fields:
+          - { label: "Nascondi dal sito", name: nascosto, widget: boolean, default: false, required: false, hint: "Attivo = questo lavoro non compare sul sito (né nella categoria né in Novità). Resta salvato qui e potete rimostrarlo quando volete." }
           - { label: "Foto principale", name: foto, widget: image }
           - { label: "Data di inserimento", name: data, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, default: "{{now}}", required: false, hint: "Si compila da sola per i lavori nuovi. I lavori recenti compaiono in «Novità» con l'etichetta «Nuovo»." }
           - label: "Altre foto (facoltative)"

@@ -54,6 +54,9 @@ Aprite `https://IL-VOSTRO-SITO/admin/` (funziona anche dal telefono):
 - **Categorie** → scegliete una categoria → **Lavori** → "Aggiungi lavoro" → caricate la foto → **Pubblica**.
 - Per una nuova categoria: **Categorie → Nuova categoria**. Comparirà nel menu e in home.
 - Il numero "Posizione nel menu" decide l'ordine delle categorie.
+- **Nascondi dal sito**: ogni lavoro e ogni categoria ha questo interruttore. Se è attivo,
+  il lavoro (o la categoria con tutti i suoi lavori) sparisce dal sito ma resta salvato
+  nel pannello, dove compare con «⛔ NASCOSTO». Basta spegnerlo per rimostrarlo.
 - **Link Instagram** di un lavoro (facoltativo): incollate il link del post
   (su Instagram: ··· → Copia link) oppure scrivete `@nomeprofilo`. Sul sito compare
   "Vedi su Instagram" sotto la foto e, aprendo la foto in grande dal computer,
