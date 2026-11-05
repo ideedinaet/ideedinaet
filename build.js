@@ -216,7 +216,7 @@ function contatti() {
 }
 
 const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area"><div class="sfondo" aria-hidden="true"></div>
-  <span class="quadro"><img alt=""></span><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
+  <div class="finestra-foto"><span class="quadro"><img alt=""></span></div><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
   <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
   <button class="chiudi" aria-label="Chiudi">×</button><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button>
 </dialog>`;
