@@ -13,29 +13,40 @@
     "Progettazione su misura"
   ],
   "url": "https://ideedinaet.it",
+  "novita_attiva": true,
   "chi_siamo": "Siamo una coppia unita dalla passione per la lavorazione manuale e dalla cura per i dettagli. Diamo vita a creazioni uniche in legno, carta e pelle: dai taglieri di pregio per la cucina ai profumatori d'ambiente, fino a gioielli, biglietti d'auguri, bomboniere e confezioni regalo pensate per emozionare.\n\nPer farlo ci piace mescolare la tradizione con l'innovazione, unendo l'uso degli utensili da falegnameria alla precisione di tecnologie come il taglio e l'incisione laser, la stampa 3D e le fustellatrici.\n\nOgni nostro oggetto è realizzato a mano e totalmente personalizzabile, per trasformare la materia prima in un'idea regalo speciale e fatta su misura per voi.",
+  "whatsapp": [
+    {
+      "nome": "Andrea",
+      "numero": "+39 347 2502168"
+    },
+    {
+      "nome": "Tiziana",
+      "numero": "+39 333 3473947"
+    }
+  ],
   "instagram": "https://www.instagram.com/andrea.millet.75?utm_source=qr&exln=MXA4cjFkeWRvZGh5Mg==",
   "telefono": "347/2_02_6_  -  333/3_73_4_",
   "etsy": "",
   "testi": {
+    "testo_novita": "Gli ultimi lavori aggiunti, da tutte le categorie.",
     "occhiello_home": "La nostra passione nelle tue mani",
     "bottone_home": "Guarda i nostri lavori",
     "titolo_chi_siamo": "Due persone, quattro mani",
     "titolo_contatti": "Scrivici",
     "occhiello_chi_siamo": "Chi siamo",
+    "titolo_novita": "Novità",
     "piede": "La nostra passione nelle tue mani",
+    "nessuna_novita": "Al momento non ci sono novità: dai un'occhiata alle categorie!",
     "titolo_lavori": "Le nostre creazioni",
     "nessuna_foto": "Presto nuove foto.",
+    "prezzo_vuoto": "Chiedi informazioni",
     "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci e valuteremo insieme la soluzione migliore per la tua idea.",
-    "titolo_novita": "Novità",
-    "testo_novita": "Gli ultimi lavori aggiunti, da tutte le categorie.",
-    "etichetta_nuovo": "Nuovo",
-    "nessuna_novita": "Al momento non ci sono novità: dai un'occhiata alle categorie!"
+    "etichetta_nuovo": "Nuovo"
   },
-  "foto_chi_siamo": "/immagini/immaginelaboratorioconnoireali.jpg",
+  "foto_chi_siamo": "/immagini/immaginelaboratorio2.jpg",
   "nome": "Idee di NaeT",
   "citta": "",
   "email": "info@ideedinaet.it",
-  "novita_attiva": true,
-  "novita_giorni": 30
+  "novita_giorni": 1
 }
