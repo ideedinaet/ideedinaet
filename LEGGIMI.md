@@ -97,6 +97,11 @@ Alla fine si manda tutto online insieme = **una sola pubblicazione**.
 5. Chiudete la finestra nera del programma (o Ctrl + C).
 
 Consiglio: non usate contemporaneamente il pannello online e quello locale, per non creare versioni diverse.
+
+**Da un altro computer o dal telefono di casa**: all'avvio la finestra nera mostra anche un indirizzo
+del tipo `http://192.168.1.20:8080/admin/`. Apritelo dall'altro dispositivo, collegato alla stessa rete.
+La prima volta Windows può chiedere di consentire *Node.js* nel firewall: rispondete Sì per le **reti private**.
+Finché la finestra è aperta, chiunque sia sulla vostra rete può modificare i contenuti: usatelo solo a casa.
 - **WhatsApp**: in *Impostazioni del sito → WhatsApp* aggiungete uno o due numeri, ognuno con il
   nome da mostrare sul pulsante (es. «Andrea» e 347 1234567). Con i numeri compilati compaiono:
   i pulsanti «WhatsApp Andrea» nei contatti, il pulsante verde fisso sul telefono e, sotto ogni

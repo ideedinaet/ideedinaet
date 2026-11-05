@@ -90,9 +90,23 @@ http.createServer((req, res) => {
   // Il pannello in locale usa il server locale (niente login, niente bozze: si salva direttamente nei file)
   if (url === '/admin/config.yml') {
     let cfg = fs.readFileSync(path.join(RADICE, 'admin', 'config.yml'), 'utf8');
-    cfg = cfg.replace(/^publish_mode:.*$/m, '').replace(/^backend:/m, `local_backend:\n  url: http://localhost:${PORTA_PANNELLO}/api/v1\nbackend:`);
+    // Il pannello parla con il server locale passando da questa stessa porta (vedi /api/v1 sotto),
+    // così funziona anche da un altro computer della rete di casa (http://192.168.x.x:8080/admin/)
+    const host = String(req.headers.host || `localhost:${PORTA}`).replace(/[^\w.:\-\[\]]/g, '');
+    const nome = host.replace(/:\d+$/, '').replace(/^\[|\]$/g, '');
+    cfg = cfg.replace(/^publish_mode:.*$/m, '').replace(/^backend:/m, `local_backend:\n  url: http://${host}/api/v1\n  allowed_hosts: ["${nome}"]\nbackend:`);
     res.writeHead(200, { 'Content-Type': 'text/yaml; charset=utf-8', 'Cache-Control': 'no-store' });
     return res.end(cfg);
+  }
+  // Inoltra le richieste del pannello al server locale (che accetta solo connessioni da questo computer)
+  if (url.startsWith('/api/v1')) {
+    const intestazioni = { ...req.headers, host: `localhost:${PORTA_PANNELLO}` };
+    delete intestazioni.origin; delete intestazioni.referer;
+    const inoltro = http.request({ host: '127.0.0.1', port: PORTA_PANNELLO, path: req.url, method: req.method, headers: intestazioni }, (r) => {
+      res.writeHead(r.statusCode, r.headers); r.pipe(res);
+    });
+    inoltro.on('error', () => { if (!res.headersSent) res.writeHead(502); res.end(); });
+    return req.pipe(inoltro);
   }
   let file = path.join(SITO, url);
   if (!file.startsWith(SITO)) { res.writeHead(403); return res.end(); }
@@ -112,6 +126,14 @@ http.createServer((req, res) => {
 }).listen(PORTA, () => {
   console.log(`\n  Sito locale:     http://localhost:${PORTA}`);
   console.log(`  Pannello locale: http://localhost:${PORTA}/admin/\n`);
+  // Indirizzi per aprire sito e pannello da un altro computer o telefono della stessa rete di casa
+  const ip = Object.values(require('os').networkInterfaces()).flat()
+    .filter((i) => i && i.family === 'IPv4' && !i.internal).map((i) => i.address);
+  if (ip.length) {
+    console.log('  Da un altro computer o telefono della stessa rete:');
+    ip.forEach((a) => console.log(`    http://${a}:${PORTA}/admin/`));
+    console.log('  (Attenzione: chiunque sia collegato alla vostra rete può modificare i contenuti finché questa finestra è aperta.)\n');
+  }
   console.log('  Lasciate aperta questa finestra mentre lavorate. Per chiudere: Ctrl + C.\n');
   if (!process.env.NON_APRIRE) {
     const cmd = process.platform === 'win32' ? `start "" "http://localhost:${PORTA}/admin/"` : process.platform === 'darwin' ? `open http://localhost:${PORTA}/admin/` : `xdg-open http://localhost:${PORTA}/admin/`;
