@@ -440,7 +440,11 @@ body .visore .didascalia .desc strong { color: #fff; }
   .visore .desc { line-height: 1.6; color: #ddd3c6; }
   .visore a.bottone-chiedi { align-self: flex-start; margin-top: 1.2rem; }
   .visore .social { margin-top: 1rem; }
-  .visore .prec, .visore .succ { position: fixed; }
+  /* Frecce ai lati della foto, a metà altezza della finestra */
+  .visore .finestra-foto { position: relative; }
+  .visore .prec, .visore .succ { position: absolute; top: 50%; bottom: auto; transform: translateY(-50%); width: 40px; height: 40px; font-size: 1.25rem; z-index: 4; }
+  .visore .prec { left: -0.5rem; }
+  .visore .succ { right: -0.5rem; }
 }
 .visore .bottone-ig { color: #1b1815; }
 @media (min-width: 761px) {
