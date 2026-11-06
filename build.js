@@ -169,14 +169,36 @@ const iconaWA = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="tr
 
 // ---- Indirizzi di immagini e pagine ----
 const cacheDati = {};
+// Tutte le foto, cercate anche nelle sottocartelle (immagini/bomboniere/, immagini/sito/, …),
+// così una foto spostata in un'altra cartella si trova lo stesso, purché il nome del file sia uguale.
+const fotoPerNome = {};
+(function elenca(dir) {
+  if (!fs.existsSync(path.join(RADICE, dir))) return;
+  for (const n of fs.readdirSync(path.join(RADICE, dir), { withFileTypes: true })) {
+    const rel = dir + '/' + n.name;
+    if (n.isDirectory()) elenca(rel);
+    else if (!fotoPerNome[n.name]) fotoPerNome[n.name] = rel;
+  }
+})('immagini');
+const fotoAvvisate = new Set();
+function trovaFoto(rel) {
+  if (fs.existsSync(path.join(RADICE, rel))) return rel;
+  const altrove = fotoPerNome[path.basename(rel)];
+  if (!fotoAvvisate.has(rel)) {
+    fotoAvvisate.add(rel);
+    console.warn(altrove ? `  ! foto ${rel} trovata in ${altrove}` : `  ! foto mancante: ${rel}`);
+  }
+  return altrove || rel;
+}
 function immagine(p, larghezza, livello) {
   if (!p) return '';
   if (/^https?:\/\//.test(p)) return p;
-  const rel = p.replace(/^\/+/, '');
+  const rel = trovaFoto(p.replace(/^\/+/, ''));
   if (ANTEPRIMA) {
     if (!cacheDati[rel]) {
       const ext = path.extname(rel).slice(1).toLowerCase().replace('jpg', 'jpeg');
-      cacheDati[rel] = `data:image/${ext};base64,` + fs.readFileSync(path.join(RADICE, rel)).toString('base64');
+      const f = path.join(RADICE, rel);
+      cacheDati[rel] = fs.existsSync(f) ? `data:image/${ext};base64,` + fs.readFileSync(f).toString("base64") : "";
     }
     return cacheDati[rel];
   }

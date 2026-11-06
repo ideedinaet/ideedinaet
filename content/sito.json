@@ -3,10 +3,10 @@
   "tema": "notte",
   "sottotitolo": "Materiali di pregio e cura nei dettagli, per regalare un'emozione autentica.",
   "facebook": "",
-  "immagine_copertina": "/immagini/taglierehome1.jpg",
-  "logo": "/immagini/logo-ideedinaet.png",
+  "immagine_copertina": "/immagini/sito/taglierehome1.jpg",
+  "logo": "/immagini/sito/logo-ideedinaet.png",
   "descrizione_seo": "Taglieri in legno, lavori in carta fatti a mano. Scopri i nostri lavori e contattaci per pezzi su misura.",
-  "logo_chiaro": "/immagini/logo-ideedinaet-chiaro.png",
+  "logo_chiaro": "/immagini/sito/logo-ideedinaet-chiaro.png",
   "punti_forza": [
     "Fatti a mano",
     "Pezzi unici",
@@ -44,7 +44,7 @@
     "testo_contatti": "Ti piace qualcosa o hai in mente un pezzo su misura? Contattaci e valuteremo insieme la soluzione migliore per la tua idea.",
     "etichetta_nuovo": "Nuovo"
   },
-  "foto_chi_siamo": "/immagini/immaginelaboratorioconnoireali.jpg",
+  "foto_chi_siamo": "/immagini/sito/immaginelaboratorioconnoireali.jpg",
   "nome": "Idee di NaeT",
   "citta": "",
   "email": "info@ideedinaet.it",

@@ -65,6 +65,17 @@ Aprite `https://IL-VOSTRO-SITO/admin/` (funziona anche dal telefono):
 Le foto dal telefono vanno benissimo: il sito le ridimensiona automaticamente
 (servizio immagini di Netlify) per caricarsi veloci.
 
+**Cartelle delle foto.** Ogni categoria ha la sua cartella dentro `immagini/`, con lo stesso nome
+della categoria: `immagini/bomboniere/`, `immagini/taglieri/`, `immagini/profumatori/`, …
+- Quando caricate una foto dentro una categoria, finisce **da sola** nella sua cartella, e
+  scegliendo una foto vedete solo quelle di quella categoria.
+- Per una **categoria nuova** la cartella si crea da sola al primo caricamento: scrivete prima il
+  nome della categoria, poi caricate le foto.
+- Logo, foto della home e di «Chi siamo» (*Impostazioni del sito*) stanno in `immagini/sito/`.
+- `immagini/non-usate/` contiene le vecchie foto che il sito non usa: si possono cancellare.
+- Se rinominate una categoria, le foto già caricate restano dove sono e quelle nuove vanno in una
+  cartella col nome nuovo: il sito le trova comunque.
+
 ## Per chi vuole smanettare
 
 - `content/` contiene i testi (file JSON), `immagini/` le foto.

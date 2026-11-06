@@ -2,22 +2,22 @@
   "titolo": "Profumatori",
   "ordine": 3,
   "descrizione": "Candele di cera vegetale e piccole creazioni profumate, con essenze naturali.",
-  "copertina": "/immagini/profumatorehome.jpg",
+  "copertina": "/immagini/profumatori/profumatorehome.jpg",
   "lavori": [
     {
       "titolo": "Candela agli agrumi",
-      "foto": "/immagini/20251026_171216.jpg",
+      "foto": "/immagini/profumatori/20251026_171216.jpg",
       "descrizione": "Arancia e bergamotto nuovo test",
       "prezzo": "",
       "instagram": "",
       "altre_foto": [
-        "/immagini/20251026_172827.jpg",
-        "/immagini/20251026_172734.jpg"
+        "/immagini/profumatori/20251026_172827.jpg",
+        "/immagini/profumatori/20251026_172734.jpg"
       ]
     },
     {
       "titolo": "Candela alla lavanda",
-      "foto": "/immagini/profumatorehome.jpg",
+      "foto": "/immagini/profumatori/profumatorehome.jpg",
       "descrizione": "Cera di soia, circa 40 ore di durata.",
       "prezzo": "",
       "instagram": "@bottega.quattromani",

@@ -23,11 +23,15 @@ collections:
     delete: true
     identifier_field: titolo
     slug: "{{slug}}"
+    # Ogni categoria ha la sua cartella di foto: immagini/<nome-della-categoria>/
+    # (es. immagini/bomboniere/). Si crea da sola al primo caricamento.
+    media_folder: "/immagini/{{slug}}"
+    public_folder: "/immagini/{{slug}}"
     sortable_fields: ["ordine", "titolo"]
     summary: "{{fields.nascosto | ternary('⛔ NASCOSTA · ', '')}}{{titolo}}"
     fields:
       - { label: "Nascondi dal sito", name: nascosto, widget: boolean, default: false, required: false, hint: "Attivo = la categoria e tutti i suoi lavori non compaiono sul sito (menu, home, Novità). Restano salvati qui e potete rimostrarli quando volete." }
-      - { label: "Nome della categoria", name: titolo, widget: string }
+      - { label: "Nome della categoria", name: titolo, widget: string, hint: "Le foto di questa categoria vanno nella cartella immagini/ con lo stesso nome (es. «Bomboniere» → immagini/bomboniere). In una categoria nuova scrivete il nome prima di caricare le foto." }
       - { label: "Posizione nel menu (1 = prima)", name: ordine, widget: number, value_type: int, default: 10, min: 1 }
       - label: "Descrizione"
         name: descrizione
@@ -67,6 +71,9 @@ collections:
       - name: sito
         label: "Informazioni generali e contatti"
         file: "content/sito.json"
+        # Logo, foto della home e di «Chi siamo» stanno in immagini/sito/
+        media_folder: "/immagini/sito"
+        public_folder: "/immagini/sito"
         fields:
           - { label: "Nome del sito / del marchio", name: nome, widget: string }
           - label: "Tema grafico"
