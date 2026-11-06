@@ -1,13 +1,13 @@
 {
   "titolo": "Profumatori",
   "ordine": 3,
-  "descrizione": "Candele di cera vegetale e piccole creazioni profumate, con essenze naturali.",
+  "descrizione": "Un oggetto d’arredo che racchiude l’eleganza e il fascino delle essenze del legno.\n\nI profumatori si distinguono per il loro design ricercato, caratterizzato da un raffinato flacone in vetro trasparente, impreziosito da un tappo in legno massello realizzato con diverse essenze e da un pratico sottopiatto coordinato.\n\nL’incontro tra la trasparenza del vetro, le calde sfumature del profumo e le venature naturali del legno crea un insieme armonioso, capace di valorizzare qualsiasi ambiente.\n\nUn complemento d’arredo pensato per chi ama circondarsi di bellezza, materiali naturali e dettagli dal carattere autentico.",
   "copertina": "/immagini/profumatori/profumatorehome.jpg",
   "lavori": [
     {
-      "titolo": "Candela agli agrumi",
-      "foto": "/immagini/profumatori/20251026_171216.jpg",
-      "descrizione": "Arancia e bergamotto nuovo test",
+      "titolo": "Profumatore da 1/2 Lt, 5 essenze",
+      "foto": "/immagini/20251026_171216.jpg",
+      "descrizione": "Bottiglia da 1/2 litro con tappo e sottopiatto realizzati in cinque essenze di legno: *Afrormosia, Mogano, Amaranto, Acero e Rovere*\n\nIl profumatore è completato dal suo sacchetto in iuta e dal bugiardino con la descrizione delle essenze lignee utilizzate.\n\n**Un piccolo gesto, una grande emozione.**",
       "prezzo": "",
       "instagram": "",
       "altre_foto": [
@@ -16,12 +16,17 @@
       ]
     },
     {
-      "titolo": "Candela alla lavanda",
-      "foto": "/immagini/profumatori/profumatorehome.jpg",
-      "descrizione": "Cera di soia, circa 40 ore di durata.",
+      "titolo": "Profumatore da 1 Lt, 5 essenze",
+      "foto": "/immagini/profumatorehome.jpg",
+      "descrizione": "Bottiglia da 1 litro con tappo e sottopiatto realizzati in cinque essenze di legno: *Afrormosia, Niangon, Iroko, Rovere e Acero.*\n\nSul lato del tappo è incisa una frase personalizzata e realizzata in essenza di *Wengè*, che crea un raffinato contrasto con il legno circostante.\n\nIl profumatore è completato dal suo sacchetto in iuta e dal bugiardino con la descrizione delle essenze lignee utilizzate.\n\n**Un regalo unico e personalizzato, capace di racchiudere una grande emozione.**",
       "prezzo": "",
-      "instagram": "@bottega.quattromani",
-      "data": "2026-11-01"
+      "instagram": "https://www.instagram.com/reel/DS54-3ziNHh/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "data": "2026-11-01",
+      "altre_foto": [
+        "/immagini/profumatori/incisionep.jpeg",
+        "/immagini/profumatori/sottopiattop.jpeg"
+      ]
     }
-  ]
+  ],
+  "nascosto": false
 }
