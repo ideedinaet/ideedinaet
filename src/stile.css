@@ -482,3 +482,33 @@ body .visore .didascalia .desc strong { color: #fff; }
   .visore .video { height: 100%; width: min(100%, 340px); aspect-ratio: auto; margin: 0 auto; }
   .visore .video.orizzontale { height: auto; width: 100%; aspect-ratio: 16 / 9; }
 }
+
+/* ===== Menu del telefono: pulsante ☰ e pannello con le voci ===== */
+.apri-menu, .menu-telefono { display: none; }
+@media (max-width: 760px) {
+  .testata .contenitore { flex-wrap: nowrap; min-height: 60px; padding: 0.35rem 0; }
+  .testata .menu { display: none; }
+  .apri-menu { display: grid; place-items: center; width: 46px; height: 46px; margin-right: -8px; border: 0; background: none; color: var(--inchiostro); cursor: pointer; border-radius: 50%; -webkit-tap-highlight-color: transparent; }
+  .apri-menu path { transition: transform .25s ease, opacity .2s; transform-origin: 12px 12px; }
+  .apri-menu[aria-expanded="true"] .riga-1 { transform: translateY(5px) rotate(45deg); }
+  .apri-menu[aria-expanded="true"] .riga-2 { opacity: 0; }
+  .apri-menu[aria-expanded="true"] .riga-3 { transform: translateY(-5px) rotate(-45deg); }
+  .menu-telefono { display: block; position: fixed; left: 0; right: 0; bottom: 0; top: var(--sotto-testata, 60px); z-index: 9; background: var(--carta); overflow-y: auto; overscroll-behavior: contain; padding: 0.5rem 1.25rem 2rem; animation: menu-entra .22s ease; }
+  .menu-telefono[hidden] { display: none; }
+  .tema-catalogo .menu-telefono { background: #fff; }
+  .menu-telefono nav a { display: grid; grid-template-columns: 56px 1fr auto 0.8rem; align-items: center; gap: 0.9rem; padding: 0.6rem 0; border-bottom: 1px solid var(--linea); text-decoration: none; color: var(--inchiostro); }
+  .menu-telefono nav img, .menu-telefono .senza-foto { width: 56px; height: 56px; object-fit: cover; border-radius: var(--raggio); background: var(--carta-2); }
+  .menu-telefono .nome { font-family: var(--display); font-size: 1.3rem; line-height: 1.2; }
+  .menu-telefono small { color: var(--tenue); font-size: 0.8rem; }
+  .menu-telefono .freccia { color: var(--tenue); font-size: 1.4rem; line-height: 1; }
+  .menu-telefono a[aria-current="page"] .nome { color: var(--accento); }
+  .menu-telefono .contatti-rapidi { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .menu-telefono .contatti-rapidi a { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.6rem 1rem; border: 1px solid var(--linea); border-radius: 999px; text-decoration: none; font-size: 0.92rem; }
+  .menu-telefono .contatti-rapidi a.wa { background: #25d366; border-color: #25d366; color: #fff; }
+  .tema-notte .menu-telefono nav img, .tema-notte .menu-telefono .senza-foto, .tema-notte .menu-telefono .contatti-rapidi a { border-radius: 0; }
+  .tema-notte .menu-telefono .nome { letter-spacing: 0.02em; }
+  .tema-notte .menu-telefono a[aria-current="page"] .nome { color: var(--oro); }
+  body.menu-aperto { overflow: hidden; }
+  body.menu-aperto .wa-fisso, body.menu-aperto .torna-su { visibility: hidden; }
+}
+@keyframes menu-entra { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }

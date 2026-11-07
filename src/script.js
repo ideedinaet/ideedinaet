@@ -203,3 +203,22 @@
     if (b) b.click();
   });
 })();
+
+// Menu del telefono: ☰ apre il pannello con le voci, ✕ / Esc / una voce lo chiudono.
+(function () {
+  var bottone = document.querySelector('.apri-menu');
+  var pannello = document.getElementById('menu-telefono');
+  var testata = document.querySelector('.testata');
+  if (!bottone || !pannello || !testata) return;
+  function apri(si) {
+    if (si) document.documentElement.style.setProperty('--sotto-testata', Math.max(0, testata.getBoundingClientRect().bottom) + 'px');
+    pannello.hidden = !si;
+    bottone.setAttribute('aria-expanded', si ? 'true' : 'false');
+    bottone.setAttribute('aria-label', si ? 'Chiudi il menu' : 'Apri il menu');
+    document.body.classList.toggle('menu-aperto', si);
+  }
+  bottone.addEventListener('click', function () { apri(pannello.hidden); });
+  pannello.addEventListener('click', function (e) { if (e.target.closest('a')) apri(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pannello.hidden) { apri(false); bottone.focus(); } });
+  window.addEventListener('resize', function () { if (!pannello.hidden && window.innerWidth > 760) apri(false); });
+})();

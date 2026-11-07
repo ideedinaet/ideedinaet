@@ -228,6 +228,13 @@ function collegamento(slug, livello) {
   return '../'.repeat(livello) + (slug ? slug + '/' : '') || './';
 }
 
+// Icone dei contatti, nello stesso stile (linea sottile) di quella di WhatsApp
+const iconaContatto = (corpo) => `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${corpo}</svg>`;
+const iconaEmail = iconaContatto('<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.8 6.5 12 12.8l8.2-6.3"/>');
+const iconaIG = iconaContatto('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>');
+const iconaFB = iconaContatto('<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M15.5 8.2h-1.6c-1.2 0-1.9.7-1.9 1.9V21M9.5 13h5.5"/>');
+const iconaNegozio = iconaContatto('<path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>');
+
 // ---- Pezzi comuni ----
 function testata(attiva, livello) {
   const voci = (novita.length ? `<a href="${collegamento('novita', livello)}"${attiva === 'novita' ? ' aria-current="page"' : ''}>${T('titolo_novita')}</a>` : '')
@@ -240,15 +247,23 @@ function testata(attiva, livello) {
   return `${avviso ? `<div class="avviso-top">${esc(avviso)}</div>` : ''}<header class="testata"><div class="contenitore">
   <a class="marchio" href="${collegamento('', livello)}">${marchio}</a>
   <nav class="menu" aria-label="Menu principale">${voci}<a class="voce-contatti" href="#contatti">Contatti</a></nav>
-</div></header>`;
+  <button type="button" class="apri-menu" aria-expanded="false" aria-controls="menu-telefono" aria-label="Apri il menu"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path class="riga-1" d="M4 7h16"/><path class="riga-2" d="M4 12h16"/><path class="riga-3" d="M4 17h16"/></svg></button>
+</div></header>
+${menuTelefono(attiva, livello)}`;
 }
 
-// Icone dei contatti, nello stesso stile (linea sottile) di quella di WhatsApp
-const iconaContatto = (corpo) => `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${corpo}</svg>`;
-const iconaEmail = iconaContatto('<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.8 6.5 12 12.8l8.2-6.3"/>');
-const iconaIG = iconaContatto('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>');
-const iconaFB = iconaContatto('<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M15.5 8.2h-1.6c-1.2 0-1.9.7-1.9 1.9V21M9.5 13h5.5"/>');
-const iconaNegozio = iconaContatto('<path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>');
+// Menu del telefono: si apre con ☰; ogni voce ha la foto di copertina della categoria
+function menuTelefono(attiva, livello) {
+  const voce = (slug, titolo, foto, quanti) => `<a href="${collegamento(slug, livello)}"${attiva === slug ? ' aria-current="page"' : ''}>${foto ? `<img src="${immagine(foto, 160, livello)}" alt="" loading="lazy">` : '<span class="senza-foto" aria-hidden="true"></span>'}<span class="nome">${esc(titolo)}</span><small>${quanti}</small><span class="freccia" aria-hidden="true">›</span></a>`;
+  const voci = (novita.length ? voce('novita', T('titolo_novita'), novita[0].foto, novita.length) : '')
+    + categorie.map((c) => voce(c.slug, c.titolo, c.copertina || (c.lavori[0] && c.lavori[0].foto), c.lavori.length)).join('');
+  const contatti = [
+    ...numeriWA.map((n) => `<a class="wa" href="https://wa.me/${n.numero}" target="_blank" rel="noopener">${iconaWA}${numeriWA.length > 1 ? esc(n.nome || n.testo) : 'WhatsApp'}</a>`),
+    sito.email ? `<a href="mailto:${esc(sito.email)}">${iconaEmail}Email</a>` : '',
+    `<a href="#contatti">Contatti</a>`,
+  ].join('');
+  return `<div class="menu-telefono" id="menu-telefono" hidden><nav aria-label="Menu">${voci}</nav><div class="contatti-rapidi">${contatti}</div></div>`;
+}
 
 function contatti() {
   const voci = [];
