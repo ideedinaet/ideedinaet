@@ -62,7 +62,6 @@ const MOSTRA_NOVITA = sito.novita_attiva !== false;
 const GIORNI_NOVITA = Math.max(1, parseInt(sito.novita_giorni, 10) || 30);
 const OGGI = new Date();
 const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
-const dataLeggibile = (d) => { const [a, m, g] = d.split('-'); return `${Number(g)} ${MESI[Number(m) - 1]} ${a}`; };
 const recente = (d) => !!d && (OGGI - new Date(d + 'T00:00:00')) / 864e5 <= GIORNI_NOVITA;
 categorie.forEach((c) => c.lavori.forEach((l) => {
   const m = String(l.data || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -300,7 +299,6 @@ function figura(l, livello, conCategoria) {
     l.titolo ? `<strong>${esc(l.titolo)}</strong>` : '',
     l.descrizione ? `<span class="desc">${formattaInRiga(l.descrizione)}</span><a class="leggi" href="#" hidden>Leggi tutto ›</a>` : '',
     l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : (testi.prezzo_vuoto ? `<span class="prezzo su-richiesta">${T('prezzo_vuoto')}</span>` : ''),
-    l.data ? `<span class="data">Aggiunto il ${dataLeggibile(l.data)}</span>` : '',
   ].join('');
   const azioni = [
     PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
@@ -314,15 +312,10 @@ function figura(l, livello, conCategoria) {
   </figure>`;
 }
 
-function chips(attiva, livello) {
-  return `<nav class="chips" aria-label="Categorie">${novita.length ? `<a href="${collegamento('novita', livello)}"${attiva === 'novita' ? ' aria-current="page"' : ''}>${T('titolo_novita')} <small>${novita.length}</small></a>` : ''}${categorie.map((x) => `<a href="${collegamento(x.slug, livello)}"${x.slug === attiva ? ' aria-current="page"' : ''}>${esc(x.titolo)} <small>${x.lavori.length}</small></a>`).join('')}</nav>`;
-}
-
 function corpoNovita(livello) {
   return `<section class="titolo-pagina"><div class="contenitore">
   <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${T('titolo_novita')}</div>
   <h1>${T('titolo_novita')}</h1>${testi.testo_novita ? `<p>${T('testo_novita')}</p>` : ''}
-  ${chips('novita', livello)}
 </div></section>
 <section><div class="contenitore"><div class="galleria galleria-novita" data-solo-novita>${novita.map((l) => figura(l, livello, true)).join('\n')}</div>
 <p class="vuoto novita-vuoto"${novita.length ? ' hidden' : ''}>${T('nessuna_novita')}</p></div></section>`;
@@ -333,7 +326,6 @@ function corpoCategoria(c, livello) {
   return `<section class="titolo-pagina"><div class="contenitore">
   <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${esc(c.titolo)}</div>
   <h1>${esc(c.titolo)}</h1>${c.descrizione ? `<div class="descrizione-categoria">${paragrafiFormattati(c.descrizione)}</div>` : ''}
-  ${chips(c.slug, livello)}
 </div></section>
 <section><div class="contenitore">${lavori ? `<div class="galleria">${lavori}</div>` : `<p class="vuoto">${T('nessuna_foto')}</p>`}</div></section>`;
 }
