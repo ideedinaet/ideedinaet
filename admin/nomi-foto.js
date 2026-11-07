@@ -21,6 +21,12 @@
     isValid: function () {
       return this.interno && this.interno.isValid ? this.interno.isValid() : true;
     },
+    // Il pannello chiede al campo se deve aggiornarsi (es. quando arriva la foto scelta nella
+    // libreria): giriamo la domanda al campo originale, altrimenti la foto scelta non verrebbe presa.
+    shouldComponentUpdate: function (prossime) {
+      var i = this.interno;
+      return i && typeof i.shouldComponentUpdate === 'function' ? i.shouldComponentUpdate(prossime) : true;
+    },
     render: function () {
       var self = this;
       var d = descrivi(this.props.value);
