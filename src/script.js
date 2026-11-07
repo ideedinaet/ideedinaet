@@ -62,6 +62,7 @@
     visore.classList.toggle('su-video', eVideo);
     if (eVideo) {
       boxVideo.style.backgroundImage = 'url("' + foto[0] + '")';
+      visore.style.setProperty('--foto', 'url("' + foto[0] + '")');
       contatore.textContent = 'Video';
     } else {
       fermaVideo();
@@ -82,7 +83,11 @@
     foto = [b.getAttribute('data-grande')].concat(altre);
     fermaVideo();
     indirizzoVideo = boxVideo ? (b.getAttribute('data-video') || '') : '';
-    if (indirizzoVideo) foto.push(VIDEO);
+    if (indirizzoVideo) {
+      foto.push(VIDEO);
+      var da = boxVideo.querySelector('.video-da'); if (da) da.textContent = b.getAttribute('data-video-da') || 'Instagram';
+      boxVideo.classList.toggle('orizzontale', b.getAttribute('data-video-forma') === 'orizzontale');
+    }
     img.alt = b.getAttribute('data-titolo') || '';
     titolo.textContent = b.getAttribute('data-titolo') || '';
     var chiedi = visore.querySelector('.bottone-chiedi');

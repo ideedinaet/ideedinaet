@@ -473,8 +473,11 @@ body .visore .didascalia .desc strong { color: #fff; }
 .visore .avviso-video { position: relative; z-index: 1; margin: 0; padding: 0 1rem; text-align: center; color: #eee5d8; font-size: 0.82rem; line-height: 1.4; }
 .visore .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; z-index: 2; }
 .visore .video.attivo .play, .visore .video.attivo .avviso-video { display: none; }
+.visore .video.orizzontale { height: auto; width: min(100%, 1000px); aspect-ratio: 16 / 9; max-height: calc(100vh - 8rem); }
+.visore .video.orizzontale iframe { background: #000; }
 @media (max-width: 760px) {
   .lavoro .etichette { left: 7px; bottom: 7px; gap: 4px; }
   .lavoro .ha-video { font-size: 0.66rem; padding: 0.2rem 0.45rem; }
   .visore .video { height: 100%; width: min(100%, 340px); aspect-ratio: auto; margin: 0 auto; }
+  .visore .video.orizzontale { height: auto; width: 100%; aspect-ratio: 16 / 9; }
 }

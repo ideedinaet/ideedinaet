@@ -64,6 +64,8 @@ collections:
           - { label: "Descrizione", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
           - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }
           - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code. Se è il link di un REEL, il video si può guardare anche direttamente sul sito (etichetta «▶ Video» sulla foto)." }
+          - { label: "Video YouTube (facoltativo)", name: youtube, widget: string, required: false, hint: "Incolla il link del video su YouTube (anche «non in elenco» o uno Short). Se c'è, sul sito si guarda questo video; se manca, si usa il reel di Instagram." }
+          - { label: "Nascondi il video dal sito", name: nascondi_video, widget: boolean, default: false, required: false, hint: "Spento = il video (YouTube o, se manca, il reel di Instagram) si guarda direttamente sul sito, con l'etichetta «▶ Video» sulla foto. Acceso = niente video sul sito: resta solo il pulsante «Instagram»." }
 
   - name: impostazioni
     label: "Impostazioni del sito"
