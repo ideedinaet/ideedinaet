@@ -339,7 +339,8 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
 .visore a.bottone-chiedi { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.75rem; background: var(--oro); color: #1b1815; text-decoration: none; padding: 0.55rem 1.05rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
 .visore a.bottone-chiedi:hover { background: #fff; }
 .tema-notte .visore a.bottone-chiedi { border-radius: 0; letter-spacing: 0.05em; }
-.contatti .lista a.wa { display: inline-flex; align-items: center; gap: 0.5rem; }
+.contatti .lista a { display: inline-flex; align-items: center; gap: 0.5rem; }
+.contatti .lista a svg { flex: none; }
 
 /* Finestrella «A chi vuoi scrivere?» */
 .scelta { border: 1px solid var(--linea); background: var(--carta-2); color: var(--inchiostro); padding: 1.5rem; border-radius: var(--raggio); width: min(92vw, 340px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }

@@ -243,13 +243,20 @@ function testata(attiva, livello) {
 </div></header>`;
 }
 
+// Icone dei contatti, nello stesso stile (linea sottile) di quella di WhatsApp
+const iconaContatto = (corpo) => `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${corpo}</svg>`;
+const iconaEmail = iconaContatto('<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.8 6.5 12 12.8l8.2-6.3"/>');
+const iconaIG = iconaContatto('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>');
+const iconaFB = iconaContatto('<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M15.5 8.2h-1.6c-1.2 0-1.9.7-1.9 1.9V21M9.5 13h5.5"/>');
+const iconaNegozio = iconaContatto('<path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/>');
+
 function contatti() {
   const voci = [];
-  if (sito.email) voci.push(`<a href="mailto:${esc(sito.email)}">${esc(sito.email)}</a>`);
+  if (sito.email) voci.push(`<a href="mailto:${esc(sito.email)}">${iconaEmail}${esc(sito.email)}</a>`);
   for (const n of numeriWA) voci.push(`<a class="wa" href="https://wa.me/${n.numero}" target="_blank" rel="noopener">${iconaWA}WhatsApp ${esc(n.nome || n.testo)}</a>`);
-  if (sito.instagram) voci.push(`<a href="${esc(sito.instagram)}" rel="noopener">Instagram</a>`);
-  if (sito.facebook) voci.push(`<a href="${esc(sito.facebook)}" rel="noopener">Facebook</a>`);
-  if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" rel="noopener">Negozio online</a>`);
+  if (sito.instagram) voci.push(`<a href="${esc(sito.instagram)}" target="_blank" rel="noopener">${iconaIG}Instagram</a>`);
+  if (sito.facebook) voci.push(`<a href="${esc(sito.facebook)}" target="_blank" rel="noopener">${iconaFB}Facebook</a>`);
+  if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" target="_blank" rel="noopener">${iconaNegozio}Negozio online</a>`);
   return `<section class="sezione contatti" id="contatti"><div class="contenitore">
   ${se('titolo_contatti', `<h2>${T('titolo_contatti')}</h2>`)}
   ${paragrafi(testi.testo_contatti)}
