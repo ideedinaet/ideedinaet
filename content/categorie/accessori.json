@@ -1,0 +1,13 @@
+{
+  "nascosto": false,
+  "ordine": 10,
+  "lavori": [
+    {
+      "nascosto": false,
+      "data": "2026-11-07",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/vuoto.png"
+    }
+  ],
+  "titolo": "Accessori"
+}

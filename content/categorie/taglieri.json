@@ -1,87 +1,99 @@
 {
-	"titolo": "Taglieri",
-	"ordine": 1,
-	"descrizione": "Taglieri in legno massello, lavorati secondo le tre principali tecniche costruttive: **End Grain, Edge Grain** e **Face Grain.** L'assemblaggio viene eseguito utilizzando colle certificate per il contatto con gli alimenti. Ogni tagliere viene infine trattato con oli specifici per uso alimentare, selezionati per proteggere e valorizzare le caratteristiche naturali del legno.\n\nAlcune delle essenze disponibili: *Rovere, Castagno, Faggio, Mogano, Ciliegio, Afrormosia, Niangon, Wengé, Frassino, Acero, Noce, Amaranto, Iroko, Doussié e Padouk.*",
-	"copertina": "/immagini/taglieri/20250906_090949.jpg",
-	"lavori": [
-		{
-			"titolo": "Face Grain - Tagliere double face.",
-			"foto": "/immagini/taglieri/20241019_103051.jpg",
-			"descrizione": "Realizzato con una raffinata combinazione di essenze nobili, tra cui *Frassino* e inserti a contrasto in *Mogano, Wengè e Mogano*, che creano un geometrico e pulito motivo bicolore.\n\nIl tagliere è dotato di comode maniglie laterali ricavate nello spessore, progettate per consentire l'utilizzo su entrambe le facce. Ciascun lato presenta un'elegante incisione decorativa a contrasto.\n\nSviluppato con tecnica *Face Grain*, questo tagliere è la scelta perfetta non solo per la preparazione dei cibi, ma soprattutto per servire a tavola formaggi, saluti e portate gourmet direttamente durante il servizio.",
-			"prezzo": "",
-			"instagram": "https://www.instagram.com/reel/DBUJ_qksVd7/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
-			"data": "2026-11-03",
-			"nascosto": false,
-			"altre_foto": [
-				"/immagini/20241019_103033.jpg",
-				"/immagini/20241019_102842.jpg"
-			]
-		},
-		{
-			"titolo": "Face Grain - Elegante Tagliere 5 essenze con iniziali a contrasto",
-			"foto": "/immagini/taglieri/20241019_103225.jpg",
-			"descrizione": "Realizzato in una raffinata combinazione di essenze pregiate: Afrormosia, Iroko, Mogano e Wengé.\n\nIl tagliere è dotato di piedini antiscivolo che lo sollevano di circa 1 cm dal piano d'appoggio, garantendo stabilità e praticità senza la necessità di maniglie.\n\nLe finiture sono curate in ogni dettaglio: gli spigoli superiori sono elegantemente stondati, mentre quelli inferiori presentano un taglio a 45°, che conferisce al pezzo un profilo moderno e distintivo.\n\nGrazie alla sua particolare costruzione e all'accostamento delle essenze, è ideale per servire al tavolo salumi, formaggi e altri alimenti da affettare direttamente al momento del servizio.\n\nÈ invece meno indicato per un utilizzo intensivo durante la preparazione quotidiana dei piatti, per la quale si consiglia un tagliere End Grain, caratterizzato da una maggiore resistenza ai tagli e particolarmente adatto all'uso frequente dei coltelli.",
-			"prezzo": "",
-			"instagram": "https://www.instagram.com/reel/DCzm4sZopq8/?utm_source=ig_web_copy_link&exln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
-			"altre_foto": [
-				"/immagini/taglieri/20241019_103624.jpg",
-				"/immagini/taglieri/20241019_103327.jpg"
-			]
-		},
-		{
-			"nascosto": true,
-			"data": "2026-11-05",
-			"titolo": "Tagliere Sant Orso (Viola)",
-			"foto": "/immagini/taglieri/vuoto.png"
-		},
-		{
-			"titolo": "Tagliere Vittoria",
-			"foto": "/immagini/20251221_165518.jpg",
-			"instagram": "https://www.instagram.com/reel/DSw31hOiJVZ/?utm_source=ig_web_copy_link&dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
-			"altre_foto": [
-				"/immagini/taglieri/20251222_193924.jpg"
-			]
-		},
-		{
-			"nascosto": true,
-			"data": "2026-11-05",
-			"titolo": "Tagliere Michel",
-			"foto": "/immagini/taglieri/vuoto.png",
-			"instagram": "https://www.instagram.com/reel/DOUUaSXCO9D/?utm_source=ig_web_copy_link&cplk=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA=="
-		},
-		{
-			"titolo": "Tagliere Andrea",
-			"foto": "/immagini/taglierehome1.jpg",
-			"altre_foto": [
-				"/immagini/taglieri/tmp_1c549d4a-f673-4794-9250-1de9a5952782.jpeg",
-				"/immagini/taglieri/tmp_e8b5c8a1-988b-4ec4-af91-505e9fb76099.jpeg"
-			],
-			"nascosto": true
-		},
-		{
-			"nascosto": true,
-			"data": "2026-11-05",
-			"titolo": "Tagliere Ragazzi",
-			"foto": "/immagini/vuoto.png"
-		},
-		{
-			"nascosto": true,
-			"data": "2026-11-05",
-			"titolo": "Tagliere Aurelio",
-			"foto": "/immagini/vuoto.png"
-		},
-		{
-			"nascosto": true,
-			"data": "2026-11-05",
-			"titolo": "Tagliere Loris Anna",
-			"foto": "/immagini/vuoto.png",
-			"instagram": "https://www.instagram.com/reel/DTYk8rxCDvU/?utm_source=ig_web_copy_link&vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA=="
-		},
-		{
-			"nascosto": true,
-			"data": "2026-11-05",
-			"titolo": "Tagliere Franco",
-			"foto": "/immagini/vuoto.png"
-		}
-	]
+  "titolo": "Taglieri",
+  "ordine": 1,
+  "descrizione": "Taglieri in legno massello, lavorati secondo le tre principali tecniche costruttive: **End Grain, Edge Grain** e **Face Grain.** L'assemblaggio viene eseguito utilizzando colle certificate per il contatto con gli alimenti. Ogni tagliere viene infine trattato con oli specifici per uso alimentare, selezionati per proteggere e valorizzare le caratteristiche naturali del legno.\n\nAlcune delle essenze disponibili: *Rovere, Castagno, Faggio, Mogano, Ciliegio, Afrormosia, Niangon, Wengé, Frassino, Acero, Noce, Amaranto, Iroko, Doussié e Padouk.*",
+  "copertina": "/immagini/taglieri/home-taglieri.jpg",
+  "lavori": [
+    {
+      "nascosto": false,
+      "nascondi_video": false,
+      "foto": "/immagini/taglieri/fg1-1.jpg",
+      "altre_foto": [
+        "/immagini/taglieri/fg1-2.jpg",
+        "/immagini/taglieri/fg1-3.jpg"
+      ],
+      "data": "2026-11-03",
+      "prezzo": "",
+      "descrizione": "Realizzato con una raffinata combinazione di essenze nobili, tra cui *Frassino* e inserti a contrasto in *Mogano, Wengè e Mogano*, che creano un geometrico e pulito motivo bicolore.\n\nIl tagliere è dotato di comode maniglie laterali ricavate nello spessore, progettate per consentire l'utilizzo su entrambe le facce. Ciascun lato presenta un'elegante incisione decorativa a contrasto.\n\nSviluppato con tecnica *Face Grain*, questo tagliere è la scelta perfetta non solo per la preparazione dei cibi, ma soprattutto per servire a tavola formaggi, saluti e portate gourmet direttamente durante il servizio.",
+      "instagram": "https://www.instagram.com/reel/DBUJ_qksVd7/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "titolo": "Face Grain - Tagliere double face."
+    },
+    {
+      "titolo": "Face Grain - Elegante Tagliere 5 essenze con iniziali a contrasto",
+      "foto": "/immagini/taglieri/fg2-2.jpg",
+      "descrizione": "Realizzato in una raffinata combinazione di essenze pregiate: Afrormosia, Iroko, Mogano e Wengé.\n\nIl tagliere è dotato di piedini antiscivolo che lo sollevano di circa 1 cm dal piano d'appoggio, garantendo stabilità e praticità senza la necessità di maniglie.\n\nLe finiture sono curate in ogni dettaglio: gli spigoli superiori sono elegantemente stondati, mentre quelli inferiori presentano un taglio a 45°, che conferisce al pezzo un profilo moderno e distintivo.\n\nGrazie alla sua particolare costruzione e all'accostamento delle essenze, è ideale per servire al tavolo salumi, formaggi e altri alimenti da affettare direttamente al momento del servizio.\n\nÈ invece meno indicato per un utilizzo intensivo durante la preparazione quotidiana dei piatti, per la quale si consiglia un tagliere End Grain, caratterizzato da una maggiore resistenza ai tagli e particolarmente adatto all'uso frequente dei coltelli.",
+      "prezzo": "",
+      "instagram": "https://www.instagram.com/reel/DCzm4sZopq8/?utm_source=ig_web_copy_link&exln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "altre_foto": [
+        "/immagini/taglieri/fg2-1.jpg",
+        "/immagini/taglieri/fg2-3.jpg"
+      ]
+    },
+    {
+      "titolo": "End Grain - Tagliere professionale in Paduk e Frassino con inserti in Acero Bianco",
+      "foto": "/immagini/taglieri/eg1-1.jpg",
+      "instagram": "https://www.instagram.com/reel/DSw31hOiJVZ/?utm_source=ig_web_copy_link&dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "altre_foto": [
+        "/immagini/taglieri/eg1-3.jpg",
+        "/immagini/taglieri/eg1-2.jpg"
+      ],
+      "data": "2026-11-07",
+      "descrizione": "Un incontro tra estetica ricercata, solidità e prestazioni professionali.\n\nQuesto tagliere nasce dall'accostamento di tre essenze dalle caratteristiche e dalle tonalità distintive: il Paduk, con il suo intenso colore rosso-bruno, il Frassino e la luminosità dell'Acero Bianco. Gli inserti chiari, disposti secondo un originale motivo geometrico, creano un elegante gioco di contrasti che rende la superficie immediatamente riconoscibile. Le iniziali incise completano la composizione, aggiungendo un ulteriore dettaglio distintivo.\n\nLa particolarità di questo tagliere è la costruzione End Grain, conosciuta anche come lavorazione di testa . In questa configurazione, le fibre del legno sono orientate perpendicolarmente rispetto alla superficie di taglio, anziché parallelamente come nei tradizionali taglieri a filo.\n\nQuesta particolare disposizione offre diversi vantaggi:\n\n* **Maggiore rispetto per il filo delle lame:** le fibre tendono ad accogliere la lama durante il taglio, riducendo l'attrito rispetto a una superficie tradizionale.\n* **Elevata resistenza al lavoro:** la struttura a testa di legno è particolarmente indicata per un utilizzo frequente e intenso in cucina.\n* **Minore evidenza dei segni di taglio:** le fibre possono deformarsi localmente sotto l'azione della lama e tendere a richiudersi, contribuendo a mantenere nel tempo un aspetto più uniforme.\n* **Superficie di lavoro stabile e consistente:** la costruzione a blocchi crea una struttura robusta, adatta anche alle preparazioni più impegnative.\n\nIdeale per appassionati di cucina, professionisti e per chi desidera una superficie di taglio di qualità superiore, capace di distinguersi tanto nell'utilizzo quotidiano quanto nella presentazione in cucina."
+    },
+    {
+      "titolo": "End Grain - Tagliere professionale in Frassino e Mogano",
+      "foto": "/immagini/taglieri/eg2-4.jpg",
+      "altre_foto": [
+        "/immagini/taglieri/eg2-3.jpg",
+        "/immagini/taglieri/eg2-1.jpg",
+        "/immagini/taglieri/eg2-2.jpg"
+      ],
+      "nascosto": false,
+      "descrizione": "L'eleganza delle geometrie incontra la solidità di una costruzione pensata per un utilizzo intenso.\n\nQuesto tagliere nasce dall'accostamento di due essenze pregiate: il Frassino, con le sue tonalità chiare e le venature naturali ben definite, e il Mogano, caratterizzato da sfumature calde e brune. La loro alternanza dà vita a un raffinato motivo a scacchiera, creando un piacevole contrasto cromatico e un disegno senza tempo.\n\nTagliere privo di maniglie ma con piedini antiscivolo che lo sollevano di circa 1 cm dal piano di lavoro. E inoltre dotato di scanalatura perimetrale raccogli-liquidi, progettata per raccogliere i liquidi rilasciati dagli alimenti durante la preparazione, contribuendo a mantenere il piano di lavoro più pulito e ordinato.\n\nCon i suoi 48 × 34 cm di superficie e uno spessore di ben 4 cm e un peso di quasi 4 kg, questo tagliere offre uno spazio di lavoro ampio e confortevole, adatto anche alle preparazioni più impegnative.",
+      "instagram": "https://www.instagram.com/reel/De_7bF2ohDt/?utm_source=ig_web_copy_link&xtok=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA=="
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-05",
+      "titolo": "End Grain - Tagliere \"Tridimensionale\"",
+      "foto": "/immagini/taglieri/eg3-1.jpg",
+      "instagram": "https://www.instagram.com/reel/DOUUaSXCO9D/?utm_source=ig_web_copy_link&cplk=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "descrizione": "Il cuore del progetto è uno straordinario effetto ottico tridimensionale: grazie a un meticoloso studio degli incastri e delle sfumature cromatiche, la superficie geometrica crea un'illusione di profondità e rilievo che valorizza al massimo la materia prima. Nasce dalla combinazione di quattro essenze nobili e naturali: Il Wengè, il Frassino, il Mogano arricchisce e infine il Ciliegio veste la splendida cornice perimetrale e custodisce le maniglie integrate.   \n\nLa lavorazione con tecnica *end grain* (di testa) dispone le fibre del legno verticalmente rispetto alla superficie di taglio. Questa scelta professionale rispetta il filo dei coltelli, permettendo alla lama di scivolare tra le fibre senza tagliarle, e rende la superficie estremamente resistente all'usura oltre che naturalmente auto-rigenerante.\n\nPensato per unire estetica e funzionalità quotidiana, il tagliere è dotato di comode maniglie ricavate direttamente nel legno per una presa sicura e agevole durante lo spostamento. L'esecuzione curata in ogni dettaglio e le variazioni naturali delle venature rendono ogni esemplare un pezzo unico e irripetibile, perfetto come idea regalo di classe, per impreziosire la cucina o come raffinato vassoio per la presentazione di formaggi e salumi gourmet.",
+      "altre_foto": [
+        "/immagini/taglieri/eg3-2.jpg",
+        "/immagini/taglieri/eg3-4.jpg"
+      ]
+    },
+    {
+      "nascosto": true,
+      "data": "2026-11-05",
+      "titolo": "Tagliere Sant Orso (Viola)",
+      "foto": "/immagini/vuoto.png"
+    },
+    {
+      "nascosto": true,
+      "data": "2026-11-05",
+      "titolo": "Tagliere Ragazzi",
+      "foto": "/immagini/vuoto.png"
+    },
+    {
+      "nascosto": true,
+      "data": "2026-11-05",
+      "titolo": "Tagliere Aurelio",
+      "foto": "/immagini/vuoto.png"
+    },
+    {
+      "nascosto": true,
+      "data": "2026-11-05",
+      "titolo": "Tagliere Loris Anna",
+      "foto": "/immagini/vuoto.png",
+      "instagram": "https://www.instagram.com/reel/DTYk8rxCDvU/?utm_source=ig_web_copy_link&vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA=="
+    },
+    {
+      "nascosto": true,
+      "data": "2026-11-05",
+      "titolo": "Tagliere Franco",
+      "foto": "/immagini/vuoto.png"
+    }
+  ]
 }

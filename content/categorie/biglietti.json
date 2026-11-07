@@ -1,0 +1,14 @@
+{
+  "nascosto": false,
+  "ordine": 10,
+  "lavori": [
+    {
+      "nascosto": false,
+      "data": "2026-11-07",
+      "nascondi_video": false,
+      "titolo": "Primo",
+      "foto": "/immagini/biglietti/vuoto.png"
+    }
+  ],
+  "titolo": "Biglietti"
+}
