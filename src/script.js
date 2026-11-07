@@ -32,23 +32,57 @@
   var prec = visore.querySelector('.prec');
   var succ = visore.querySelector('.succ');
   var foto = [], indice = 0, bottone = null;
+  // Video di Instagram: è l'ultima «pagina» dopo le foto. Si carica solo premendo ▶.
+  var VIDEO = '#video', indirizzoVideo = '';
+  var boxVideo = visore.querySelector('.video');
+  var play = boxVideo && boxVideo.querySelector('.play');
+  function fermaVideo() {
+    if (!boxVideo) return;
+    var f = boxVideo.querySelector('iframe'); if (f) f.parentNode.removeChild(f);
+    boxVideo.classList.remove('attivo');
+  }
+  if (play) play.addEventListener('click', function () {
+    if (!indirizzoVideo || boxVideo.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.src = indirizzoVideo;
+    f.title = 'Video su Instagram';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.setAttribute('allowfullscreen', '');
+    boxVideo.appendChild(f);
+    boxVideo.classList.add('attivo');
+  });
 
   function mostra(i) {
     if (i < 0 || i >= foto.length) return;
     indice = i;
-    img.src = foto[indice];
-    visore.style.setProperty('--foto', 'url("' + foto[indice] + '")');
-    quadro.style.animation = 'none'; void quadro.offsetWidth; quadro.style.animation = '';
-    contatore.textContent = foto.length > 1 ? 'Foto ' + (indice + 1) + ' di ' + foto.length : '';
+    var eVideo = foto[indice] === VIDEO;
+    var quanteFoto = foto.length - (indirizzoVideo ? 1 : 0);
+    if (boxVideo) boxVideo.hidden = !eVideo;
+    quadro.style.display = eVideo ? 'none' : '';
+    visore.classList.toggle('su-video', eVideo);
+    if (eVideo) {
+      boxVideo.style.backgroundImage = 'url("' + foto[0] + '")';
+      contatore.textContent = 'Video';
+    } else {
+      fermaVideo();
+      img.src = foto[indice];
+      visore.style.setProperty('--foto', 'url("' + foto[indice] + '")');
+      quadro.style.animation = 'none'; void quadro.offsetWidth; quadro.style.animation = '';
+      contatore.textContent = quanteFoto > 1 ? 'Foto ' + (indice + 1) + ' di ' + quanteFoto + (indirizzoVideo ? ' · poi il video' : '')
+        : (indirizzoVideo ? 'Poi il video ›' : '');
+    }
     prec.hidden = indice === 0;
     succ.hidden = indice === foto.length - 1;
-    if (foto[indice + 1]) { var p = new Image(); p.src = foto[indice + 1]; }
+    if (foto[indice + 1] && foto[indice + 1] !== VIDEO) { var p = new Image(); p.src = foto[indice + 1]; }
   }
 
-  function apri(b) {
+  function apri(b, suVideo) {
     bottone = b;
     var altre = (b.getAttribute('data-altre') || '').split('|').filter(Boolean);
     foto = [b.getAttribute('data-grande')].concat(altre);
+    fermaVideo();
+    indirizzoVideo = boxVideo ? (b.getAttribute('data-video') || '') : '';
+    if (indirizzoVideo) foto.push(VIDEO);
     img.alt = b.getAttribute('data-titolo') || '';
     titolo.textContent = b.getAttribute('data-titolo') || '';
     var chiedi = visore.querySelector('.bottone-chiedi');
@@ -60,7 +94,7 @@
     linkIG.href = ig || '#';
     codice.innerHTML = modello ? modello.innerHTML : '';
     codice.parentNode.classList.toggle('senza-qr', !modello);
-    mostra(0);
+    mostra(suVideo && indirizzoVideo ? foto.length - 1 : 0);
     visore.showModal();
     var area = visore.querySelector('.area'); if (area) area.scrollTop = 0;
     testo.scrollTop = 0;
@@ -68,13 +102,13 @@
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-grande]');
-    if (b) apri(b);
+    if (b) apri(b, !!e.target.closest('.ha-video'));
   });
   visore.querySelector('.chiudi').addEventListener('click', function () { visore.close(); });
   prec.addEventListener('click', function () { mostra(indice - 1); });
   succ.addEventListener('click', function () { mostra(indice + 1); });
   visore.addEventListener('click', function (e) { if (e.target === visore || e.target.classList.contains('area')) visore.close(); });
-  visore.addEventListener('close', function () { if (bottone) bottone.focus(); });
+  visore.addEventListener('close', function () { fermaVideo(); if (bottone) bottone.focus(); });
   document.addEventListener('keydown', function (e) {
     if (!visore.open) return;
     if (e.key === 'ArrowLeft') mostra(indice - 1);

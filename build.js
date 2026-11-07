@@ -138,10 +138,17 @@ function normalizzaInstagram(v) {
   if (/^[A-Za-z0-9._]{1,30}$/.test(nome)) return `https://www.instagram.com/${nome}/`;
   return '';
 }
+// Video da mostrare nel sito: solo per i link a un reel (o video IGTV) di Instagram.
+// Il video si carica da Instagram solo quando il visitatore preme ▶ (niente dati a Meta prima).
+function videoInstagram(url) {
+  const m = String(url || '').match(/instagram\.com\/(?:[A-Za-z0-9._]+\/)?(reels?|tv)\/([A-Za-z0-9_-]+)/i);
+  return m ? `https://www.instagram.com/${m[1].toLowerCase() === 'tv' ? 'tv' : 'reel'}/${m[2]}/embed/` : '';
+}
 const codiciQR = {};
 async function preparaQR() {
   for (const c of categorie) for (const l of c.lavori) {
     l.instagram = normalizzaInstagram(l.instagram);
+    l.video = videoInstagram(l.instagram);
     if (l.instagram && QRCode && !codiciQR[l.instagram]) {
       codiciQR[l.instagram] = await QRCode.toString(l.instagram, { type: 'svg', margin: 1, errorCorrectionLevel: 'M', color: { dark: '#2a2420ff', light: '#ffffffff' } });
     }
@@ -241,7 +248,7 @@ function contatti() {
 }
 
 const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area"><div class="sfondo" aria-hidden="true"></div>
-  <div class="finestra-foto"><span class="quadro"><img alt=""></span><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button></div><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
+  <div class="finestra-foto"><span class="quadro"><img alt=""></span><div class="video" hidden><button type="button" class="play" aria-label="Guarda il video">▶&#xFE0E;</button><p class="avviso-video">Premendo ▶&#xFE0E; il video viene caricato da Instagram</p></div><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button></div><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
   <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
   <button class="chiudi" aria-label="Chiudi">×</button>
 </dialog>`;
@@ -288,8 +295,8 @@ function figura(l, livello, conCategoria) {
     l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener" aria-label="Vedi su Instagram">${iconaInstagram}Instagram</a>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
-    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}" data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}">
-      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
+    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}"${l.video ? ` data-video="${esc(l.video)}"` : ''} data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}${l.video ? ', con video' : ''}">
+      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length || l.video ? `<span class="etichette">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${l.video ? '<span class="ha-video">▶&#xFE0E; Video</span>' : ''}</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
     ${didascalia || azioni ? `<figcaption>${didascalia}${azioni ? `<div class="azioni">${azioni}</div>` : ''}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
   </figure>`;

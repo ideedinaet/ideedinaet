@@ -63,7 +63,7 @@ collections:
           - { label: "Titolo", name: titolo, widget: string, required: false }
           - { label: "Descrizione", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
           - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }
-          - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code." }
+          - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code. Se è il link di un REEL, il video si può guardare anche direttamente sul sito (etichetta «▶ Video» sulla foto)." }
 
   - name: impostazioni
     label: "Impostazioni del sito"

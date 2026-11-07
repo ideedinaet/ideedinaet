@@ -456,3 +456,25 @@ body .visore .didascalia .desc strong { color: #fff; }
 @media (max-width: 760px) {
   .visore button { background: rgba(27, 22, 18, 0.82); backdrop-filter: blur(6px); }
 }
+
+/* ===== Video di Instagram nei lavori ===== */
+.lavoro .etichette { position: absolute; left: 10px; bottom: 10px; z-index: 4; display: flex; flex-wrap: wrap; gap: 6px; }
+.lavoro .etichette > span, .tema-notte .lavoro .etichette > span, .tema-catalogo .lavoro .etichette > span { position: static; }
+.lavoro .ha-video { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(42, 36, 32, 0.78); color: #fff; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: 999px; letter-spacing: 0.02em; backdrop-filter: blur(4px); cursor: pointer; }
+.lavoro .ha-video:hover { background: var(--accento); }
+.tema-notte .lavoro .ha-video { background: rgba(18,16,14,0.8); color: var(--oro); border: 1px solid var(--oro); border-radius: 0; letter-spacing: 0.1em; }
+.tema-notte .lavoro .ha-video:hover { background: var(--oro); color: var(--scuro); }
+/* Nel visore: copertina con ▶; premendo, al suo posto arriva il video di Instagram */
+.visore .video { position: relative; height: min(calc(100vh - 8rem), 760px); aspect-ratio: 9 / 16; max-width: 100%; border-radius: 8px; overflow: hidden; background: #111 center / cover no-repeat; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+.visore .video[hidden] { display: none; }
+.visore .video::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(15,12,10,0.35), rgba(15,12,10,0.7)); }
+.visore .video .play { position: relative; inset: auto; transform: none; width: 78px; height: 78px; font-size: 1.9rem; padding-left: 6px; background: rgba(255,255,255,0.92); color: #1b1815; box-shadow: 0 6px 24px rgba(0,0,0,0.35); z-index: 1; }
+.visore .video .play:hover { background: var(--oro, #fff); }
+.visore .avviso-video { position: relative; z-index: 1; margin: 0; padding: 0 1rem; text-align: center; color: #eee5d8; font-size: 0.82rem; line-height: 1.4; }
+.visore .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; z-index: 2; }
+.visore .video.attivo .play, .visore .video.attivo .avviso-video { display: none; }
+@media (max-width: 760px) {
+  .lavoro .etichette { left: 7px; bottom: 7px; gap: 4px; }
+  .lavoro .ha-video { font-size: 0.66rem; padding: 0.2rem 0.45rem; }
+  .visore .video { height: 100%; width: min(100%, 340px); aspect-ratio: auto; margin: 0 auto; }
+}
