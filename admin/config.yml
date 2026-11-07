@@ -59,7 +59,7 @@ collections:
             collapsed: false
             label_singular: "foto"
             hint: "Altri dettagli o angolazioni: si vedono aprendo il lavoro in grande. Trascinale per cambiare l'ordine."
-            field: { label: "Foto", name: foto, widget: image }
+            field: { label: "Foto", name: foto, widget: image, required: false, hint: "Se togli la foto, il riquadro vuoto viene ignorato: puoi anche eliminarlo con la ×." }
           - { label: "Titolo", name: titolo, widget: string, required: false }
           - { label: "Descrizione", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
           - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }
