@@ -6,9 +6,69 @@
       "nascosto": false,
       "data": "2026-11-07",
       "nascondi_video": false,
-      "titolo": "Primo",
-      "foto": "/immagini/biglietti/vuoto.png"
+      "foto": "/immagini/biglietti/bgl5-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl5-04.jpg",
+        "/immagini/biglietti/bgl5-02.jpg",
+        "/immagini/biglietti/bgl5-03.jpg"
+      ],
+      "titolo": "Biglietto Auguri Natale"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-07",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl6-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl6-02.jpg",
+        "/immagini/biglietti/bgl6-03.jpg"
+      ],
+      "titolo": "Biglietto Auguri Natale"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl7-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl7-02.jpg",
+        "/immagini/biglietti/bgl7-03.jpg"
+      ],
+      "titolo": "Biglietto Auguri Natale"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-02",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl8-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl8-02.jpg",
+        "/immagini/biglietti/bgl8-03.jpg"
+      ],
+      "titolo": "Biglietto Auguri Natale"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl4-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl4-02.jpg",
+        "/immagini/biglietti/bgl4-03.jpg"
+      ],
+      "titolo": "Biglietto Auguri Natale"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl18-01.jpg",
+      "titolo": "Set Biglietti Auguri Natale",
+      "altre_foto": [
+        null
+      ]
     }
   ],
-  "titolo": "Biglietti"
+  "titolo": "Biglietti",
+  "copertina": "/immagini/biglietti/bgl9-02.jpg"
 }

@@ -1,13 +1,146 @@
 {
   "nascosto": false,
-  "ordine": 10,
+  "ordine": 11,
   "lavori": [
     {
       "nascosto": false,
       "data": "2026-11-07",
       "nascondi_video": false,
-      "foto": "/immagini/accessori/vuoto.png"
+      "foto": "/immagini/accessori/brl1-01.jpeg",
+      "altre_foto": [
+        "/immagini/accessori/brl1-02.jpeg"
+      ],
+      "titolo": "Borsellino Vintage"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-07",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brl2-01.jpg",
+      "altre_foto": [
+        "/immagini/accessori/brl2-02.jpg"
+      ],
+      "titolo": "Borsellino Vintage"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-07",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brs1-01.jpg",
+      "altre_foto": [
+        "/immagini/accessori/brs1-02.jpg",
+        "/immagini/accessori/brs1-03.jpg"
+      ],
+      "titolo": "Pochette da sera"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brs2-01.jpg",
+      "altre_foto": [
+        "/immagini/accessori/brs2-02.jpg",
+        "/immagini/accessori/brs2-03.jpg"
+      ],
+      "titolo": "Portacellulare"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brs3-01.jpg",
+      "altre_foto": [
+        "/immagini/accessori/brs3-02.jpg"
+      ],
+      "titolo": "Portacellulare"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/poc2-01.jpeg",
+      "altre_foto": [
+        "/immagini/accessori/poc2-02.jpg",
+        "/immagini/accessori/poc2-03.jpeg"
+      ],
+      "titolo": "Portaocchiali"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/poc1-01.jpg",
+      "titolo": "Portaocchiali"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc1-01.jpg",
+      "altre_foto": [
+        "/immagini/accessori/brc1_02.jpg",
+        "/immagini/accessori/brc1-03.jpg",
+        "/immagini/accessori/brc1-04.jpg",
+        "/immagini/accessori/brc1-05.jpg"
+      ],
+      "titolo": "Bracciale in pelle verde militare"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc2-02.jpg",
+      "altre_foto": [],
+      "titolo": "Bracciale in pelle verde militare con Orecchini abbinati"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc3-01.jpg",
+      "titolo": "Bracciale in pelle rosa"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc4-02.jpg",
+      "titolo": "Bracciale in pelle caramello con Orecchini abbinati"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc5-01.jpg",
+      "titolo": "Bracciale in pelle turchese"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc6-02.jpg",
+      "titolo": "Bracciale in pelle bordeaux con Orecchini abbinati"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/brc7-01.jpg",
+      "titolo": "Bracciale in pelle bianca"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/accessori/tsh1-00.jpg",
+      "altre_foto": [
+        "/immagini/accessori/tsh1-01.jpg",
+        "/immagini/accessori/tsh1-02.jpg",
+        "/immagini/accessori/tsh1-03.jpg"
+      ],
+      "titolo": "T-Shirt personalizzata con vinile"
     }
   ],
-  "titolo": "Accessori"
+  "titolo": "Accessori",
+  "copertina": "/immagini/accessori/brs0-00.jpg"
 }
