@@ -61,6 +61,15 @@ function sistemaPercorsiFoto() {
   }
   if (tot) console.log(`  Aggiornati ${tot} percorsi di foto (da salvare poi con GitHub Desktop).\n`);
 }
+// Scrive una foto mandata dal pannello (contenuto in base64) dentro immagini/.
+function scriviFoto(a) {
+  const dest = path.resolve(RADICE, String(a.path || '').replace(/^\/+/, ''));
+  const cartella = path.join(RADICE, 'immagini') + path.sep;
+  if (!dest.startsWith(cartella)) throw new Error('percorso non permesso: ' + a.path);
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.writeFileSync(dest, Buffer.from(a.content, a.encoding || 'base64'));
+}
+
 try { sistemaPercorsiFoto(); } catch (e) { console.warn('  Controllo percorsi foto non riuscito:', e.message); }
 
 (async () => {
@@ -134,11 +143,42 @@ http.createServer((req, res) => {
   if (url.startsWith('/api/v1')) {
     const intestazioni = { ...req.headers, host: `localhost:${PORTA_PANNELLO}` };
     delete intestazioni.origin; delete intestazioni.referer;
-    const inoltro = http.request({ host: '127.0.0.1', port: PORTA_PANNELLO, path: req.url, method: req.method, headers: intestazioni }, (r) => {
-      res.writeHead(r.statusCode, r.headers); r.pipe(res);
+    const inoltra = (corpo) => {
+      if (corpo) { intestazioni['content-length'] = Buffer.byteLength(corpo); delete intestazioni['transfer-encoding']; }
+      const inoltro = http.request({ host: '127.0.0.1', port: PORTA_PANNELLO, path: req.url, method: req.method, headers: intestazioni }, (r) => {
+        res.writeHead(r.statusCode, r.headers); r.pipe(res);
+      });
+      inoltro.on('error', () => { if (!res.headersSent) res.writeHead(502); res.end(); });
+      if (corpo) inoltro.end(corpo); else req.pipe(inoltro);
+    };
+    if (req.method !== 'POST') return inoltra();
+    // Il server del pannello rifiuta i salvataggi oltre 50 MB («request entity too large»),
+    // e pubblicando una categoria il pannello manda insieme tutte le foto caricate nel frattempo.
+    // Le foto le scriviamo qui direttamente nella cartella e al server passiamo solo il testo.
+    const pezzi = [];
+    req.on('data', (d) => pezzi.push(d));
+    req.on('end', () => {
+      const grezzo = Buffer.concat(pezzi);
+      let dati;
+      try { dati = JSON.parse(grezzo.toString('utf8')); } catch (e) { return inoltra(grezzo); }
+      const p = (dati && dati.params) || {};
+      try {
+        if (dati.action === 'persistEntry' && Array.isArray(p.assets) && p.assets.length) {
+          p.assets.forEach(scriviFoto);
+          p.assets = [];
+        } else if (dati.action === 'persistMedia' && p.asset && p.asset.content) {
+          scriviFoto(p.asset);
+          // al pannello serve la risposta con i dati del file: la chiediamo al server
+          dati = { action: 'getMediaFile', params: { branch: p.branch, path: p.asset.path } };
+        }
+      } catch (e) {
+        console.error('  Errore salvando una foto:', e.message);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Foto non salvata: ' + e.message }));
+      }
+      inoltra(JSON.stringify(dati));
     });
-    inoltro.on('error', () => { if (!res.headersSent) res.writeHead(502); res.end(); });
-    return req.pipe(inoltro);
+    return;
   }
   let file = path.join(SITO, url);
   if (!file.startsWith(SITO)) { res.writeHead(403); return res.end(); }
