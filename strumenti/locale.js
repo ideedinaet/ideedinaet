@@ -31,6 +31,38 @@ function portaLibera(da, esclusa) {
   });
 }
 
+// Sistema i percorsi delle foto nei contenuti: se una foto indicata non c'è più in quella
+// cartella ma esiste (una sola volta) in un'altra cartella di immagini/, aggiorna il percorso.
+// Così nel pannello le anteprime non restano vuote dopo che le foto sono state spostate.
+function sistemaPercorsiFoto() {
+  const perNome = {};
+  (function elenca(dir) {
+    for (const n of fs.readdirSync(path.join(RADICE, dir), { withFileTypes: true })) {
+      if (n.isDirectory()) elenca(dir + '/' + n.name);
+      else (perNome[n.name] = perNome[n.name] || []).push('/' + dir + '/' + n.name);
+    }
+  })('immagini');
+  const file = ['content/sito.json'].concat(fs.readdirSync(path.join(RADICE, 'content/categorie'))
+    .filter((f) => f.endsWith('.json')).map((f) => 'content/categorie/' + f));
+  let tot = 0;
+  for (const f of file) {
+    const p = path.join(RADICE, f);
+    if (!fs.existsSync(p)) continue;
+    const prima = fs.readFileSync(p, 'utf8');
+    const dopo = prima.replace(/"(\/immagini\/[^"?]+)"/g, (t, rif) => {
+      if (fs.existsSync(path.join(RADICE, rif))) return t;
+      const trovate = perNome[path.basename(rif)] || [];
+      if (trovate.length !== 1) return t;
+      tot++;
+      console.log(`  Foto spostata: ${rif}  →  ${trovate[0]}`);
+      return `"${trovate[0]}"`;
+    });
+    if (dopo !== prima) fs.writeFileSync(p, dopo);
+  }
+  if (tot) console.log(`  Aggiornati ${tot} percorsi di foto (da salvare poi con GitHub Desktop).\n`);
+}
+try { sistemaPercorsiFoto(); } catch (e) { console.warn('  Controllo percorsi foto non riuscito:', e.message); }
+
 (async () => {
 const PORTA = await portaLibera(Number(process.env.PORTA_SITO || 8080));
 const PORTA_PANNELLO = await portaLibera(8081, PORTA);
