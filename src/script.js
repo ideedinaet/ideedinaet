@@ -15,6 +15,19 @@
     var sez = box.closest('[data-novita-sezione]'); if (sez) sez.hidden = true;
     var msg = box.parentNode.querySelector('.novita-vuoto'); if (msg) msg.hidden = false;
   });
+  // Voci «Novità» dei menu: conta solo le novità ancora valide oggi; se non ce ne sono, la voce sparisce
+  Array.prototype.forEach.call(document.querySelectorAll('[data-novita-date]'), function (a) {
+    var date = a.getAttribute('data-novita-date').split(',');
+    var foto = (a.getAttribute('data-novita-foto') || '').split('|');
+    var valide = [];
+    date.forEach(function (x, i) {
+      var d = Date.parse(x + 'T00:00:00');
+      if (!isNaN(d) && (oggi - d) / 864e5 <= giorni) valide.push(i);
+    });
+    if (!valide.length) { a.hidden = true; return; }
+    var conta = a.querySelector('small'); if (conta) conta.textContent = valide.length;
+    var img = a.querySelector('img'); if (img && foto[valide[0]]) img.src = foto[valide[0]];
+  });
 })();
 
 (function () {

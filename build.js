@@ -71,6 +71,8 @@ categorie.forEach((c) => c.lavori.forEach((l) => {
 const novita = MOSTRA_NOVITA
   ? categorie.flatMap((c) => c.lavori).filter((l) => recente(l.data)).sort((a, b) => b.data.localeCompare(a.data))
   : [];
+// Date delle novità, dalla più recente: il browser le ricontrolla ogni giorno (src/script.js)
+const dateNovita = () => ` data-novita-date="${novita.map((l) => l.data).join(',')}"`;
 
 // ---- Testi del sito (modificabili dal pannello) ----
 const TESTI_PREDEFINITI = {
@@ -237,7 +239,7 @@ const iconaNegozio = iconaContatto('<path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8
 
 // ---- Pezzi comuni ----
 function testata(attiva, livello) {
-  const voci = (novita.length ? `<a href="${collegamento('novita', livello)}"${attiva === 'novita' ? ' aria-current="page"' : ''}>${T('titolo_novita')}</a>` : '')
+  const voci = (novita.length ? `<a href="${collegamento('novita', livello)}"${attiva === 'novita' ? ' aria-current="page"' : ''}${dateNovita()}>${T('titolo_novita')}</a>` : '')
     + categorie.map((c) =>
     `<a href="${collegamento(c.slug, livello)}"${attiva === c.slug ? ' aria-current="page"' : ''}>${esc(c.titolo)}</a>`).join('');
   const marchio = sito.logo
@@ -254,8 +256,10 @@ ${menuTelefono(attiva, livello)}`;
 
 // Menu del telefono: si apre con ☰; ogni voce ha la foto di copertina della categoria
 function menuTelefono(attiva, livello) {
-  const voce = (slug, titolo, foto, quanti) => `<a href="${collegamento(slug, livello)}"${attiva === slug ? ' aria-current="page"' : ''}>${foto ? `<img src="${immagine(foto, 160, livello)}" alt="" loading="lazy">` : '<span class="senza-foto" aria-hidden="true"></span>'}<span class="nome">${esc(titolo)}</span><small>${quanti}</small><span class="freccia" aria-hidden="true">›</span></a>`;
-  const voci = (novita.length ? voce('novita', T('titolo_novita'), novita[0].foto, novita.length) : '')
+  const voce = (slug, titolo, foto, quanti, extra = '') => `<a href="${collegamento(slug, livello)}"${attiva === slug ? ' aria-current="page"' : ''}${extra}>${foto ? `<img src="${immagine(foto, 160, livello)}" alt="" loading="lazy">` : '<span class="senza-foto" aria-hidden="true"></span>'}<span class="nome">${esc(titolo)}</span><small>${quanti}</small><span class="freccia" aria-hidden="true">›</span></a>`;
+  // Per Novità: le foto di tutte le novità, così il browser mostra quella della più recente ancora valida
+  const voci = (novita.length ? voce('novita', T('titolo_novita'), novita[0].foto, novita.length,
+      dateNovita() + ` data-novita-foto="${esc(novita.map((l) => immagine(l.foto, 160, livello)).join('|'))}"`) : '')
     + categorie.map((c) => voce(c.slug, c.titolo, c.copertina || (c.lavori[0] && c.lavori[0].foto), c.lavori.length)).join('');
   const contatti = [
     ...numeriWA.map((n) => `<a class="wa" href="https://wa.me/${n.numero}" target="_blank" rel="noopener">${iconaWA}${numeriWA.length > 1 ? esc(n.nome || n.testo) : 'WhatsApp'}</a>`),

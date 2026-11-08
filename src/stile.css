@@ -512,3 +512,4 @@ body .visore .didascalia .desc strong { color: #fff; }
   body.menu-aperto .wa-fisso, body.menu-aperto .torna-su { visibility: hidden; }
 }
 @keyframes menu-entra { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+.menu a[hidden], .menu-telefono a[hidden] { display: none !important; }
