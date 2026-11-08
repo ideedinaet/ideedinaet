@@ -457,7 +457,7 @@ copia('src/stile.css', 'stile.css');
 copia('src/script.js', 'script.js');
 copia('immagini', 'immagini');
 copia('admin', 'admin');
-scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\n`);
+scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\nwindow.NETLIFY_IMMAGINI = ${NETLIFY};\n`);
 
 if (urlBase) {
   const indirizzi = [''].concat(MOSTRA_NOVITA ? ['novita/'] : [], categorie.map((c) => c.slug + '/'));

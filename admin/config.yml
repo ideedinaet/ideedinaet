@@ -47,6 +47,8 @@ collections:
         widget: list
         label_singular: "lavoro"
         add_to_top: true
+        # Elenco dei lavori a sinistra, lavoro selezionato a destra (vedi admin/lavori-due-colonne.js)
+        due_colonne: true
         summary: "{{fields.nascosto | ternary('⛔ NASCOSTO · ', '')}}{{fields.titolo}}"
         fields:
           - { label: "Nascondi dal sito", name: nascosto, widget: boolean, default: false, required: false, hint: "Attivo = questo lavoro non compare sul sito (né nella categoria né in Novità). Resta salvato qui e potete rimostrarlo quando volete." }
@@ -58,8 +60,10 @@ collections:
             required: false
             collapsed: false
             label_singular: "foto"
-            hint: "Altri dettagli o angolazioni: si vedono aprendo il lavoro in grande. Trascinale per cambiare l'ordine."
-            field: { label: "Foto", name: foto, widget: image, required: false, hint: "Se togli la foto, il riquadro vuoto viene ignorato: puoi anche eliminarlo con la ×." }
+            # Foto affiancate in riquadri compatti (vedi admin/lavori-due-colonne.js)
+            griglia: true
+            hint: "Altri dettagli o angolazioni: si vedono aprendo il lavoro in grande. Trascinate un riquadro dalla maniglia in alto per cambiare l'ordine; con la × lo eliminate (un riquadro senza foto viene comunque ignorato)."
+            field: { label: "Foto", name: foto, widget: image, required: false }
           - { label: "Titolo", name: titolo, widget: string, required: false }
           - { label: "Descrizione", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
           - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }

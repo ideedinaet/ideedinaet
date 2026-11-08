@@ -53,6 +53,12 @@ Conviene fare più modifiche e pubblicarle insieme. Le bozze in sospeso si vedon
 Aprite `https://IL-VOSTRO-SITO/admin/` (funziona anche dal telefono):
 - **Categorie** → scegliete una categoria → **Lavori** → "Aggiungi lavoro" → caricate la foto → **Pubblica**.
 - Per una nuova categoria: **Categorie → Nuova categoria**. Comparirà nel menu e in home.
+- **Lavori a due colonne**: dentro una categoria, a sinistra c'è l'elenco dei lavori (foto, titolo,
+  data, numero di foto) e a destra si modifica solo il lavoro selezionato. Cliccate un lavoro
+  nell'elenco per aprirlo; con ‹ › passate al precedente o al successivo; con ▲ ▼ ne cambiate
+  l'ordine; «Cerca per titolo…» filtra l'elenco; «Elimina» chiede conferma prima di cancellare.
+  Le «Altre foto» sono affiancate in riquadri: trascinatele dalla maniglia in alto per riordinarle.
+  Con l'anteprima chiusa (icona dell'occhio, in alto a destra) c'è più spazio.
 - Il numero "Posizione nel menu" decide l'ordine delle categorie.
 - **Nascondi dal sito**: ogni lavoro e ogni categoria ha questo interruttore. Se è attivo,
   il lavoro (o la categoria con tutti i suoi lavori) sparisce dal sito ma resta salvato
