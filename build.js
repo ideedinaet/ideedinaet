@@ -109,6 +109,13 @@ function statistiche() {
   return '';
 }
 
+// ---- Verifica Google Search Console: accetta il tag <meta> intero o solo il codice ----
+function verificaGoogle() {
+  const v = String(sito.google_verifica || '').trim();
+  const codice = (v.match(/content\s*=\s*["']([^"']+)["']/i) || [null, v])[1].trim();
+  return /^[A-Za-z0-9_-]{10,}$/.test(codice) ? `<meta name="google-site-verification" content="${codice}">` : '';
+}
+
 // ---- Temi grafici ----
 const TEMI = {
   bottega: 'family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600',
@@ -377,6 +384,7 @@ ${canonico ? `<link rel="canonical" href="${esc(canonico)}">` : ''}
 <meta property="og:description" content="${esc(descrizione)}">
 ${og ? `<meta property="og:image" content="${esc(og)}">` : ''}
 <meta property="og:locale" content="it_IT">
+${verificaGoogle()}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fontTemi}&display=swap">
 ${css}

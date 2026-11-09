@@ -103,6 +103,7 @@ collections:
           - { label: "Frase sotto il nome", name: sottotitolo, widget: string, required: false }
           - { label: "Descrizione per Google (max ~160 caratteri)", name: descrizione_seo, widget: text, required: false }
           - { label: "Indirizzo del sito (es. https://www.nomesito.it)", name: url, widget: string, required: false, hint: "Serve per la mappa del sito che legge Google." }
+          - { label: "Codice di verifica Google Search Console", name: google_verifica, widget: string, required: false, hint: "Incollate il tag HTML che dà Search Console (<meta name=\"google-site-verification\" …>) oppure solo il codice tra virgolette. Non cancellatelo dopo la verifica." }
           - { label: "Città o zona", name: citta, widget: string, required: false }
           - { label: "Foto principale della home", name: immagine_copertina, widget: image, required: false }
           - { label: "Chi siamo", name: chi_siamo, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo. Andate a capo due volte per un nuovo paragrafo." }
