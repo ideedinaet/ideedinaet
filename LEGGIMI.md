@@ -70,6 +70,13 @@ sotto, si vede solo il cuore. Sito italiano e inglese contano insieme.
   i like restano al lavoro anche se si cambiano foto, titolo o categoria.
 - **In locale** i cuori funzionano, ma i conteggi sono di prova e si azzerano chiudendo la finestra del sito locale.
 - Per spegnerli: *Impostazioni del sito → Mostra i «mi piace» sui lavori*.
+- **I tuoi preferiti:** dal primo cuore, nel menu compare ♥ con il numero (sul telefono: «I tuoi preferiti» nel menu ☰).
+  La pagina `/preferiti/` (e `/en/preferiti/`) mostra i lavori a cui il visitatore ha messo il cuore, dal più recente,
+  con il pulsante «Chiedi info su questi lavori» che apre WhatsApp con l'elenco già scritto.
+  L'elenco resta solo in quel browser (non arriva a voi né a Netlify) e la pagina non va su Google.
+- **Avviso sull'uso dei dati:** in fondo a ogni pagina e nella pagina dei preferiti c'è una riga che spiega che
+  «mi piace» e preferiti restano solo nel browser. Il testo si cambia in *Impostazioni del sito → Testi del sito*
+  (e nella sezione inglese).
 
 ## Uso quotidiano
 

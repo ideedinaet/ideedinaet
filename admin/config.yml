@@ -170,6 +170,11 @@ collections:
               - { label: "Scritta al posto del prezzo, se non c'è", name: prezzo_vuoto, widget: string, required: false, default: "Prezzo su richiesta", hint: "Scrivete solo un trattino - per non mostrare niente." }
               - { label: "Pulsante per chiedere informazioni su un lavoro", name: bottone_chiedi, widget: string, required: false, default: "Chiedi info", hint: "Apre WhatsApp (o l'email) con un messaggio già scritto che nomina il lavoro." }
               - { label: "Messaggio quando non ci sono novità", name: nessuna_novita, widget: string, required: false, default: "Al momento non ci sono novità: dai un'occhiata alle categorie!" }
+              - { label: "Titolo della pagina «I tuoi preferiti»", name: titolo_preferiti, widget: string, required: false, default: "I tuoi preferiti" }
+              - { label: "Testo sotto il titolo dei preferiti", name: testo_preferiti, widget: string, required: false, default: "I lavori a cui hai messo il cuore ♡." }
+              - { label: "Messaggio quando non ci sono preferiti", name: nessun_preferito, widget: string, required: false, default: "Non hai ancora nessun preferito: premi il cuore ♡ sotto i lavori che ti piacciono e li ritroverai qui." }
+              - { label: "Pulsante per chiedere info su tutti i preferiti", name: bottone_chiedi_preferiti, widget: string, required: false, default: "Chiedi info su questi lavori" }
+              - { label: "Avviso sui «mi piace» e i preferiti (in fondo alle pagine)", name: nota_preferiti, widget: text, required: false, default: "I tuoi «mi piace» e i preferiti restano salvati solo in questo browser, per mostrarteli quando torni: non vengono inviati a nessuno. Il sito conta soltanto quanti «mi piace» ha ogni lavoro, senza sapere chi li ha messi." }
           # Versione inglese del sito (in /en/): campo vuoto = si usa il testo italiano
           - label: "Versione inglese del sito"
             name: en
@@ -212,3 +217,8 @@ collections:
                   - { label: "Scritta al posto del prezzo, se non c'è", name: prezzo_vuoto, widget: string, required: false, hint: "Vuoto = «Price on request». Un trattino - per non mostrare niente." }
                   - { label: "Pulsante per chiedere informazioni su un lavoro", name: bottone_chiedi, widget: string, required: false, hint: "Vuoto = «Ask for info». Un trattino - per nascondere la scritta." }
                   - { label: "Messaggio quando non ci sono novità", name: nessuna_novita, widget: string, required: false, hint: "Vuoto = testo predefinito in inglese. Un trattino - per nascondere la scritta." }
+                  - { label: "Titolo della pagina «I tuoi preferiti»", name: titolo_preferiti, widget: string, required: false, hint: "Vuoto = «Your favourites». Un trattino - per nascondere la scritta." }
+                  - { label: "Testo sotto il titolo dei preferiti", name: testo_preferiti, widget: string, required: false, hint: "Vuoto = «The pieces you've hearted ♡.». Un trattino - per nascondere la scritta." }
+                  - { label: "Messaggio quando non ci sono preferiti", name: nessun_preferito, widget: string, required: false, hint: "Vuoto = testo predefinito in inglese. Un trattino - per nascondere la scritta." }
+                  - { label: "Pulsante per chiedere info su tutti i preferiti", name: bottone_chiedi_preferiti, widget: string, required: false, hint: "Vuoto = «Ask about these pieces». Un trattino - per nascondere la scritta." }
+                  - { label: "Avviso sui «mi piace» e i preferiti (in fondo alle pagine)", name: nota_preferiti, widget: text, required: false, hint: "Vuoto = testo predefinito in inglese. Un trattino - per nascondere la scritta." }

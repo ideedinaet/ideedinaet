@@ -4,13 +4,15 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   msg_lavoro: function (t, p) { return 'Hello! I\'m interested in “' + t + '”, which I saw on your website (' + p + '). Could you give me some information?'; },
   msg: 'Hello! I\'m writing from your website: I\'d like some information.', oggetto: 'Information', email: 'Email',
   apri_menu: 'Open the menu', chiudi_menu: 'Close the menu',
-  mi_piace: 'Like', non_mi_piace_piu: 'Remove like'
+  mi_piace: 'Like', non_mi_piace_piu: 'Remove like', aggiunto: 'Added to your favourites', vedi: 'View',
+  msg_elenco: function (elenco) { return 'Hello! I\'m interested in these pieces I saw on your website:\n' + elenco.map(function (t) { return '• ' + t; }).join('\n') + '\nCould you give me some information?'; }
 } : {
   video_ig: 'Video su Instagram', video: 'Video', foto: function (i, n) { return 'Foto ' + i + ' di ' + n; }, poi_video: ' · poi il video', poi_video_solo: 'Poi il video ›',
   msg_lavoro: function (t, p) { return 'Ciao! Mi interessa «' + t + '», che ho visto sul vostro sito (' + p + '). Potete darmi qualche informazione?'; },
   msg: 'Ciao! Vi scrivo dal vostro sito: vorrei qualche informazione.', oggetto: 'Informazioni', email: 'Email',
   apri_menu: 'Apri il menu', chiudi_menu: 'Chiudi il menu',
-  mi_piace: 'Mi piace', non_mi_piace_piu: 'Togli il mi piace'
+  mi_piace: 'Mi piace', non_mi_piace_piu: 'Togli il mi piace', aggiunto: 'Aggiunto ai tuoi preferiti', vedi: 'Vedi',
+  msg_elenco: function (elenco) { return 'Ciao! Mi interessano questi lavori che ho visto sul vostro sito:\n' + elenco.map(function (t) { return '• ' + t; }).join('\n') + '\nPotete darmi qualche informazione?'; }
 };
 
 (function () {
@@ -169,11 +171,13 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   var voci = scelta && scelta.querySelector('.voci');
   var pagina = location.href.split('#')[0];
 
+  // t = titolo di un lavoro, oppure elenco di titoli (pagina «I tuoi preferiti»)
   function messaggio(t) {
+    if (Array.isArray(t)) return PAROLE_JS.msg_elenco(t);
     return t ? PAROLE_JS.msg_lavoro(t, pagina) : PAROLE_JS.msg;
   }
   function linkWA(n, t) { return 'https://wa.me/' + n + '?text=' + encodeURIComponent(messaggio(t)); }
-  function linkEmail(t) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t ? PAROLE_JS.oggetto + ': ' + t : PAROLE_JS.oggetto) + '&body=' + encodeURIComponent(messaggio(t)); }
+  function linkEmail(t) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t && !Array.isArray(t) ? PAROLE_JS.oggetto + ': ' + t : PAROLE_JS.oggetto) + '&body=' + encodeURIComponent(messaggio(t)); }
   function voce(href, testo, nuova) {
     var a = document.createElement('a'); a.href = href; a.textContent = testo;
     if (nuova) { a.target = '_blank'; a.rel = 'noopener'; }
@@ -192,7 +196,13 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-chiedi]');
-    if (b && chiedi(b.getAttribute('data-chiedi'))) e.preventDefault();
+    if (b && chiedi(b.getAttribute('data-chiedi'))) { e.preventDefault(); return; }
+    // «Chiedi info su questi lavori»: tutti i preferiti visibili nella pagina
+    var p = e.target.closest('[data-chiedi-preferiti]');
+    if (!p) return;
+    var titoli = [];
+    document.querySelectorAll('[data-preferiti] .lavoro:not([hidden]) [data-chiedi]').forEach(function (x) { titoli.push(x.getAttribute('data-chiedi')); });
+    if (titoli.length && chiedi(titoli)) e.preventDefault();
   });
   if (scelta) {
     scelta.querySelector('.annulla').addEventListener('click', function () { scelta.close(); });
@@ -250,14 +260,14 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   window.addEventListener('resize', function () { if (!pannello.hidden && window.innerWidth > 760) apri(false); });
 })();
 
-// ---- «Mi piace» ai lavori ----
+// ---- «Mi piace» ai lavori e «I tuoi preferiti» ----
 // I conteggi arrivano dalla funzione Netlify /api/mi-piace (netlify/functions/mi-piace.mjs).
 // Il cuore compare solo se la funzione risponde (sul sito pubblicato o con il sito locale);
 // il numero compare solo da «mi-piace-minimo» like in su (impostazione del pannello).
-// Il browser ricorda quali lavori ha già apprezzato, per non contare due volte lo stesso visitatore.
+// Il browser ricorda quali lavori ha apprezzato (e quando), solo per sé: serve per il cuore pieno,
+// per non contare due volte lo stesso visitatore e per la pagina «I tuoi preferiti». Non viene inviato a nessuno.
 (function () {
   var bottoni = document.querySelectorAll('.mi-piace[data-id]');
-  if (!bottoni.length || !window.fetch) return;
   var INDIRIZZO = '/api/mi-piace';
   var meta = document.querySelector('meta[name="mi-piace-minimo"]');
   var minimo = Math.max(1, parseInt(meta && meta.content, 10) || 4);
@@ -266,6 +276,35 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   try { miei = JSON.parse(localStorage.getItem(CHIAVE) || '{}') || {}; } catch (e) { miei = {}; }
   function salvaMiei() { try { localStorage.setItem(CHIAVE, JSON.stringify(miei)); } catch (e) { /* navigazione privata: pazienza */ } }
   var conteggi = {};
+  var galleria = document.querySelector('[data-preferiti]');
+
+  // Voce «I tuoi preferiti» nel menu, con il numero: compare dal primo cuore
+  function aggiornaMenu() {
+    var n = Object.keys(miei).length;
+    document.querySelectorAll('.link-preferiti').forEach(function (a) {
+      a.hidden = !n && a.getAttribute('aria-current') !== 'page';
+      var q = a.querySelector('.n'); if (q) q.textContent = n ? String(n) : '';
+    });
+  }
+
+  // Pagina «I tuoi preferiti»: mostra solo i lavori col cuore, dal più recente
+  function aggiornaPagina() {
+    if (!galleria) return;
+    var figure = [].slice.call(galleria.querySelectorAll('.lavoro'));
+    var visibili = figure.filter(function (f) {
+      var b = f.querySelector('.mi-piace[data-id]');
+      var si = !!(b && miei[b.getAttribute('data-id')]);
+      f.hidden = !si;
+      return si;
+    });
+    visibili.sort(function (a, b) {
+      return (miei[b.querySelector('.mi-piace').getAttribute('data-id')] || 0) - (miei[a.querySelector('.mi-piace').getAttribute('data-id')] || 0);
+    }).forEach(function (f) { galleria.appendChild(f); });
+    var vuoto = document.querySelector('.preferiti-vuoto');
+    if (vuoto) vuoto.hidden = visibili.length > 0;
+    var chiedi = document.querySelector('.chiedi-preferiti');
+    if (chiedi) chiedi.hidden = !visibili.length;
+  }
 
   function aggiorna(id) {
     var n = Math.max(0, conteggi[id] || 0);
@@ -276,7 +315,32 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
       b.querySelector('.conta').textContent = n >= minimo ? String(n) : '';
       b.title = si ? PAROLE_JS.non_mi_piace_piu : PAROLE_JS.mi_piace;
     });
+    aggiornaMenu();
   }
+
+  // Avviso breve dopo un nuovo cuore, con il link alla pagina dei preferiti
+  var avviso, timer;
+  function avvisa() {
+    var link = document.querySelector('.link-preferiti');
+    if (!link || galleria) return;
+    if (!avviso) {
+      avviso = document.createElement('div');
+      avviso.className = 'avviso-preferiti';
+      avviso.setAttribute('role', 'status');
+      document.body.appendChild(avviso);
+    }
+    avviso.innerHTML = '';
+    var t = document.createElement('span'); t.textContent = '♥ ' + PAROLE_JS.aggiunto;
+    var a = document.createElement('a'); a.href = link.getAttribute('href'); a.textContent = PAROLE_JS.vedi + ' ›';
+    avviso.appendChild(t); avviso.appendChild(a);
+    avviso.classList.add('visibile');
+    clearTimeout(timer);
+    timer = setTimeout(function () { avviso.classList.remove('visibile'); }, 3500);
+  }
+
+  aggiornaMenu();
+  aggiornaPagina();
+  if (!bottoni.length || !window.fetch) return;
 
   fetch(INDIRIZZO, { headers: { Accept: 'application/json' } })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -293,19 +357,26 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
       var id = b.getAttribute('data-id');
       if (inCorso[id]) return;
       inCorso[id] = true;
-      var aggiungi = !miei[id];
+      var prima = miei[id];
+      var aggiungi = !prima;
       // Subito a schermo, poi conferma dal server
-      if (aggiungi) miei[id] = 1; else delete miei[id];
+      if (aggiungi) miei[id] = Date.now(); else delete miei[id];
       conteggi[id] = Math.max(0, (conteggi[id] || 0) + (aggiungi ? 1 : -1));
+      salvaMiei();
       aggiorna(id);
-      if (aggiungi) { b.classList.remove('battito'); void b.offsetWidth; b.classList.add('battito'); }
+      if (aggiungi) { b.classList.remove('battito'); void b.offsetWidth; b.classList.add('battito'); avvisa(); }
       fetch(INDIRIZZO, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, azione: aggiungi ? 'aggiungi' : 'togli' }) })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function (d) { if (d && typeof d.conteggio === 'number') conteggi[id] = d.conteggio; salvaMiei(); })
+        .then(function (d) {
+          if (d && typeof d.conteggio === 'number') conteggi[id] = d.conteggio;
+          // Nella pagina dei preferiti, il lavoro tolto sparisce
+          if (!aggiungi && galleria) aggiornaPagina();
+        })
         .catch(function () {
           // Non è andata: si torna com'era
-          if (aggiungi) delete miei[id]; else miei[id] = 1;
+          if (aggiungi) delete miei[id]; else miei[id] = prima;
           conteggi[id] = Math.max(0, (conteggi[id] || 0) + (aggiungi ? -1 : 1));
+          salvaMiei();
         })
         .then(function () { inCorso[id] = false; aggiorna(id); });
     });

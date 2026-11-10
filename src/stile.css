@@ -538,3 +538,36 @@ body .visore .didascalia .desc strong { color: #fff; }
   .lavoro .azioni .mi-piace { min-height: 30px; padding: 0.25rem 0.45rem; font-size: 0.76rem; }
   .lavoro .azioni .mi-piace svg { width: 16px; height: 16px; }
 }
+
+/* ===== «I tuoi preferiti»: voce del menu, avviso, pagina e nota sulla privacy ===== */
+.link-preferiti[hidden] { display: none !important; }
+.menu .voce-preferiti { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--accento); }
+.menu .voce-preferiti .testo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.menu .voce-preferiti svg { width: 17px; height: 17px; }
+.menu .voce-preferiti svg path, .preferiti-telefono svg path { fill: currentColor; }
+.menu .voce-preferiti .n { font-size: 0.8rem; font-weight: 600; letter-spacing: 0; }
+.preferiti-telefono { display: none; }
+@media (max-width: 760px) {
+  .menu-telefono .preferiti-telefono { display: flex; align-items: center; gap: 0.7rem; margin-top: 1rem; padding: 0.8rem 1rem; border: 1px solid var(--linea); border-radius: var(--raggio); text-decoration: none; color: var(--inchiostro); }
+  .menu-telefono .preferiti-telefono svg { color: var(--accento); flex: none; }
+  .menu-telefono .preferiti-telefono .testo { flex: 1; font-family: var(--display); font-size: 1.15rem; }
+  .menu-telefono .preferiti-telefono .n { color: var(--tenue); font-size: 0.85rem; }
+  .tema-notte .menu-telefono .preferiti-telefono { border-radius: 0; }
+}
+.avviso-preferiti { position: fixed; left: 50%; bottom: 1.5rem; z-index: 30; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none; display: flex; align-items: center; gap: 1rem; max-width: calc(100vw - 2rem); padding: 0.7rem 1.1rem; background: var(--scuro, #222); color: #fff; border-radius: 999px; font-size: 0.9rem; box-shadow: 0 6px 24px rgba(0,0,0,.25); transition: opacity .25s, transform .25s; }
+.avviso-preferiti.visibile { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.avviso-preferiti a { color: var(--oro, #e8c46a); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.tema-notte .avviso-preferiti { border-radius: 0; border: 1px solid var(--linea); }
+@media (max-width: 760px) { .avviso-preferiti { bottom: 5.5rem; } }
+.chiedi-preferiti { margin-top: 1rem; }
+.chiedi-preferiti[hidden], .preferiti-vuoto[hidden] { display: none; }
+.lavoro[hidden] { display: none; }
+.nota-preferiti { display: flex; gap: 0.5rem; align-items: flex-start; margin: 0.6rem 0 0; font-size: 0.78rem; line-height: 1.5; opacity: .85; }
+.nota-preferiti svg { flex: none; width: 14px; height: 14px; margin-top: 0.2rem; }
+.nota-pagina { margin-top: 2rem; color: var(--tenue); font-size: 0.85rem; max-width: 46rem; }
+.chiedi-preferiti .chiedi { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.9rem; font-weight: 500; color: var(--accento); text-decoration: none; border: 1px solid color-mix(in srgb, var(--accento) 55%, transparent); padding: 0.5rem 1.1rem; border-radius: 999px; transition: background .2s, color .2s, border-color .2s; }
+.chiedi-preferiti .chiedi:hover, .chiedi-preferiti .chiedi:focus-visible { background: var(--accento); border-color: var(--accento); color: var(--carta); }
+.tema-notte .chiedi-preferiti .chiedi { border-radius: 0; letter-spacing: 0.06em; }
+.tema-notte .chiedi-preferiti .chiedi:hover { color: var(--scuro); }
+/* Nella pagina dei preferiti l'avviso c'è già sotto i lavori */
+body:has([data-preferiti]) .piede .nota-preferiti { display: none; }

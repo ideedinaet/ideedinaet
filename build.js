@@ -121,7 +121,12 @@ const TESTI_PREDEFINITI = {
   "etichetta_nuovo": "Nuovo",
   "nessuna_novita": "Al momento non ci sono novità: dai un'occhiata alle categorie!",
   "prezzo_vuoto": "Prezzo su richiesta",
-  "bottone_chiedi": "Chiedi info"
+  "bottone_chiedi": "Chiedi info",
+  "titolo_preferiti": "I tuoi preferiti",
+  "testo_preferiti": "I lavori a cui hai messo il cuore ♡.",
+  "nessun_preferito": "Non hai ancora nessun preferito: premi il cuore ♡ sotto i lavori che ti piacciono e li ritroverai qui.",
+  "bottone_chiedi_preferiti": "Chiedi info su questi lavori",
+  "nota_preferiti": "I tuoi «mi piace» e i preferiti restano salvati solo in questo browser, per mostrarteli quando torni: non vengono inviati a nessuno. Il sito conta soltanto quanti «mi piace» ha ogni lavoro, senza sapere chi li ha messi."
 };
 const TESTI_PREDEFINITI_EN = {
   "occhiello_home": "Handmade",
@@ -138,7 +143,12 @@ const TESTI_PREDEFINITI_EN = {
   "etichetta_nuovo": "New",
   "nessuna_novita": "Nothing new right now: have a look at the categories!",
   "prezzo_vuoto": "Price on request",
-  "bottone_chiedi": "Ask for info"
+  "bottone_chiedi": "Ask for info",
+  "titolo_preferiti": "Your favourites",
+  "testo_preferiti": "The pieces you've hearted ♡.",
+  "nessun_preferito": "You don't have any favourites yet: tap the heart ♡ under the pieces you like and you'll find them here.",
+  "bottone_chiedi_preferiti": "Ask about these pieces",
+  "nota_preferiti": "Your likes and favourites are saved only in this browser, so we can show them to you when you come back: they are never sent to anyone. The site only counts how many likes each piece has, without knowing who left them."
 };
 // Testi fissi della lingua corrente: predefiniti + quelli scritti nel pannello («-» = nascosto).
 // In inglese, una scritta nascosta in italiano resta nascosta se non ha un testo inglese.
@@ -164,7 +174,7 @@ const PAROLE = {
     foto_prec: 'Foto precedente', foto_succ: 'Foto successiva', su_questo: 'su questo lavoro', inquadra: 'Inquadra il codice con il telefono<br>oppure',
     apri_ig: 'Apri su Instagram', chiudi: 'Chiudi', a_chi: 'A chi vuoi scrivere?', annulla: 'Annulla', torna_su: 'Torna su',
     scrivici_wa: 'Scrivici su WhatsApp', non_trovata: 'Pagina non trovata', torna_home: 'Torna alla <a href="/">pagina principale</a>.',
-    altra_lingua: 'EN', altra_lingua_nome: 'English version', anteprima: 'anteprima', mi_piace: 'Mi piace',
+    altra_lingua: 'EN', altra_lingua_nome: 'English version', anteprima: 'anteprima', mi_piace: 'Mi piace', i_tuoi_preferiti: 'I tuoi preferiti', aggiunto: 'Aggiunto ai tuoi preferiti', vedi: 'Vedi',
   },
   en: {
     contatti: 'Contact', menu_principale: 'Main menu', apri_menu: 'Open the menu', email: 'Email', negozio: 'Online shop',
@@ -174,7 +184,7 @@ const PAROLE = {
     foto_prec: 'Previous photo', foto_succ: 'Next photo', su_questo: 'about this piece', inquadra: 'Scan the code with your phone<br>or',
     apri_ig: 'Open on Instagram', chiudi: 'Close', a_chi: 'Who would you like to write to?', annulla: 'Cancel', torna_su: 'Back to top',
     scrivici_wa: 'Message us on WhatsApp', non_trovata: 'Page not found', torna_home: 'Go back to the <a href="/en/">home page</a>.',
-    altra_lingua: 'IT', altra_lingua_nome: 'Versione italiana', anteprima: 'preview', mi_piace: 'Like',
+    altra_lingua: 'IT', altra_lingua_nome: 'Versione italiana', anteprima: 'preview', mi_piace: 'Like', i_tuoi_preferiti: 'Your favourites', aggiunto: 'Added to your favourites', vedi: 'View',
   },
 };
 const P = (k) => PAROLE[LINGUA][k];
@@ -373,7 +383,7 @@ function testata(attiva, livello) {
   const avviso = sito.avviso || puntiForza.join(' · ');
   return `${avviso ? `<div class="avviso-top">${esc(avviso)}</div>` : ''}<header class="testata"><div class="contenitore">
   <a class="marchio" href="${collegamento('', livello)}">${marchio}</a>
-  <nav class="menu" aria-label="${P('menu_principale')}">${voci}<a class="voce-contatti" href="#contatti">${P('contatti')}</a>${ANTEPRIMA ? '' : `<a class="voce-lingua" ${altraLingua(attiva, livello)}>${P('altra_lingua')}</a>`}</nav>
+  <nav class="menu" aria-label="${P('menu_principale')}">${voci}${linkPreferiti(attiva, livello, 'voce-preferiti')}<a class="voce-contatti" href="#contatti">${P('contatti')}</a>${ANTEPRIMA ? '' : `<a class="voce-lingua" ${altraLingua(attiva, livello)}>${P('altra_lingua')}</a>`}</nav>
   ${ANTEPRIMA ? '' : `<a class="lingua-telefono" ${altraLingua(attiva, livello)}>${P('altra_lingua')}</a>`}<button type="button" class="apri-menu" aria-expanded="false" aria-controls="menu-telefono" aria-label="${P('apri_menu')}"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path class="riga-1" d="M4 7h16"/><path class="riga-2" d="M4 12h16"/><path class="riga-3" d="M4 17h16"/></svg></button>
 </div></header>
 ${menuTelefono(attiva, livello)}`;
@@ -391,7 +401,7 @@ function menuTelefono(attiva, livello) {
     sito.email ? `<a href="mailto:${esc(sito.email)}">${iconaEmail}${P('email')}</a>` : '',
     `<a href="#contatti">${P('contatti')}</a>`,
   ].join('');
-  return `<div class="menu-telefono" id="menu-telefono" hidden><nav aria-label="Menu">${voci}</nav><div class="contatti-rapidi">${contatti}</div></div>`;
+  return `<div class="menu-telefono" id="menu-telefono" hidden><nav aria-label="Menu">${voci}</nav>${linkPreferiti(attiva, livello, 'preferiti-telefono')}<div class="contatti-rapidi">${contatti}</div></div>`;
 }
 
 function contatti() {
@@ -406,7 +416,7 @@ function contatti() {
   ${paragrafi(testi.testo_contatti)}
   <div class="lista">${voci.join('')}</div>
 </div></section>
-<footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''}${testi.piede ? ' · ' + T('piede') : ''}</div></footer>`;
+<footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''}${testi.piede ? ' · ' + T('piede') : ''}${MI_PIACE && !ANTEPRIMA && testi.nota_preferiti ? `<p class="nota-preferiti">${iconaCuore}${T('nota_preferiti')}</p>` : ''}</div></footer>`;
 }
 
 const visore = () => `<dialog class="visore" aria-label="${P('foto_ingrandita')}"><div class="area"><div class="sfondo" aria-hidden="true"></div>
@@ -463,6 +473,25 @@ function figura(l, livello, conCategoria) {
     ${didascalia || azioni ? `<figcaption>${didascalia}${azioni ? `<div class="azioni">${azioni}</div>` : ''}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
   </figure>`;
+}
+
+// Link alla pagina «I tuoi preferiti»: nascosto finché il visitatore non ha messo almeno un cuore (src/script.js)
+function linkPreferiti(attiva, livello, classe) {
+  if (!MI_PIACE || ANTEPRIMA) return '';
+  return `<a class="link-preferiti ${classe}" href="${collegamento('preferiti', livello)}"${attiva === 'preferiti' ? ' aria-current="page"' : ''} aria-label="${P('i_tuoi_preferiti')}" hidden>${iconaCuore}<span class="testo">${T('titolo_preferiti')}</span><span class="n"></span></a>`;
+}
+
+// Pagina «I tuoi preferiti»: contiene tutti i lavori, nascosti; lo script mostra solo quelli col cuore
+function corpoPreferiti(livello) {
+  const tutti = categorie.flatMap((c) => c.lavori);
+  return `<section class="titolo-pagina"><div class="contenitore">
+  <div class="briciole"><a href="${collegamento('', livello)}">${esc(sito.nome)}</a> / ${T('titolo_preferiti')}</div>
+  <h1>${T('titolo_preferiti')}</h1>${testi.testo_preferiti ? `<p>${T('testo_preferiti')}</p>` : ''}
+  ${PUO_CHIEDERE && testi.bottone_chiedi_preferiti ? `<p class="chiedi-preferiti" hidden><a class="chiedi" href="#contatti" data-chiedi-preferiti>${iconaWA}${T('bottone_chiedi_preferiti')}</a></p>` : ''}
+</div></section>
+<section><div class="contenitore"><div class="galleria galleria-novita galleria-preferiti" data-preferiti>${tutti.map((l) => figura(l, livello, true).replace('<figure class="lavoro"', '<figure class="lavoro" hidden')).join('\n')}</div>
+<p class="vuoto preferiti-vuoto">${T('nessun_preferito')}</p>
+${testi.nota_preferiti ? `<p class="nota-preferiti nota-pagina">${iconaCuore}${T('nota_preferiti')}</p>` : ''}</div></section>`;
 }
 
 function corpoNovita(livello) {
@@ -580,6 +609,15 @@ for (const lingua of ['it', 'en']) {
       titolo: `${c.titolo} — ${sito.nome}`,
       descrizione: testoSemplice(c.descrizione) || sito.descrizione_seo || '',
       corpo: testata(c.slug, 1 + su) + corpoCategoria(c, 1 + su) + contatti(), livello: 1 + su, percorso: c.slug + '/', foto: c.copertina,
+    }));
+  }
+  if (MI_PIACE) {
+    scrivi(cartella + 'preferiti/index.html', documento({
+      titolo: `${testi.titolo_preferiti || P('i_tuoi_preferiti')} — ${sito.nome}`,
+      descrizione: testi.testo_preferiti || '',
+      corpo: testata('preferiti', 1 + su) + corpoPreferiti(1 + su) + contatti(), livello: 1 + su, percorso: 'preferiti/',
+      // Pagina personale (cambia per ogni visitatore): non va su Google
+      extraTesta: '<meta name="robots" content="noindex">',
     }));
   }
   if (MOSTRA_NOVITA) {
