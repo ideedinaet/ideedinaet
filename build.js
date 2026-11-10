@@ -465,6 +465,8 @@ copia('src/stile.css', 'stile.css');
 copia('src/script.js', 'script.js');
 copia('immagini', 'immagini');
 copia('admin', 'admin');
+// File di verifica di Google Search Console (google….html nella cartella principale): vanno pubblicati così come sono
+for (const f of fs.readdirSync(RADICE)) if (/^google[a-z0-9]+\.html$/i.test(f)) copia(f, f);
 scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\nwindow.NETLIFY_IMMAGINI = ${NETLIFY};\n`);
 
 if (urlBase) {
