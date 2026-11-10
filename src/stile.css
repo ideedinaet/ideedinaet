@@ -513,3 +513,12 @@ body .visore .didascalia .desc strong { color: #fff; }
 }
 @keyframes menu-entra { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 .menu a[hidden], .menu-telefono a[hidden] { display: none !important; }
+
+/* ===== Lingua: link alla stessa pagina nell'altra lingua (EN / IT) ===== */
+.testata .menu .voce-lingua { align-self: center; padding: 0.15rem 0.6rem; border: 1px solid var(--linea); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; }
+.testata .menu .voce-lingua:hover { border-color: var(--accento); color: var(--inchiostro); background: none; }
+.lingua-telefono { display: none; }
+@media (max-width: 760px) {
+  .lingua-telefono { display: inline-grid; place-items: center; margin-left: auto; margin-right: 0.35rem; min-width: 40px; height: 32px; padding: 0 0.6rem; border: 1px solid var(--linea); border-radius: 999px; text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--inchiostro); }
+}
+.tema-notte .testata .menu .voce-lingua, .tema-notte .lingua-telefono { border-radius: 0; }

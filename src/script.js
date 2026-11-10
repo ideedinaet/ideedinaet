@@ -1,3 +1,16 @@
+// Scritte usate dagli script, nella lingua della pagina (<html lang="en"> = sito inglese)
+var PAROLE_JS = document.documentElement.lang === 'en' ? {
+  video_ig: 'Video on Instagram', video: 'Video', foto: function (i, n) { return 'Photo ' + i + ' of ' + n; }, poi_video: ' · then the video', poi_video_solo: 'Then the video ›',
+  msg_lavoro: function (t, p) { return 'Hello! I\'m interested in “' + t + '”, which I saw on your website (' + p + '). Could you give me some information?'; },
+  msg: 'Hello! I\'m writing from your website: I\'d like some information.', oggetto: 'Information', email: 'Email',
+  apri_menu: 'Open the menu', chiudi_menu: 'Close the menu'
+} : {
+  video_ig: 'Video su Instagram', video: 'Video', foto: function (i, n) { return 'Foto ' + i + ' di ' + n; }, poi_video: ' · poi il video', poi_video_solo: 'Poi il video ›',
+  msg_lavoro: function (t, p) { return 'Ciao! Mi interessa «' + t + '», che ho visto sul vostro sito (' + p + '). Potete darmi qualche informazione?'; },
+  msg: 'Ciao! Vi scrivo dal vostro sito: vorrei qualche informazione.', oggetto: 'Informazioni', email: 'Email',
+  apri_menu: 'Apri il menu', chiudi_menu: 'Chiudi il menu'
+};
+
 (function () {
   // Novità: dopo il periodo scelto, toglie l'etichetta «Nuovo» e i lavori dalle sezioni Novità,
   // anche se il sito non viene ripubblicato.
@@ -58,7 +71,7 @@
     if (!indirizzoVideo || boxVideo.querySelector('iframe')) return;
     var f = document.createElement('iframe');
     f.src = indirizzoVideo;
-    f.title = 'Video su Instagram';
+    f.title = PAROLE_JS.video_ig;
     f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     f.setAttribute('allowfullscreen', '');
     boxVideo.appendChild(f);
@@ -76,14 +89,14 @@
     if (eVideo) {
       boxVideo.style.backgroundImage = 'url("' + foto[0] + '")';
       visore.style.setProperty('--foto', 'url("' + foto[0] + '")');
-      contatore.textContent = 'Video';
+      contatore.textContent = PAROLE_JS.video;
     } else {
       fermaVideo();
       img.src = foto[indice];
       visore.style.setProperty('--foto', 'url("' + foto[indice] + '")');
       quadro.style.animation = 'none'; void quadro.offsetWidth; quadro.style.animation = '';
-      contatore.textContent = quanteFoto > 1 ? 'Foto ' + (indice + 1) + ' di ' + quanteFoto + (indirizzoVideo ? ' · poi il video' : '')
-        : (indirizzoVideo ? 'Poi il video ›' : '');
+      contatore.textContent = quanteFoto > 1 ? PAROLE_JS.foto(indice + 1, quanteFoto) + (indirizzoVideo ? PAROLE_JS.poi_video : '')
+        : (indirizzoVideo ? PAROLE_JS.poi_video_solo : '');
     }
     prec.hidden = indice === 0;
     succ.hidden = indice === foto.length - 1;
@@ -155,11 +168,10 @@
   var pagina = location.href.split('#')[0];
 
   function messaggio(t) {
-    return t ? 'Ciao! Mi interessa «' + t + '», che ho visto sul vostro sito (' + pagina + '). Potete darmi qualche informazione?'
-             : 'Ciao! Vi scrivo dal vostro sito: vorrei qualche informazione.';
+    return t ? PAROLE_JS.msg_lavoro(t, pagina) : PAROLE_JS.msg;
   }
   function linkWA(n, t) { return 'https://wa.me/' + n + '?text=' + encodeURIComponent(messaggio(t)); }
-  function linkEmail(t) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t ? 'Informazioni: ' + t : 'Informazioni') + '&body=' + encodeURIComponent(messaggio(t)); }
+  function linkEmail(t) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t ? PAROLE_JS.oggetto + ': ' + t : PAROLE_JS.oggetto) + '&body=' + encodeURIComponent(messaggio(t)); }
   function voce(href, testo, nuova) {
     var a = document.createElement('a'); a.href = href; a.textContent = testo;
     if (nuova) { a.target = '_blank'; a.rel = 'noopener'; }
@@ -172,7 +184,7 @@
     if (!scelta || typeof scelta.showModal !== 'function') return false;
     voci.innerHTML = '';
     wa.forEach(function (c) { voce(linkWA(c.w, t), 'WhatsApp ' + c.n, true); });
-    if (email) voce(linkEmail(t), 'Email', false);
+    if (email) voce(linkEmail(t), PAROLE_JS.email, false);
     scelta.showModal();
     return true;
   }
@@ -227,7 +239,7 @@
     if (si) document.documentElement.style.setProperty('--sotto-testata', Math.max(0, testata.getBoundingClientRect().bottom) + 'px');
     pannello.hidden = !si;
     bottone.setAttribute('aria-expanded', si ? 'true' : 'false');
-    bottone.setAttribute('aria-label', si ? 'Chiudi il menu' : 'Apri il menu');
+    bottone.setAttribute('aria-label', si ? PAROLE_JS.chiudi_menu : PAROLE_JS.apri_menu);
     document.body.classList.toggle('menu-aperto', si);
   }
   bottone.addEventListener('click', function () { apri(pannello.hidden); });

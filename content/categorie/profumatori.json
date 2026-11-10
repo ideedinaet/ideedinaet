@@ -14,7 +14,11 @@
         "/immagini/profumatori/20251026_172827.jpg",
         "/immagini/profumatori/20251026_172734.jpg"
       ],
-      "data": "2026-11-07"
+      "data": "2026-11-07",
+      "en": {
+        "titolo": "1/2 litre diffuser, 5 woods",
+        "descrizione": "Half-litre bottle with stopper and coaster made from five woods: *Afrormosia, Mahogany, Purpleheart, Maple and Oak*\n\nThe diffuser comes with its jute bag and an information card describing the woods used.\n\n**A small gesture, a big emotion.**"
+      }
     },
     {
       "titolo": "Profumatore da 1 Lt, 5 essenze",
@@ -27,8 +31,16 @@
         "/immagini/profumatori/incisionep.jpeg",
         "/immagini/profumatori/sottopiattop.jpeg"
       ],
-      "youtube": "https://youtube.com/shorts/myazrdD1H6I"
+      "youtube": "https://youtube.com/shorts/myazrdD1H6I",
+      "en": {
+        "titolo": "1 litre diffuser, 5 woods",
+        "descrizione": "One-litre bottle with stopper and coaster made from five woods: *Afrormosia, Niangon, Iroko, Oak and Maple.*\n\nThe side of the stopper features a personalised engraved phrase made in *Wenge*, creating a refined contrast with the surrounding wood.\n\nThe diffuser comes with its jute bag and an information card describing the woods used.\n\n**A unique, personalised gift that captures a great emotion.**"
+      }
     }
   ],
-  "nascosto": false
+  "nascosto": false,
+  "en": {
+    "titolo": "Fragrance diffusers",
+    "descrizione": "A decorative piece that captures the elegance and charm of fine woods.\n\nOur diffusers stand out for their refined design: an elegant clear glass bottle, enhanced by a stopper in solid wood made from different species and a matching coaster.\n\nThe meeting of transparent glass, the warm tones of the fragrance and the natural grain of the wood creates a harmonious whole that enhances any room.\n\nA home accessory for those who love to surround themselves with beauty, natural materials and details with genuine character."
+  }
 }

@@ -10,7 +10,10 @@
       "altre_foto": [
         "/immagini/accessori/brl1-02.jpeg"
       ],
-      "titolo": "Borsellino Vintage"
+      "titolo": "Borsellino Vintage",
+      "en": {
+        "titolo": "Vintage coin purse"
+      }
     },
     {
       "nascosto": false,
@@ -20,7 +23,10 @@
       "altre_foto": [
         "/immagini/accessori/brl2-02.jpg"
       ],
-      "titolo": "Borsellino Vintage"
+      "titolo": "Borsellino Vintage",
+      "en": {
+        "titolo": "Vintage coin purse"
+      }
     },
     {
       "nascosto": false,
@@ -31,7 +37,10 @@
         "/immagini/accessori/brs1-02.jpg",
         "/immagini/accessori/brs1-03.jpg"
       ],
-      "titolo": "Pochette da sera"
+      "titolo": "Pochette da sera",
+      "en": {
+        "titolo": "Evening clutch"
+      }
     },
     {
       "nascosto": false,
@@ -42,7 +51,10 @@
         "/immagini/accessori/brs2-02.jpg",
         "/immagini/accessori/brs2-03.jpg"
       ],
-      "titolo": "Portacellulare"
+      "titolo": "Portacellulare",
+      "en": {
+        "titolo": "Phone pouch"
+      }
     },
     {
       "nascosto": false,
@@ -52,7 +64,10 @@
       "altre_foto": [
         "/immagini/accessori/brs3-02.jpg"
       ],
-      "titolo": "Portacellulare"
+      "titolo": "Portacellulare",
+      "en": {
+        "titolo": "Phone pouch"
+      }
     },
     {
       "nascosto": false,
@@ -63,14 +78,20 @@
         "/immagini/accessori/poc2-02.jpg",
         "/immagini/accessori/poc2-03.jpeg"
       ],
-      "titolo": "Portaocchiali"
+      "titolo": "Portaocchiali",
+      "en": {
+        "titolo": "Glasses case"
+      }
     },
     {
       "nascosto": false,
       "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/accessori/poc1-01.jpg",
-      "titolo": "Portaocchiali"
+      "titolo": "Portaocchiali",
+      "en": {
+        "titolo": "Glasses case"
+      }
     },
     {
       "nascosto": false,
@@ -83,7 +104,10 @@
         "/immagini/accessori/brc1-04.jpg",
         "/immagini/accessori/brc1-05.jpg"
       ],
-      "titolo": "Bracciale in pelle verde militare"
+      "titolo": "Bracciale in pelle verde militare",
+      "en": {
+        "titolo": "Military green leather bracelet"
+      }
     },
     {
       "nascosto": false,
@@ -91,42 +115,60 @@
       "nascondi_video": false,
       "foto": "/immagini/accessori/brc2-02.jpg",
       "altre_foto": [],
-      "titolo": "Bracciale in pelle verde militare con Orecchini abbinati"
+      "titolo": "Bracciale in pelle verde militare con Orecchini abbinati",
+      "en": {
+        "titolo": "Military green leather bracelet with matching earrings"
+      }
     },
     {
       "nascosto": false,
       "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/accessori/brc3-01.jpg",
-      "titolo": "Bracciale in pelle rosa"
+      "titolo": "Bracciale in pelle rosa",
+      "en": {
+        "titolo": "Pink leather bracelet"
+      }
     },
     {
       "nascosto": false,
       "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/accessori/brc4-02.jpg",
-      "titolo": "Bracciale in pelle caramello con Orecchini abbinati"
+      "titolo": "Bracciale in pelle caramello con Orecchini abbinati",
+      "en": {
+        "titolo": "Caramel leather bracelet with matching earrings"
+      }
     },
     {
       "nascosto": false,
       "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/accessori/brc5-01.jpg",
-      "titolo": "Bracciale in pelle turchese"
+      "titolo": "Bracciale in pelle turchese",
+      "en": {
+        "titolo": "Turquoise leather bracelet"
+      }
     },
     {
       "nascosto": false,
       "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/accessori/brc6-02.jpg",
-      "titolo": "Bracciale in pelle bordeaux con Orecchini abbinati"
+      "titolo": "Bracciale in pelle bordeaux con Orecchini abbinati",
+      "en": {
+        "titolo": "Burgundy leather bracelet with matching earrings"
+      }
     },
     {
       "nascosto": false,
       "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/accessori/brc7-01.jpg",
-      "titolo": "Bracciale in pelle bianca"
+      "titolo": "Bracciale in pelle bianca",
+      "en": {
+        "titolo": "White leather bracelet"
+      }
     },
     {
       "nascosto": false,
@@ -138,9 +180,15 @@
         "/immagini/accessori/tsh1-02.jpg",
         "/immagini/accessori/tsh1-03.jpg"
       ],
-      "titolo": "T-Shirt personalizzata con vinile"
+      "titolo": "T-Shirt personalizzata con vinile",
+      "en": {
+        "titolo": "T-shirt customised with vinyl"
+      }
     }
   ],
   "titolo": "Accessori",
-  "copertina": "/immagini/accessori/brs0-00.jpg"
+  "copertina": "/immagini/accessori/brs0-00.jpg",
+  "en": {
+    "titolo": "Accessories"
+  }
 }

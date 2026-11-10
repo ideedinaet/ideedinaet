@@ -37,7 +37,17 @@ const paragrafiFormattati = (t) => String(t || '').split(/\n\s*\n/).map((p) => p
 const testoSemplice = (t) => formatta(t).replace(/<br>/g, ' ').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
 const paragrafi = (t) => String(t || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('\n');
 
-const sito = leggi('content/sito.json');
+// ---- Lingue: il sito italiano sta nella radice, quello inglese in /en/ ----
+// I testi inglesi stanno nel campo «en» di sito, categorie e lavori (sezione «In inglese» del pannello).
+// Un campo inglese vuoto = si usa il testo italiano.
+let LINGUA = 'it';
+const IN_INGLESE = () => LINGUA === 'en';
+// Quante cartelle in più ha la lingua corrente (/en/ = 1)
+const PROFONDITA = () => (IN_INGLESE() ? 1 : 0);
+const pieno = (v) => typeof v === 'string' && v.trim() !== '';
+
+const sitoIT = leggi('content/sito.json');
+let sito = sitoIT;
 const nascosto = (x) => x.nascosto === true || x.nascosto === 'true';
 const urlBase = (sito.url || '').replace(/\/+$/, '');
 const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
@@ -50,7 +60,9 @@ const categorie = fs.readdirSync(path.join(RADICE, 'content/categorie'))
     c.lavori.forEach((l) => {
       l.altre_foto = (Array.isArray(l.altre_foto) ? l.altre_foto : [])
         .map((x) => (typeof x === 'string' ? x : x && x.foto)).filter(Boolean);
+      l._it = { titolo: l.titolo, descrizione: l.descrizione };
     });
+    c._it = { titolo: c.titolo, descrizione: c.descrizione };
     c.copertina = c.copertina || (c.lavori[0] && c.lavori[0].foto) || '';
     return c;
   })
@@ -92,9 +104,61 @@ const TESTI_PREDEFINITI = {
   "prezzo_vuoto": "Prezzo su richiesta",
   "bottone_chiedi": "Chiedi info"
 };
-const testi = { ...TESTI_PREDEFINITI };
-for (const [k, v] of Object.entries(sito.testi || {})) if (typeof v === 'string' && v.trim()) testi[k] = v.trim() === '-' ? '' : v.trim();
+const TESTI_PREDEFINITI_EN = {
+  "occhiello_home": "Handmade",
+  "bottone_home": "See our work",
+  "titolo_lavori": "Our work",
+  "occhiello_chi_siamo": "About us",
+  "titolo_chi_siamo": "Two people, four hands",
+  "titolo_contatti": "Get in touch",
+  "testo_contatti": "Like something or have a custom piece in mind? Get in touch, we'll be happy to reply.",
+  "piede": "Handmade",
+  "nessuna_foto": "New photos coming soon.",
+  "titolo_novita": "New",
+  "testo_novita": "The latest additions, from every category.",
+  "etichetta_nuovo": "New",
+  "nessuna_novita": "Nothing new right now: have a look at the categories!",
+  "prezzo_vuoto": "Price on request",
+  "bottone_chiedi": "Ask for info"
+};
+// Testi fissi della lingua corrente: predefiniti + quelli scritti nel pannello («-» = nascosto).
+// In inglese, una scritta nascosta in italiano resta nascosta se non ha un testo inglese.
+function testiDellaLingua() {
+  const t = { ...(IN_INGLESE() ? TESTI_PREDEFINITI_EN : TESTI_PREDEFINITI) };
+  const metti = (o) => { for (const [k, v] of Object.entries(o || {})) if (pieno(v)) t[k] = v.trim() === '-' ? '' : v.trim(); };
+  if (IN_INGLESE()) {
+    for (const [k, v] of Object.entries(sitoIT.testi || {})) if (pieno(v) && v.trim() === '-') t[k] = '';
+    metti(sitoIT.en && sitoIT.en.testi);
+  } else metti(sitoIT.testi);
+  return t;
+}
+let testi = testiDellaLingua();
 const T = (k) => esc(testi[k]);
+
+// Scritte del sito che non si cambiano dal pannello
+const PAROLE = {
+  it: {
+    contatti: 'Contatti', menu_principale: 'Menu principale', apri_menu: 'Apri il menu', email: 'Email', negozio: 'Negozio online',
+    lavoro: 'lavoro', lavori: 'lavori', vedi_tutte: 'Vedi tutte →', chi_siamo: 'Chi siamo', leggi_tutto: 'Leggi tutto ›',
+    vedi_ig: 'Vedi su Instagram', ingrandisci: 'Ingrandisci', foto: 'foto', con_video: ', con video', video: 'Video',
+    foto_ingrandita: 'Foto ingrandita', guarda_video: 'Guarda il video', video_caricato: 'Premendo ▶&#xFE0E; il video viene caricato da',
+    foto_prec: 'Foto precedente', foto_succ: 'Foto successiva', su_questo: 'su questo lavoro', inquadra: 'Inquadra il codice con il telefono<br>oppure',
+    apri_ig: 'Apri su Instagram', chiudi: 'Chiudi', a_chi: 'A chi vuoi scrivere?', annulla: 'Annulla', torna_su: 'Torna su',
+    scrivici_wa: 'Scrivici su WhatsApp', non_trovata: 'Pagina non trovata', torna_home: 'Torna alla <a href="/">pagina principale</a>.',
+    altra_lingua: 'EN', altra_lingua_nome: 'English version', anteprima: 'anteprima',
+  },
+  en: {
+    contatti: 'Contact', menu_principale: 'Main menu', apri_menu: 'Open the menu', email: 'Email', negozio: 'Online shop',
+    lavoro: 'piece', lavori: 'pieces', vedi_tutte: 'See all →', chi_siamo: 'About us', leggi_tutto: 'Read more ›',
+    vedi_ig: 'See on Instagram', ingrandisci: 'Enlarge', foto: 'photos', con_video: ', with video', video: 'Video',
+    foto_ingrandita: 'Enlarged photo', guarda_video: 'Watch the video', video_caricato: 'When you press ▶&#xFE0E; the video is loaded from',
+    foto_prec: 'Previous photo', foto_succ: 'Next photo', su_questo: 'about this piece', inquadra: 'Scan the code with your phone<br>or',
+    apri_ig: 'Open on Instagram', chiudi: 'Close', a_chi: 'Who would you like to write to?', annulla: 'Cancel', torna_su: 'Back to top',
+    scrivici_wa: 'Message us on WhatsApp', non_trovata: 'Page not found', torna_home: 'Go back to the <a href="/en/">home page</a>.',
+    altra_lingua: 'IT', altra_lingua_nome: 'Versione italiana', anteprima: 'preview',
+  },
+};
+const P = (k) => PAROLE[LINGUA][k];
 // Mostra un elemento solo se il suo testo non è stato nascosto con «-»
 const se = (k, html) => (testi[k] ? html : '');
 
@@ -125,8 +189,35 @@ const TEMI = {
 const PROPOSTE = process.argv.includes('--proposte');
 const tema = TEMI[sito.tema] ? sito.tema : 'bottega';
 const fontTemi = PROPOSTE ? Object.values(TEMI).join('&') : TEMI[tema];
-const puntiForza = (Array.isArray(sito.punti_forza) && sito.punti_forza.length ? sito.punti_forza : ['Fatto a mano', 'Pezzi unici', 'Anche su misura'])
-  .map((x) => (typeof x === 'string' ? x : x && x.testo)).filter(Boolean);
+const elencoPunti = (v) => (Array.isArray(v) ? v : []).map((x) => (typeof x === 'string' ? x : x && x.testo)).filter(pieno);
+const puntiDellaLingua = () => {
+  const it = elencoPunti(sitoIT.punti_forza);
+  const en = elencoPunti(sitoIT.en && sitoIT.en.punti_forza);
+  if (IN_INGLESE()) return en.length ? en : (it.length ? it : ['Handmade', 'One-of-a-kind pieces', 'Made to order']);
+  return it.length ? it : ['Fatto a mano', 'Pezzi unici', 'Anche su misura'];
+};
+let puntiForza = puntiDellaLingua();
+
+// Passa all'altra lingua: testi del sito, delle categorie e dei lavori (campo inglese vuoto = italiano)
+const CAMPI_SITO_EN = ['nome', 'sottotitolo', 'descrizione_seo', 'avviso', 'citta', 'chi_siamo'];
+function impostaLingua(l) {
+  LINGUA = l;
+  const en = (IN_INGLESE() && sitoIT.en) || {};
+  sito = { ...sitoIT };
+  for (const k of CAMPI_SITO_EN) if (pieno(en[k])) sito[k] = en[k];
+  testi = testiDellaLingua();
+  puntiForza = puntiDellaLingua();
+  for (const c of categorie) {
+    const ce = (IN_INGLESE() && c.en) || {};
+    c.titolo = pieno(ce.titolo) ? ce.titolo.trim() : c._it.titolo;
+    c.descrizione = pieno(ce.descrizione) ? ce.descrizione : c._it.descrizione;
+    for (const lv of c.lavori) {
+      const le = (IN_INGLESE() && lv.en) || {};
+      lv.titolo = pieno(le.titolo) ? le.titolo.trim() : lv._it.titolo;
+      lv.descrizione = pieno(le.descrizione) ? le.descrizione : lv._it.descrizione;
+    }
+  }
+}
 const iconePunti = [
   '<path d="M12 21c-4-3-8-6.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 4.5-4 8-8 11z"/>',
   '<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/>',
@@ -234,7 +325,15 @@ function immagine(p, larghezza, livello) {
 }
 function collegamento(slug, livello) {
   if (ANTEPRIMA) return '#' + (slug || 'home');
-  return '../'.repeat(livello) + (slug ? slug + '/' : '') || './';
+  // «livello» conta anche la cartella della lingua (/en/): i link alle pagine restano nella stessa lingua
+  return '../'.repeat(livello - PROFONDITA()) + (slug ? slug + '/' : '') || './';
+}
+// Link alla stessa pagina nell'altra lingua
+function altraLingua(attiva, livello) {
+  const pagina = attiva ? attiva + '/' : '';
+  const href = '../'.repeat(livello) + (IN_INGLESE() ? '' : 'en/') + pagina || './';
+  const lingua = IN_INGLESE() ? 'it' : 'en';
+  return `href="${href}" hreflang="${lingua}" lang="${lingua}" aria-label="${P('altra_lingua_nome')}"`;
 }
 
 // Icone dei contatti, nello stesso stile (linea sottile) di quella di WhatsApp
@@ -255,8 +354,8 @@ function testata(attiva, livello) {
   const avviso = sito.avviso || puntiForza.join(' · ');
   return `${avviso ? `<div class="avviso-top">${esc(avviso)}</div>` : ''}<header class="testata"><div class="contenitore">
   <a class="marchio" href="${collegamento('', livello)}">${marchio}</a>
-  <nav class="menu" aria-label="Menu principale">${voci}<a class="voce-contatti" href="#contatti">Contatti</a></nav>
-  <button type="button" class="apri-menu" aria-expanded="false" aria-controls="menu-telefono" aria-label="Apri il menu"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path class="riga-1" d="M4 7h16"/><path class="riga-2" d="M4 12h16"/><path class="riga-3" d="M4 17h16"/></svg></button>
+  <nav class="menu" aria-label="${P('menu_principale')}">${voci}<a class="voce-contatti" href="#contatti">${P('contatti')}</a>${ANTEPRIMA ? '' : `<a class="voce-lingua" ${altraLingua(attiva, livello)}>${P('altra_lingua')}</a>`}</nav>
+  ${ANTEPRIMA ? '' : `<a class="lingua-telefono" ${altraLingua(attiva, livello)}>${P('altra_lingua')}</a>`}<button type="button" class="apri-menu" aria-expanded="false" aria-controls="menu-telefono" aria-label="${P('apri_menu')}"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path class="riga-1" d="M4 7h16"/><path class="riga-2" d="M4 12h16"/><path class="riga-3" d="M4 17h16"/></svg></button>
 </div></header>
 ${menuTelefono(attiva, livello)}`;
 }
@@ -270,8 +369,8 @@ function menuTelefono(attiva, livello) {
     + categorie.map((c) => voce(c.slug, c.titolo, c.copertina || (c.lavori[0] && c.lavori[0].foto), c.lavori.length)).join('');
   const contatti = [
     ...numeriWA.map((n) => `<a class="wa" href="https://wa.me/${n.numero}" target="_blank" rel="noopener">${iconaWA}${numeriWA.length > 1 ? esc(n.nome || n.testo) : 'WhatsApp'}</a>`),
-    sito.email ? `<a href="mailto:${esc(sito.email)}">${iconaEmail}Email</a>` : '',
-    `<a href="#contatti">Contatti</a>`,
+    sito.email ? `<a href="mailto:${esc(sito.email)}">${iconaEmail}${P('email')}</a>` : '',
+    `<a href="#contatti">${P('contatti')}</a>`,
   ].join('');
   return `<div class="menu-telefono" id="menu-telefono" hidden><nav aria-label="Menu">${voci}</nav><div class="contatti-rapidi">${contatti}</div></div>`;
 }
@@ -282,7 +381,7 @@ function contatti() {
   for (const n of numeriWA) voci.push(`<a class="wa" href="https://wa.me/${n.numero}" target="_blank" rel="noopener">${iconaWA}WhatsApp ${esc(n.nome || n.testo)}</a>`);
   if (sito.instagram) voci.push(`<a href="${esc(sito.instagram)}" target="_blank" rel="noopener">${iconaIG}Instagram</a>`);
   if (sito.facebook) voci.push(`<a href="${esc(sito.facebook)}" target="_blank" rel="noopener">${iconaFB}Facebook</a>`);
-  if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" target="_blank" rel="noopener">${iconaNegozio}Negozio online</a>`);
+  if (sito.etsy) voci.push(`<a href="${esc(sito.etsy)}" target="_blank" rel="noopener">${iconaNegozio}${P('negozio')}</a>`);
   return `<section class="sezione contatti" id="contatti"><div class="contenitore">
   ${se('titolo_contatti', `<h2>${T('titolo_contatti')}</h2>`)}
   ${paragrafi(testi.testo_contatti)}
@@ -291,10 +390,10 @@ function contatti() {
 <footer class="piede"><div class="contenitore">© ${new Date().getFullYear()} ${esc(sito.nome)}${sito.citta ? ' · ' + esc(sito.citta) : ''}${testi.piede ? ' · ' + T('piede') : ''}</div></footer>`;
 }
 
-const visore = `<dialog class="visore" aria-label="Foto ingrandita"><div class="area"><div class="sfondo" aria-hidden="true"></div>
-  <div class="finestra-foto"><span class="quadro"><img alt=""></span><div class="video" hidden><button type="button" class="play" aria-label="Guarda il video">▶&#xFE0E;</button><p class="avviso-video">Premendo ▶&#xFE0E; il video viene caricato da <span class="video-da">Instagram</span></p></div><button class="prec" aria-label="Foto precedente">‹</button><button class="succ" aria-label="Foto successiva">›</button></div><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} su questo lavoro</a>` : ''}</div>
-  <div class="social" hidden><div class="codice-qr"></div><div><small>Inquadra il codice con il telefono<br>oppure</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}Apri su Instagram</a></div></div></div></div>
-  <button class="chiudi" aria-label="Chiudi">×</button>
+const visore = () => `<dialog class="visore" aria-label="${P('foto_ingrandita')}"><div class="area"><div class="sfondo" aria-hidden="true"></div>
+  <div class="finestra-foto"><span class="quadro"><img alt=""></span><div class="video" hidden><button type="button" class="play" aria-label="${P('guarda_video')}">▶&#xFE0E;</button><p class="avviso-video">${P('video_caricato')} <span class="video-da">Instagram</span></p></div><button class="prec" aria-label="${P('foto_prec')}">‹</button><button class="succ" aria-label="${P('foto_succ')}">›</button></div><div class="didascalia"><div class="testi"><strong></strong><span class="desc"></span><em class="contatore"></em>${PUO_CHIEDERE ? `<a class="bottone-chiedi" href="#contatti" data-chiedi="">${iconaWA}${T('bottone_chiedi')} ${P('su_questo')}</a>` : ''}</div>
+  <div class="social" hidden><div class="codice-qr"></div><div><small>${P('inquadra')}</small><a class="bottone-ig" target="_blank" rel="noopener">${iconaInstagram}${P('apri_ig')}</a></div></div></div></div>
+  <button class="chiudi" aria-label="${P('chiudi')}">×</button>
 </dialog>`;
 
 // ---- Contenuto delle pagine ----
@@ -302,7 +401,7 @@ function corpoHome(livello) {
   const schede = categorie.map((c) => `<a class="scheda" href="${collegamento(c.slug, livello)}">
     <div class="foto">${c.copertina ? `<img src="${immagine(c.copertina, 700, livello)}" alt="${esc(c.titolo)}" loading="lazy">` : ''}</div>
     <h3>${esc(c.titolo)}</h3>${c.descrizione ? `<p>${formatta(String(c.descrizione).replace(/\n\s*\n/g, '\n'))}</p>` : ''}
-    <span class="conta">${c.lavori.length} ${c.lavori.length === 1 ? 'lavoro' : 'lavori'} →</span></a>`).join('\n');
+    <span class="conta">${c.lavori.length} ${c.lavori.length === 1 ? P('lavoro') : P('lavori')} →</span></a>`).join('\n');
   return `<section class="apertura"><div class="contenitore">
   <div>${se('occhiello_home', `<p class="occhiello">${T('occhiello_home')}${sito.citta ? ' · ' + esc(sito.citta) : ''}</p>`)}
     ${sito.logo ? `<img class="logo-grande" src="${immagine(sito.logo_chiaro || sito.logo, 0, livello)}" alt="">` : ''}<h1>${esc(sito.nome)}</h1>${sito.sottotitolo ? `<p class="sotto">${esc(sito.sottotitolo)}</p>` : ''}
@@ -311,7 +410,7 @@ function corpoHome(livello) {
 </div></section>
 <section class="punti"><div class="contenitore"><ul>${puntiForza.map((t, i) => `<li><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">${iconePunti[i % iconePunti.length]}</svg>${esc(t)}</li>`).join('')}</ul></div></section>
 ${novita.length ? `<section class="sezione novita-home" data-novita-sezione><div class="contenitore">
-  <div class="intestazione"><h2>${T('titolo_novita')}</h2><a class="vedi-tutte" href="${collegamento('novita', livello)}">Vedi tutte →</a></div>
+  <div class="intestazione"><h2>${T('titolo_novita')}</h2><a class="vedi-tutte" href="${collegamento('novita', livello)}">${P('vedi_tutte')}</a></div>
   <div class="galleria galleria-novita" data-solo-novita>${novita.slice(0, 4).map((l) => figura(l, livello, true)).join('\n')}</div>
 </div></section>` : ''}
 <section class="sezione" id="lavori"><div class="contenitore">
@@ -319,7 +418,7 @@ ${novita.length ? `<section class="sezione novita-home" data-novita-sezione><div
   <div class="categorie">${schede}</div>
 </div></section>
 ${sito.chi_siamo ? `<section class="sezione" id="chi-siamo"><div class="contenitore chi-siamo">
-  ${sito.foto_chi_siamo ? `<div class="foto"><img src="${immagine(sito.foto_chi_siamo, 700, livello)}" alt="Chi siamo" loading="lazy"></div>` : '<div></div>'}
+  ${sito.foto_chi_siamo ? `<div class="foto"><img src="${immagine(sito.foto_chi_siamo, 700, livello)}" alt="${P('chi_siamo')}" loading="lazy"></div>` : '<div></div>'}
   <div>${se('occhiello_chi_siamo', `<p class="occhiello">${T('occhiello_chi_siamo')}</p>`)}${se('titolo_chi_siamo', `<h2>${T('titolo_chi_siamo')}</h2>`)}${paragrafiFormattati(sito.chi_siamo)}</div>
 </div></section>` : ''}`;
 }
@@ -330,16 +429,16 @@ function figura(l, livello, conCategoria) {
   const didascalia = [
     conCategoria ? `<a class="cat" href="${collegamento(c.slug, livello)}">${esc(c.titolo)}</a>` : '',
     l.titolo ? `<strong>${esc(l.titolo)}</strong>` : '',
-    l.descrizione ? `<span class="desc">${formattaInRiga(l.descrizione)}</span><a class="leggi" href="#" hidden>Leggi tutto ›</a>` : '',
+    l.descrizione ? `<span class="desc">${formattaInRiga(l.descrizione)}</span><a class="leggi" href="#" hidden>${P('leggi_tutto')}</a>` : '',
     l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : (testi.prezzo_vuoto ? `<span class="prezzo su-richiesta">${T('prezzo_vuoto')}</span>` : ''),
   ].join('');
   const azioni = [
     PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
-    l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener" aria-label="Vedi su Instagram">${iconaInstagram}Instagram</a>` : '',
+    l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener" aria-label="${P('vedi_ig')}">${iconaInstagram}Instagram</a>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
-    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}"${l.video ? ` data-video="${esc(l.video.src)}" data-video-da="${l.video.da}" data-video-forma="${l.video.forma}"` : ''} data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="Ingrandisci ${esc(l.titolo || 'foto')}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} foto)` : ''}${l.video ? ', con video' : ''}">
-      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length || l.video ? `<span class="etichette">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} foto</span>` : ''}${l.video ? '<span class="ha-video">▶&#xFE0E; Video</span>' : ''}</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
+    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}"${l.video ? ` data-video="${esc(l.video.src)}" data-video-da="${l.video.da}" data-video-forma="${l.video.forma}"` : ''} data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="${P('ingrandisci')} ${esc(l.titolo || P('foto'))}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} ${P('foto')})` : ''}${l.video ? P('con_video') : ''}">
+      <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length || l.video ? `<span class="etichette">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} ${P('foto')}</span>` : ''}${l.video ? `<span class="ha-video">▶&#xFE0E; ${P('video')}</span>` : ''}</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
     ${didascalia || azioni ? `<figcaption>${didascalia}${azioni ? `<div class="azioni">${azioni}</div>` : ''}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
   </figure>`;
@@ -365,25 +464,32 @@ function corpoCategoria(c, livello) {
 
 // ---- Documento completo ----
 function documento({ titolo, descrizione, corpo, livello, percorso, foto, extraTesta = '', script }) {
-  const canonico = urlBase ? urlBase + '/' + percorso : '';
+  // «percorso» è lo stesso nelle due lingue (es. taglieri/): l'inglese sta sotto en/
+  const indirizzo = (l) => urlBase + '/' + (l === 'en' ? 'en/' : '') + percorso;
+  const canonico = urlBase ? indirizzo(LINGUA) : '';
+  // Per Google: la stessa pagina nell'altra lingua (non per la pagina 404)
+  const alternative = urlBase && !ANTEPRIMA && percorso !== '404.html'
+    ? ['it', 'en'].map((l) => `<link rel="alternate" hreflang="${l}" href="${esc(indirizzo(l))}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${esc(indirizzo('it'))}">`
+    : '';
   const og = foto && urlBase ? urlBase + '/' + foto.replace(/^\/+/, '') : '';
   const sameAs = [sito.instagram, sito.facebook, sito.etsy].filter((u) => u && /^https?:\/\/.+\/.+/.test(u));
   const jsonld = { '@context': 'https://schema.org', '@type': 'Organization', name: sito.nome, description: sito.descrizione_seo || undefined, url: urlBase || undefined, email: sito.email || undefined, sameAs: sameAs.length ? sameAs : undefined };
   const css = ANTEPRIMA ? `<style>${fs.readFileSync(path.join(RADICE, 'src/stile.css'), 'utf8')}</style>` : `<link rel="stylesheet" href="${'../'.repeat(livello)}stile.css">`;
   const js = ANTEPRIMA ? `<script>${fs.readFileSync(path.join(RADICE, 'src/script.js'), 'utf8')}</script>` : `<script src="${'../'.repeat(livello)}script.js" defer></script>`;
   return `<!DOCTYPE html>
-<html lang="it">
+<html lang="${LINGUA}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(titolo)}</title>
 <meta name="description" content="${esc(descrizione)}">
 ${canonico ? `<link rel="canonical" href="${esc(canonico)}">` : ''}
+${alternative}
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(titolo)}">
 <meta property="og:description" content="${esc(descrizione)}">
 ${og ? `<meta property="og:image" content="${esc(og)}">` : ''}
-<meta property="og:locale" content="it_IT">
+<meta property="og:locale" content="${IN_INGLESE() ? 'en_GB' : 'it_IT'}">
 ${verificaGoogle()}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fontTemi}&display=swap">
@@ -393,9 +499,9 @@ ${extraTesta}
 </head>
 <body class="tema-${tema}" data-novita-giorni="${MOSTRA_NOVITA ? GIORNI_NOVITA : 0}" data-whatsapp="${esc(JSON.stringify(numeriWA.map((n) => ({ n: n.nome || n.testo, w: n.numero }))))}" data-email="${esc(sito.email || '')}">
 ${corpo}
-${visore}
-<dialog class="scelta" aria-label="A chi vuoi scrivere?"><p>A chi vuoi scrivere?</p><div class="voci"></div><button type="button" class="annulla">Annulla</button></dialog>
-<div class="flottanti"><button type="button" class="torna-su" aria-label="Torna su"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>${numeriWA.length ? `<a class="wa-fisso" href="#contatti" data-chiedi="" aria-label="Scrivici su WhatsApp">${iconaWA}</a>` : ''}</div>
+${visore()}
+<dialog class="scelta" aria-label="${P('a_chi')}"><p>${P('a_chi')}</p><div class="voci"></div><button type="button" class="annulla">${P('annulla')}</button></dialog>
+<div class="flottanti"><button type="button" class="torna-su" aria-label="${P('torna_su')}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>${numeriWA.length ? `<a class="wa-fisso" href="#contatti" data-chiedi="" aria-label="${P('scrivici_wa')}">${iconaWA}</a>` : ''}</div>
 ${js}${script || ''}
 ${statistiche()}
 </body>
@@ -437,29 +543,37 @@ const copia = (da, a) => fs.cpSync(path.join(RADICE, da), path.join(USCITA, a), 
 // Reindirizza i link di invito/recupero password del pannello verso /admin/
 const invito = `<script>if(/(invite|recovery|confirmation|email_change)_token=/.test(location.hash)){location.replace('/admin/'+location.hash);}</script>`;
 
-scrivi('index.html', documento({
-  titolo: sito.nome + (sito.sottotitolo ? ' — ' + sito.sottotitolo : ''),
-  descrizione: sito.descrizione_seo || sito.sottotitolo || '',
-  corpo: testata('', 0) + corpoHome(0) + contatti(), livello: 0, percorso: '', foto: sito.immagine_copertina, extraTesta: invito,
-}));
-for (const c of categorie) {
-  scrivi(c.slug + '/index.html', documento({
-    titolo: `${c.titolo} — ${sito.nome}`,
-    descrizione: testoSemplice(c.descrizione) || sito.descrizione_seo || '',
-    corpo: testata(c.slug, 1) + corpoCategoria(c, 1) + contatti(), livello: 1, percorso: c.slug + '/', foto: c.copertina,
+// Le pagine, prima in italiano (nella radice) e poi in inglese (in en/)
+for (const lingua of ['it', 'en']) {
+  impostaLingua(lingua);
+  const cartella = IN_INGLESE() ? 'en/' : '';
+  const su = PROFONDITA();   // livelli in più per le pagine inglesi
+  scrivi(cartella + 'index.html', documento({
+    titolo: sito.nome + (sito.sottotitolo ? ' — ' + sito.sottotitolo : ''),
+    descrizione: sito.descrizione_seo || sito.sottotitolo || '',
+    corpo: testata('', su) + corpoHome(su) + contatti(), livello: su, percorso: '', foto: sito.immagine_copertina, extraTesta: IN_INGLESE() ? '' : invito,
   }));
+  for (const c of categorie) {
+    scrivi(cartella + c.slug + '/index.html', documento({
+      titolo: `${c.titolo} — ${sito.nome}`,
+      descrizione: testoSemplice(c.descrizione) || sito.descrizione_seo || '',
+      corpo: testata(c.slug, 1 + su) + corpoCategoria(c, 1 + su) + contatti(), livello: 1 + su, percorso: c.slug + '/', foto: c.copertina,
+    }));
+  }
+  if (MOSTRA_NOVITA) {
+    scrivi(cartella + 'novita/index.html', documento({
+      titolo: `${testi.titolo_novita || (IN_INGLESE() ? 'New' : 'Novità')} — ${sito.nome}`,
+      descrizione: testi.testo_novita || sito.descrizione_seo || '',
+      corpo: testata('novita', 1 + su) + corpoNovita(1 + su) + contatti(), livello: 1 + su, percorso: 'novita/', foto: novita[0] && novita[0].foto,
+    }));
+  }
 }
-if (MOSTRA_NOVITA) {
-  scrivi('novita/index.html', documento({
-    titolo: `${testi.titolo_novita || 'Novità'} — ${sito.nome}`,
-    descrizione: testi.testo_novita || sito.descrizione_seo || '',
-    corpo: testata('novita', 1) + corpoNovita(1) + contatti(), livello: 1, percorso: 'novita/', foto: novita[0] && novita[0].foto,
-  }));
-}
+// Pagina «non trovata» (una sola, in italiano: Netlify la usa per ogni indirizzo inesistente)
+impostaLingua('it');
 scrivi('404.html', documento({
-  titolo: 'Pagina non trovata — ' + sito.nome, descrizione: '', livello: 0, percorso: '404.html',
-  corpo: testata('', 0) + `<section class="titolo-pagina"><div class="contenitore"><h1>Pagina non trovata</h1><p>Torna alla <a href="/">pagina principale</a>.</p></div></section>` + contatti(),
-}).replace(/href="(stile\.css|script\.js)"/g, 'href="/$1"').replace(/src="script\.js"/, 'src="/script.js"'));
+  titolo: P('non_trovata') + ' — ' + sito.nome, descrizione: '', livello: 0, percorso: '404.html',
+  corpo: testata('', 0) + `<section class="titolo-pagina"><div class="contenitore"><h1>${P('non_trovata')}</h1><p>${P('torna_home')}</p></div></section>` + contatti(),
+}).replace(/href="(stile\.css|script\.js)"/g, 'href="/$1"').replace(/src="script\.js"/, 'src="/script.js"').replace(/href="en\/"/g, 'href="/en/"'));
 
 copia('src/stile.css', 'stile.css');
 copia('src/script.js', 'script.js');
@@ -471,10 +585,13 @@ scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\nwindow.NET
 
 if (urlBase) {
   const indirizzi = [''].concat(MOSTRA_NOVITA ? ['novita/'] : [], categorie.map((c) => c.slug + '/'));
-  scrivi('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indirizzi.map((u) => `  <url><loc>${esc(urlBase + '/' + u)}</loc></url>`).join('\n')}\n</urlset>\n`);
+  // Ogni pagina in italiano e in inglese, con il collegamento tra le due lingue
+  const alternative = (u) => ['it', 'en'].map((l) => `<xhtml:link rel="alternate" hreflang="${l}" href="${esc(urlBase + '/' + (l === 'en' ? 'en/' : '') + u)}"/>`).join('');
+  const voci = indirizzi.flatMap((u) => ['', 'en/'].map((pre) => `  <url><loc>${esc(urlBase + '/' + pre + u)}</loc>${alternative(u)}</url>`));
+  scrivi('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${voci.join('\n')}\n</urlset>\n`);
   scrivi('robots.txt', `User-agent: *\nDisallow: /admin/\nSitemap: ${urlBase}/sitemap.xml\n`);
 } else {
   scrivi('robots.txt', 'User-agent: *\nDisallow: /admin/\n');
 }
-console.log(`Sito creato in _site/: home + ${categorie.length} categorie (${categorie.reduce((n, c) => n + c.lavori.length, 0)} lavori, ${Object.keys(codiciQR).length} QR code).`);
+console.log(`Sito creato in _site/ (italiano + inglese in en/): home + ${categorie.length} categorie (${categorie.reduce((n, c) => n + c.lavori.length, 0)} lavori, ${Object.keys(codiciQR).length} QR code).`);
 }

@@ -42,6 +42,20 @@ Hosting gratuito su Netlify.
 - Usate titoli e descrizioni concrete nelle foto (es. "Tagliere in noce con manico"):
   sono testi che Google legge.
 
+## Sito in inglese
+
+Il sito ha anche una versione in inglese all'indirizzo `/en/` (es. `https://ideedinaet.it/en/taglieri/`).
+In alto a destra il pulsante **EN** / **IT** porta alla stessa pagina nell'altra lingua.
+
+- Ogni lavoro e ogni categoria ha in fondo una sezione **«In inglese (facoltativo)»**, chiusa:
+  apritela per scrivere titolo e descrizione in inglese. Foto, prezzo, Instagram e video sono gli stessi.
+- In *Impostazioni del sito* c'è la sezione **«Versione inglese del sito»** (frase sotto il nome,
+  «Chi siamo», punti di forza, descrizione per Google, scritte fisse delle pagine).
+- **Un campo inglese vuoto non è un problema**: sul sito inglese compare il testo italiano.
+  Potete quindi aggiungere un lavoro come sempre e tradurlo quando avete tempo.
+- Anche il messaggio già scritto di «Ask for info» (WhatsApp o email) è in inglese.
+- Google trova le due versioni da solo: la mappa del sito contiene entrambe le lingue.
+
 ## Uso quotidiano
 
 **Bozze e pubblicazione.** Nel pannello «Salva» crea una *bozza*: il sito vero non cambia

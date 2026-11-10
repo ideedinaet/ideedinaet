@@ -42,6 +42,15 @@ collections:
         modes: [rich_text, raw]
         hint: "Per il grassetto o il corsivo selezionate le parole e premete G o C (oppure Ctrl+B / Ctrl+I). In modalità «Markdown» potete scrivere **grassetto** e *corsivo*."
       - { label: "Foto di copertina", name: copertina, widget: image, required: false, hint: "Se la lasci vuota uso la prima foto dei lavori." }
+      - label: "In inglese (facoltativo)"
+        name: en
+        widget: object
+        collapsed: true
+        required: false
+        hint: "Nome e descrizione della categoria sul sito in inglese. Se lasciate vuoto un campo, compare il testo italiano."
+        fields:
+          - { label: "Nome della categoria in inglese", name: titolo, widget: string, required: false }
+          - { label: "Descrizione in inglese", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
       - label: "Lavori"
         name: lavori
         widget: list
@@ -70,6 +79,16 @@ collections:
           - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code. Se è il link di un REEL, il video si può guardare anche direttamente sul sito (etichetta «▶ Video» sulla foto)." }
           - { label: "Video YouTube (facoltativo)", name: youtube, widget: string, required: false, hint: "Incolla il link del video su YouTube (anche «non in elenco» o uno Short). Se c'è, sul sito si guarda questo video; se manca, si usa il reel di Instagram." }
           - { label: "Nascondi il video dal sito", name: nascondi_video, widget: boolean, default: false, required: false, hint: "Spento = il video (YouTube o, se manca, il reel di Instagram) si guarda direttamente sul sito, con l'etichetta «▶ Video» sulla foto. Acceso = niente video sul sito: resta solo il pulsante «Instagram»." }
+          # Versione inglese (sito in /en/): campo vuoto = sul sito inglese compare il testo italiano
+          - label: "In inglese (facoltativo)"
+            name: en
+            widget: object
+            collapsed: true
+            required: false
+            hint: "Testi per il sito in inglese. Foto, prezzo, Instagram e video sono gli stessi. Se lasciate vuoto un campo, sul sito inglese compare il testo italiano."
+            fields:
+              - { label: "Titolo in inglese", name: titolo, widget: string, required: false }
+              - { label: "Descrizione in inglese", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
 
   - name: impostazioni
     label: "Impostazioni del sito"
@@ -147,3 +166,45 @@ collections:
               - { label: "Scritta al posto del prezzo, se non c'è", name: prezzo_vuoto, widget: string, required: false, default: "Prezzo su richiesta", hint: "Scrivete solo un trattino - per non mostrare niente." }
               - { label: "Pulsante per chiedere informazioni su un lavoro", name: bottone_chiedi, widget: string, required: false, default: "Chiedi info", hint: "Apre WhatsApp (o l'email) con un messaggio già scritto che nomina il lavoro." }
               - { label: "Messaggio quando non ci sono novità", name: nessuna_novita, widget: string, required: false, default: "Al momento non ci sono novità: dai un'occhiata alle categorie!" }
+          # Versione inglese del sito (in /en/): campo vuoto = si usa il testo italiano
+          - label: "Versione inglese del sito"
+            name: en
+            widget: object
+            collapsed: true
+            required: false
+            hint: "Testi del sito in inglese (indirizzo /en/). Se lasciate vuoto un campo, compare il testo italiano. I testi dei lavori e delle categorie si scrivono nella sezione «In inglese» di ognuno."
+            fields:
+              - { label: "Barra in alto (temi Catalogo e Notte)", name: avviso, widget: string, required: false }
+              - label: "Punti di forza"
+                name: punti_forza
+                widget: list
+                required: false
+                hint: "Se l'elenco è vuoto si usano quelli italiani."
+                collapsed: false
+                field: { label: "Punto", name: testo, widget: string }
+              - { label: "Frase sotto il nome", name: sottotitolo, widget: string, required: false }
+              - { label: "Descrizione per Google (max ~160 caratteri)", name: descrizione_seo, widget: text, required: false }
+              - { label: "Città o zona", name: citta, widget: string, required: false }
+              - { label: "Chi siamo", name: chi_siamo, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo. Andate a capo due volte per un nuovo paragrafo." }
+              - label: "Testi del sito"
+                name: testi
+                widget: object
+                collapsed: true
+                required: false
+                hint: "Le scritte fisse delle pagine inglesi."
+                fields:
+                  - { label: "Scritta piccola sopra il titolo in home", name: occhiello_home, widget: string, required: false, hint: "Vuoto = «Handmade». Un trattino - per nascondere la scritta." }
+                  - { label: "Pulsante in home", name: bottone_home, widget: string, required: false, hint: "Vuoto = «See our work». Un trattino - per nascondere la scritta." }
+                  - { label: "Titolo della sezione lavori in home", name: titolo_lavori, widget: string, required: false, hint: "Vuoto = «Our work». Un trattino - per nascondere la scritta." }
+                  - { label: "Scritta piccola sopra «Chi siamo»", name: occhiello_chi_siamo, widget: string, required: false, hint: "Vuoto = «About us». Un trattino - per nascondere la scritta." }
+                  - { label: "Titolo della sezione «Chi siamo»", name: titolo_chi_siamo, widget: string, required: false, hint: "Vuoto = «Two people, four hands». Un trattino - per nascondere la scritta." }
+                  - { label: "Titolo della sezione contatti", name: titolo_contatti, widget: string, required: false, hint: "Vuoto = «Get in touch». Un trattino - per nascondere la scritta." }
+                  - { label: "Testo della sezione contatti", name: testo_contatti, widget: text, required: false, hint: "Vuoto = testo predefinito in inglese. Un trattino - per nascondere la scritta." }
+                  - { label: "Scritta in fondo alla pagina (dopo © anno e nome)", name: piede, widget: string, required: false, hint: "Vuoto = «Handmade». Un trattino - per nascondere la scritta." }
+                  - { label: "Messaggio per una categoria ancora senza lavori", name: nessuna_foto, widget: string, required: false, hint: "Vuoto = «New photos coming soon.». Un trattino - per nascondere la scritta." }
+                  - { label: "Titolo «Novità» (menu, home e pagina)", name: titolo_novita, widget: string, required: false, hint: "Vuoto = «New». Un trattino - per nascondere la scritta." }
+                  - { label: "Testo sotto il titolo della pagina Novità", name: testo_novita, widget: string, required: false, hint: "Vuoto = «The latest additions, from every category.». Un trattino - per nascondere la scritta." }
+                  - { label: "Etichetta sui lavori nuovi", name: etichetta_nuovo, widget: string, required: false, hint: "Vuoto = «New». Un trattino - per nascondere la scritta." }
+                  - { label: "Scritta al posto del prezzo, se non c'è", name: prezzo_vuoto, widget: string, required: false, hint: "Vuoto = «Price on request». Un trattino - per non mostrare niente." }
+                  - { label: "Pulsante per chiedere informazioni su un lavoro", name: bottone_chiedi, widget: string, required: false, hint: "Vuoto = «Ask for info». Un trattino - per nascondere la scritta." }
+                  - { label: "Messaggio quando non ci sono novità", name: nessuna_novita, widget: string, required: false, hint: "Vuoto = testo predefinito in inglese. Un trattino - per nascondere la scritta." }

@@ -12,7 +12,10 @@
         "/immagini/bomboniere/20230821_094329.jpg",
         "/immagini/bomboniere/20230821_094345.jpg",
         "/immagini/bomboniere/20230821_094703.jpg"
-      ]
+      ],
+      "en": {
+        "titolo": "New home"
+      }
     },
     {
       "titolo": "Compleanno ",
@@ -25,7 +28,15 @@
         "/immagini/bomboniere/20260817_185214.jpg",
         "/immagini/bomboniere/20260817_185218.jpg"
       ],
-      "youtube": "https://youtube.com/shorts/JTFGvhhktjI"
+      "youtube": "https://youtube.com/shorts/JTFGvhhktjI",
+      "en": {
+        "titolo": "Birthday",
+        "descrizione": "Keyring in solid Oak and Wenge with a puzzle insert in Purpleheart, a leather strap and steel details."
+      }
     }
-  ]
+  ],
+  "en": {
+    "titolo": "Party favours",
+    "descrizione": "Origami, cards, hand-bound notebooks and paper decorations for the home and for celebrations"
+  }
 }

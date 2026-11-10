@@ -45,5 +45,32 @@
   "nome": "Idee di NaeT",
   "citta": "",
   "email": "info@ideedinaet.it",
-  "novita_giorni": 1
+  "novita_giorni": 1,
+  "en": {
+    "sottotitolo": "Fine materials and attention to detail, for gifts that carry genuine emotion.",
+    "descrizione_seo": "Handmade wooden cutting boards and paper crafts. Discover our work and get in touch for made-to-order pieces.",
+    "punti_forza": [
+      "Handmade",
+      "One-of-a-kind pieces",
+      "Custom design"
+    ],
+    "chi_siamo": "We are a couple brought together by a passion for handcraft and a love of detail. We create unique pieces in wood, paper and leather: from fine cutting boards for the kitchen to fragrance diffusers, as well as jewellery, greeting cards, favours and gift packaging designed to delight.\n\nTo do this, we like to blend tradition with innovation, pairing traditional woodworking tools with the precision of technologies such as laser cutting and engraving, 3D printing and die-cutting machines.\n\nEvery piece we make is handmade and fully customisable, turning raw materials into a special gift idea made just for you.",
+    "testi": {
+      "occhiello_home": "Our passion in your hands",
+      "bottone_home": "See our work",
+      "titolo_lavori": "Our creations",
+      "occhiello_chi_siamo": "About us",
+      "titolo_chi_siamo": "Two people, four hands",
+      "titolo_contatti": "Write to us",
+      "testo_contatti": "Like something, or have a custom piece in mind? Get in touch and together we'll find the best solution for your idea.",
+      "piede": "Our passion in your hands",
+      "nessuna_foto": "New photos coming soon.",
+      "titolo_novita": "New",
+      "testo_novita": "The latest additions, from every category.",
+      "etichetta_nuovo": "New",
+      "prezzo_vuoto": "-",
+      "bottone_chiedi": "Ask for info",
+      "nessuna_novita": "Nothing new right now: have a look at the categories!"
+    }
+  }
 }
