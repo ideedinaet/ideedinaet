@@ -5,38 +5,38 @@
   "copertina": "/immagini/profumatori/profumatorehome.jpg",
   "lavori": [
     {
-      "titolo": "Profumatore da 1/2 Lt, 5 essenze",
       "foto": "/immagini/profumatori/20251026_171216.jpg",
-      "descrizione": "Bottiglia da 1/2 litro con tappo e sottopiatto realizzati in cinque essenze di legno: *Afrormosia, Mogano, Amaranto, Acero e Rovere*\n\nIl profumatore è completato dal suo sacchetto in iuta e dal bugiardino con la descrizione delle essenze lignee utilizzate.\n\n**Un piccolo gesto, una grande emozione.**",
-      "prezzo": "",
-      "instagram": "",
       "altre_foto": [
         "/immagini/profumatori/20251026_172827.jpg",
         "/immagini/profumatori/20251026_172734.jpg"
       ],
-      "data": "2026-11-07",
       "en": {
         "titolo": "1/2 litre diffuser, 5 woods",
         "descrizione": "Half-litre bottle with stopper and coaster made from five woods: *Afrormosia, Mahogany, Purpleheart, Maple and Oak*\n\nThe diffuser comes with its jute bag and an information card describing the woods used.\n\n**A small gesture, a big emotion.**"
       },
+      "data": "2026-11-07",
+      "prezzo": "",
+      "descrizione": "Bottiglia da 1/2 litro con tappo e sottopiatto realizzati in cinque essenze di legno: *Afrormosia, Mogano, Amaranto, Acero e Rovere*\n\nIl profumatore è completato dal suo sacchetto in iuta e dal bugiardino con la descrizione delle essenze lignee utilizzate.\n\n**Un piccolo gesto, una grande emozione.**",
+      "instagram": "",
+      "titolo": "Profumatore da 1/2 Lt, 5 essenze",
       "id": "profumatori/20251026_171216"
     },
     {
-      "titolo": "Profumatore da 1 Lt, 5 essenze",
+      "youtube": "https://youtube.com/shorts/myazrdD1H6I",
       "foto": "/immagini/profumatori/profumatorehome.jpg",
-      "descrizione": "Bottiglia da 1 litro con tappo e sottopiatto realizzati in cinque essenze di legno: *Afrormosia, Niangon, Iroko, Rovere e Acero.*\n\nSul lato del tappo è incisa una frase personalizzata e realizzata in essenza di *Wengè*, che crea un raffinato contrasto con il legno circostante.\n\nIl profumatore è completato dal suo sacchetto in iuta e dal bugiardino con la descrizione delle essenze lignee utilizzate.\n\n**Un regalo unico e personalizzato, capace di racchiudere una grande emozione.**",
-      "prezzo": "",
-      "instagram": "https://www.instagram.com/reel/DS54-3ziNHh/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
-      "data": "2026-11-01",
       "altre_foto": [
         "/immagini/profumatori/incisionep.jpeg",
         "/immagini/profumatori/sottopiattop.jpeg"
       ],
-      "youtube": "https://youtube.com/shorts/myazrdD1H6I",
       "en": {
         "titolo": "1 litre diffuser, 5 woods",
         "descrizione": "One-litre bottle with stopper and coaster made from five woods: *Afrormosia, Niangon, Iroko, Oak and Maple.*\n\nThe side of the stopper features a personalised engraved phrase made in *Wenge*, creating a refined contrast with the surrounding wood.\n\nThe diffuser comes with its jute bag and an information card describing the woods used.\n\n**A unique, personalised gift that captures a great emotion.**"
       },
+      "data": "2026-11-01",
+      "prezzo": "",
+      "descrizione": "Bottiglia da 1 litro con tappo e sottopiatto realizzati in cinque essenze di legno: *Afrormosia, Niangon, Iroko, Rovere e Acero.*\n\nSul lato del tappo è incisa una frase personalizzata e realizzata in essenza di *Wengè*, che crea un raffinato contrasto con il legno circostante.\n\nIl profumatore è completato dal suo sacchetto in iuta e dal bugiardino con la descrizione delle essenze lignee utilizzate.\n\n**Un regalo unico e personalizzato, capace di racchiudere una grande emozione.**",
+      "instagram": "https://www.instagram.com/reel/DfkTxwByoJI/?utm_source=ig_web_copy_link&psln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "titolo": "Profumatore da 1 Lt, 5 essenze",
       "id": "profumatori/profumatorehome"
     }
   ],
