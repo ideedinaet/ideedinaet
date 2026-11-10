@@ -1,4 +1,5 @@
-// «Mi piace» nel pannello:
+// «Mi piace» e codici nel pannello:
+// 0) al salvataggio di una categoria, ogni lavoro senza codice ne riceve uno breve (es. BIG-02), usato nei messaggi;
 // 1) al salvataggio di una categoria, ogni lavoro senza identificativo ne riceve uno fisso (campo nascosto «id»),
 //    ricavato dalla foto principale: così i like restano al lavoro anche se poi si cambiano foto, titolo o categoria;
 // 2) in alto nel pannello compare il pulsante «♥ Classifica», che apre la classifica dei lavori più apprezzati.
@@ -22,6 +23,22 @@
       if (!lavori || !lavori.map) return;
       var slug = entry.get('slug') || dati.get('slug') || 'lavoro';
       var usati = {};
+      // Codici brevi (es. BIG-02): prime 3 lettere della categoria + numero dopo il più alto già usato
+      var prefisso = String(slug).normalize('NFD').replace(/[^a-zA-Z]/g, '').slice(0, 3).toUpperCase() || 'LAV';
+      var massimo = 0, codiciUsati = {};
+      lavori.forEach(function (l) {
+        var c = l && l.get && String(l.get('codice') || '').trim().toUpperCase();
+        if (!c) return;
+        codiciUsati[c] = true;
+        var m = c.match(/-(\d+)$/); if (m) massimo = Math.max(massimo, +m[1]);
+      });
+      lavori = lavori.map(function (l) {
+        if (!l || !l.get || String(l.get('codice') || '').trim()) return l;
+        var c;
+        do { c = prefisso + '-' + String(++massimo).padStart(2, '0'); } while (codiciUsati[c]);
+        codiciUsati[c] = true;
+        return l.set('codice', c);
+      });
       var nuovi = lavori.map(function (l) {
         if (!l || !l.get) return l;
         var id = l.get('id');

@@ -74,6 +74,7 @@ collections:
             hint: "Altri dettagli o angolazioni: si vedono aprendo il lavoro in grande. Trascinate un riquadro dalla maniglia in alto per cambiare l'ordine; con la × lo eliminate (un riquadro senza foto viene comunque ignorato)."
             field: { label: "Foto", name: foto, widget: image, required: false }
           - { label: "Titolo", name: titolo, widget: string, required: false }
+          - { label: "Codice", name: codice, widget: string, required: false, hint: "Codice breve del lavoro (es. BIG-02): compare nei messaggi WhatsApp e email di chi chiede informazioni, così sapete di quale lavoro si parla anche se due hanno lo stesso titolo. Se lo lasciate vuoto, si assegna da solo al salvataggio. Ogni lavoro deve avere un codice diverso." }
           - { label: "Descrizione", name: descrizione, widget: markdown, required: false, buttons: [bold, italic], editor_components: [], modes: [rich_text, raw], hint: "Selezionate le parole e premete G o C per grassetto e corsivo." }
           - { label: "Prezzo (facoltativo)", name: prezzo, widget: string, required: false, hint: "Es. 35 € — lascia vuoto per non mostrarlo." }
           - { label: "Link Instagram (facoltativo)", name: instagram, widget: string, required: false, hint: "Incolla il link del post (es. https://www.instagram.com/p/...) oppure scrivi @nomeprofilo. Sul sito diventa un link cliccabile con QR code. Se è il link di un REEL, il video si può guardare anche direttamente sul sito (etichetta «▶ Video» sulla foto)." }

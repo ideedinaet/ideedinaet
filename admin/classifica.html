@@ -51,7 +51,7 @@
   function riga(l, pos) {
     return '<li' + (l.n ? '' : ' class="zero"') + '><span class="pos">' + (pos || '') + '</span>' +
       (l.foto ? '<img src="' + esc(l.foto) + '" alt="" loading="lazy">' : '<span></span>') +
-      '<div><div class="titolo"><a href="' + esc(l.pagina) + '" target="_blank" rel="noopener">' + esc(l.titolo || '(senza titolo)') + '</a></div><div class="cat">' + esc(l.categoria) + '</div></div>' +
+      '<div><div class="titolo"><a href="' + esc(l.pagina) + '" target="_blank" rel="noopener">' + esc(l.titolo || '(senza titolo)') + '</a></div><div class="cat">' + (l.codice ? esc(l.codice) + ' · ' : '') + esc(l.categoria) + '</div></div>' +
       '<span class="conta">♥ ' + l.n + '</span></li>';
   }
   function mostra() {

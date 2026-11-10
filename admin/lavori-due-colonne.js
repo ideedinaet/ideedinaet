@@ -189,6 +189,7 @@
       var n = quanteFoto(item);
       var meta = [];
       if (nascosto) meta.push('⛔ nascosto');
+      if (testo(leggi(item, 'codice'))) meta.push(testo(leggi(item, 'codice')));
       if (leggi(item, 'data')) meta.push(dataIt(leggi(item, 'data')));
       meta.push(n === 1 ? '1 foto' : n + ' foto');
       var src = this.asset[foto] || miniatura(foto);
@@ -229,7 +230,7 @@
       var cerca = this.state.cerca.trim().toLowerCase();
       var righe = [];
       arr.forEach(function (item, i) {
-        if (cerca && testo(leggi(item, 'titolo')).toLowerCase().indexOf(cerca) === -1) return;
+        if (cerca && (testo(leggi(item, 'titolo')) + ' ' + testo(leggi(item, 'codice'))).toLowerCase().indexOf(cerca) === -1) return;
         righe.push(self.renderRiga(item, i, tot, !!cerca));
       });
       var iSel = this.state.keys.indexOf(this.state.sel);
@@ -240,7 +241,7 @@
           h('strong', {}, tot + ' ' + (tot === 1 ? singolare : plurale)),
           h('button', { type: 'button', className: 'dc-agg', onClick: function (e) { self.setState({ cerca: '' }); self.handleAdd(e); } }, '+ Aggiungi ' + singolare)),
         tot > 5 ? h('input', {
-          className: 'dc-cerca', type: 'search', placeholder: 'Cerca per titolo…', value: this.state.cerca,
+          className: 'dc-cerca', type: 'search', placeholder: 'Cerca per titolo o codice…', value: this.state.cerca,
           onChange: function (e) { self.setState({ cerca: e.target.value }); }
         }) : null,
         h('div', { className: 'dc-righe' },

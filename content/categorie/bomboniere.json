@@ -16,7 +16,8 @@
       "en": {
         "titolo": "New home"
       },
-      "id": "bomboniere/20230821_094226"
+      "id": "bomboniere/20230821_094226",
+      "codice": "BOM-01"
     },
     {
       "titolo": "Compleanno ",
@@ -34,7 +35,8 @@
         "titolo": "Birthday",
         "descrizione": "Keyring in solid Oak and Wenge with a puzzle insert in Purpleheart, a leather strap and steel details."
       },
-      "id": "bomboniere/20260804_212943"
+      "id": "bomboniere/20260804_212943",
+      "codice": "BOM-02"
     }
   ],
   "en": {

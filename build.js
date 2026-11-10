@@ -99,6 +99,14 @@ const pulisciId = (v) => String(v || '').toLowerCase().replace(/^\/?immagini\//,
     usati.add(id);
     l.idLavoro = id;
   }));
+  // Codice breve del lavoro (es. BIG-02): compare nei messaggi WhatsApp/email per riconoscere il lavoro
+  const codici = new Map();
+  categorie.forEach((c) => c.lavori.forEach((l) => {
+    l.codice = String(l.codice || '').trim().toUpperCase();
+    if (!l.codice) return;
+    if (codici.has(l.codice)) console.warn(`Attenzione: il codice «${l.codice}» è usato da due lavori («${codici.get(l.codice)}» e «${l.titolo}»): cambiatene uno nel pannello`);
+    else codici.set(l.codice, l.titolo);
+  }));
 }
 const iconaCuore = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.3s-7.8-4.6-7.8-10.4A4.4 4.4 0 0 1 12 7.2a4.4 4.4 0 0 1 7.8 2.7c0 5.8-7.8 10.4-7.8 10.4z"/></svg>';
 
@@ -462,13 +470,13 @@ function figura(l, livello, conCategoria) {
     l.prezzo ? `<span class="prezzo">${esc(l.prezzo)}</span>` : (testi.prezzo_vuoto ? `<span class="prezzo su-richiesta">${T('prezzo_vuoto')}</span>` : ''),
   ].join('');
   const azioni = [
-    PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
+    PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}"${l.codice ? ` data-codice="${esc(l.codice)}"` : ''}>${iconaWA}${T('bottone_chiedi')}</a>` : '',
     l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener" aria-label="${P('vedi_ig')}">${iconaInstagram}Instagram</a>` : '',
     // Nascosto finché lo script non riceve i conteggi dal sito pubblicato (src/script.js)
     MI_PIACE && !ANTEPRIMA ? `<button type="button" class="mi-piace" data-id="${esc(l.idLavoro)}" aria-pressed="false" aria-label="${P('mi_piace')}: ${esc(l.titolo || c.titolo)}" hidden>${iconaCuore}<span class="conta"></span></button>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
-    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}"${l.video ? ` data-video="${esc(l.video.src)}" data-video-da="${l.video.da}" data-video-forma="${l.video.forma}"` : ''} data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="${P('ingrandisci')} ${esc(l.titolo || P('foto'))}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} ${P('foto')})` : ''}${l.video ? P('con_video') : ''}">
+    <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}"${l.codice ? ` data-codice="${esc(l.codice)}"` : ''} data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}"${l.video ? ` data-video="${esc(l.video.src)}" data-video-da="${l.video.da}" data-video-forma="${l.video.forma}"` : ''} data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="${P('ingrandisci')} ${esc(l.titolo || P('foto'))}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} ${P('foto')})` : ''}${l.video ? P('con_video') : ''}">
       <img src="${immagine(l.foto, 800, livello)}" alt="${esc(l.titolo || c.titolo)}" loading="lazy"><span class="luce" aria-hidden="true"></span>${l.altre_foto.length || l.video ? `<span class="etichette">${l.altre_foto.length ? `<span class="piu-foto">+${l.altre_foto.length} ${P('foto')}</span>` : ''}${l.video ? `<span class="ha-video">▶&#xFE0E; ${P('video')}</span>` : ''}</span>` : ''}${nuovo && MOSTRA_NOVITA && testi.etichetta_nuovo ? `<span class="nuovo">${T('etichetta_nuovo')}</span>` : ''}</button>
     ${didascalia || azioni ? `<figcaption>${didascalia}${azioni ? `<div class="azioni">${azioni}</div>` : ''}</figcaption>` : ''}
     ${l.instagram && codiciQR[l.instagram] ? `<template class="qr">${codiciQR[l.instagram]}</template>` : ''}
@@ -646,7 +654,7 @@ impostaLingua('it');
 scrivi('admin/classifica-lavori.json', JSON.stringify({
   attivo: MI_PIACE,
   lavori: categorie.flatMap((c) => c.lavori.map((l) => ({
-    id: l.idLavoro, titolo: l.titolo || '', categoria: c.titolo, pagina: '/' + c.slug + '/',
+    id: l.idLavoro, codice: l.codice || '', titolo: l.titolo || '', categoria: c.titolo, pagina: '/' + c.slug + '/',
     foto: l.foto ? immagine(l.foto, 400, 1) : '',
   }))),
 }));

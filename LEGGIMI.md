@@ -56,6 +56,18 @@ In alto a destra il pulsante **EN** / **IT** porta alla stessa pagina nell'altra
 - Anche il messaggio già scritto di «Ask for info» (WhatsApp o email) è in inglese.
 - Google trova le due versioni da solo: la mappa del sito contiene entrambe le lingue.
 
+## Codice dei lavori
+
+Ogni lavoro ha un **codice breve** (es. `BIG-02`, `TAG-05`): prime tre lettere della categoria + un numero.
+Compare nei messaggi WhatsApp ed email di chi preme «Chiedi info», così sapete di quale lavoro si parla
+anche se due hanno lo stesso titolo:
+
+> Ciao! Mi interessa «Biglietto Auguri Natale» (codice BIG-02), che ho visto sul vostro sito …
+
+- Nel pannello il codice è nell'elenco dei lavori (sotto il titolo, insieme a data e numero di foto)
+  e nel campo **Codice** del lavoro. Nella casella di ricerca si può cercare anche per codice.
+- I lavori nuovi ricevono il codice da soli al salvataggio. Si può cambiare, ma ogni lavoro deve averne uno diverso.
+
 ## «Mi piace» ai lavori
 
 Sotto ogni lavoro c'è un cuore ♡: i visitatori possono mettere «mi piace» (uno per browser; premendo di nuovo lo tolgono).

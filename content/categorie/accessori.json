@@ -14,7 +14,8 @@
       "en": {
         "titolo": "Vintage coin purse"
       },
-      "id": "accessori/brl1-01"
+      "id": "accessori/brl1-01",
+      "codice": "ACC-01"
     },
     {
       "nascosto": false,
@@ -28,7 +29,8 @@
       "en": {
         "titolo": "Vintage coin purse"
       },
-      "id": "accessori/brl2-01"
+      "id": "accessori/brl2-01",
+      "codice": "ACC-02"
     },
     {
       "nascosto": false,
@@ -43,7 +45,8 @@
       "en": {
         "titolo": "Evening clutch"
       },
-      "id": "accessori/brs1-01"
+      "id": "accessori/brs1-01",
+      "codice": "ACC-03"
     },
     {
       "nascosto": false,
@@ -58,7 +61,8 @@
       "en": {
         "titolo": "Phone pouch"
       },
-      "id": "accessori/brs2-01"
+      "id": "accessori/brs2-01",
+      "codice": "ACC-04"
     },
     {
       "nascosto": false,
@@ -72,7 +76,8 @@
       "en": {
         "titolo": "Phone pouch"
       },
-      "id": "accessori/brs3-01"
+      "id": "accessori/brs3-01",
+      "codice": "ACC-05"
     },
     {
       "nascosto": false,
@@ -87,7 +92,8 @@
       "en": {
         "titolo": "Glasses case"
       },
-      "id": "accessori/poc2-01"
+      "id": "accessori/poc2-01",
+      "codice": "ACC-06"
     },
     {
       "nascosto": false,
@@ -98,7 +104,8 @@
       "en": {
         "titolo": "Glasses case"
       },
-      "id": "accessori/poc1-01"
+      "id": "accessori/poc1-01",
+      "codice": "ACC-07"
     },
     {
       "nascosto": false,
@@ -115,7 +122,8 @@
       "en": {
         "titolo": "Military green leather bracelet"
       },
-      "id": "accessori/brc1-01"
+      "id": "accessori/brc1-01",
+      "codice": "ACC-08"
     },
     {
       "nascosto": false,
@@ -127,7 +135,8 @@
       "en": {
         "titolo": "Military green leather bracelet with matching earrings"
       },
-      "id": "accessori/brc2-02"
+      "id": "accessori/brc2-02",
+      "codice": "ACC-09"
     },
     {
       "nascosto": false,
@@ -138,7 +147,8 @@
       "en": {
         "titolo": "Pink leather bracelet"
       },
-      "id": "accessori/brc3-01"
+      "id": "accessori/brc3-01",
+      "codice": "ACC-10"
     },
     {
       "nascosto": false,
@@ -149,7 +159,8 @@
       "en": {
         "titolo": "Caramel leather bracelet with matching earrings"
       },
-      "id": "accessori/brc4-02"
+      "id": "accessori/brc4-02",
+      "codice": "ACC-11"
     },
     {
       "nascosto": false,
@@ -160,7 +171,8 @@
       "en": {
         "titolo": "Turquoise leather bracelet"
       },
-      "id": "accessori/brc5-01"
+      "id": "accessori/brc5-01",
+      "codice": "ACC-12"
     },
     {
       "nascosto": false,
@@ -171,7 +183,8 @@
       "en": {
         "titolo": "Burgundy leather bracelet with matching earrings"
       },
-      "id": "accessori/brc6-02"
+      "id": "accessori/brc6-02",
+      "codice": "ACC-13"
     },
     {
       "nascosto": false,
@@ -182,7 +195,8 @@
       "en": {
         "titolo": "White leather bracelet"
       },
-      "id": "accessori/brc7-01"
+      "id": "accessori/brc7-01",
+      "codice": "ACC-14"
     },
     {
       "nascosto": false,
@@ -198,7 +212,8 @@
       "en": {
         "titolo": "T-shirt customised with vinyl"
       },
-      "id": "accessori/tsh1-00"
+      "id": "accessori/tsh1-00",
+      "codice": "ACC-15"
     }
   ],
   "titolo": "Accessori",

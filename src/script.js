@@ -1,14 +1,16 @@
 // Scritte usate dagli script, nella lingua della pagina (<html lang="en"> = sito inglese)
 var PAROLE_JS = document.documentElement.lang === 'en' ? {
   video_ig: 'Video on Instagram', video: 'Video', foto: function (i, n) { return 'Photo ' + i + ' of ' + n; }, poi_video: ' · then the video', poi_video_solo: 'Then the video ›',
-  msg_lavoro: function (t, p) { return 'Hello! I\'m interested in “' + t + '”, which I saw on your website (' + p + '). Could you give me some information?'; },
+  msg_lavoro: function (t, p, c) { return 'Hello! I\'m interested in “' + t + '”' + (c ? ' (code ' + c + ')' : '') + ', which I saw on your website (' + p + '). Could you give me some information?'; },
+  voce_elenco: function (t, c) { return t + (c ? ' (code ' + c + ')' : ''); },
   msg: 'Hello! I\'m writing from your website: I\'d like some information.', oggetto: 'Information', email: 'Email',
   apri_menu: 'Open the menu', chiudi_menu: 'Close the menu',
   mi_piace: 'Like', non_mi_piace_piu: 'Remove like', aggiunto: 'Added to your favourites', vedi: 'View',
   msg_elenco: function (elenco) { return 'Hello! I\'m interested in these pieces I saw on your website:\n' + elenco.map(function (t) { return '• ' + t; }).join('\n') + '\nCould you give me some information?'; }
 } : {
   video_ig: 'Video su Instagram', video: 'Video', foto: function (i, n) { return 'Foto ' + i + ' di ' + n; }, poi_video: ' · poi il video', poi_video_solo: 'Poi il video ›',
-  msg_lavoro: function (t, p) { return 'Ciao! Mi interessa «' + t + '», che ho visto sul vostro sito (' + p + '). Potete darmi qualche informazione?'; },
+  msg_lavoro: function (t, p, c) { return 'Ciao! Mi interessa «' + t + '»' + (c ? ' (codice ' + c + ')' : '') + ', che ho visto sul vostro sito (' + p + '). Potete darmi qualche informazione?'; },
+  voce_elenco: function (t, c) { return t + (c ? ' (codice ' + c + ')' : ''); },
   msg: 'Ciao! Vi scrivo dal vostro sito: vorrei qualche informazione.', oggetto: 'Informazioni', email: 'Email',
   apri_menu: 'Apri il menu', chiudi_menu: 'Chiudi il menu',
   mi_piace: 'Mi piace', non_mi_piace_piu: 'Togli il mi piace', aggiunto: 'Aggiunto ai tuoi preferiti', vedi: 'Vedi',
@@ -121,7 +123,7 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
     img.alt = b.getAttribute('data-titolo') || '';
     titolo.textContent = b.getAttribute('data-titolo') || '';
     var chiedi = visore.querySelector('.bottone-chiedi');
-    if (chiedi) chiedi.setAttribute('data-chiedi', b.getAttribute('data-titolo') || '');
+    if (chiedi) { chiedi.setAttribute('data-chiedi', b.getAttribute('data-titolo') || ''); chiedi.setAttribute('data-codice', b.getAttribute('data-codice') || ''); }
     testo.innerHTML = b.getAttribute('data-testo') || '';   // già ripulito dal generatore: solo grassetto e corsivo
     var ig = b.getAttribute('data-instagram');
     var modello = b.closest('figure') && b.closest('figure').querySelector('template.qr');
@@ -171,37 +173,38 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   var voci = scelta && scelta.querySelector('.voci');
   var pagina = location.href.split('#')[0];
 
-  // t = titolo di un lavoro, oppure elenco di titoli (pagina «I tuoi preferiti»)
-  function messaggio(t) {
+  // t = titolo di un lavoro e c = il suo codice (es. BIG-02),
+  // oppure t = elenco di voci già pronte (pagina «I tuoi preferiti»)
+  function messaggio(t, c) {
     if (Array.isArray(t)) return PAROLE_JS.msg_elenco(t);
-    return t ? PAROLE_JS.msg_lavoro(t, pagina) : PAROLE_JS.msg;
+    return t ? PAROLE_JS.msg_lavoro(t, pagina, c) : PAROLE_JS.msg;
   }
-  function linkWA(n, t) { return 'https://wa.me/' + n + '?text=' + encodeURIComponent(messaggio(t)); }
-  function linkEmail(t) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t && !Array.isArray(t) ? PAROLE_JS.oggetto + ': ' + t : PAROLE_JS.oggetto) + '&body=' + encodeURIComponent(messaggio(t)); }
+  function linkWA(n, t, c) { return 'https://wa.me/' + n + '?text=' + encodeURIComponent(messaggio(t, c)); }
+  function linkEmail(t, c) { return 'mailto:' + email + '?subject=' + encodeURIComponent(t && !Array.isArray(t) ? PAROLE_JS.oggetto + ': ' + t + (c ? ' (' + c + ')' : '') : PAROLE_JS.oggetto) + '&body=' + encodeURIComponent(messaggio(t, c)); }
   function voce(href, testo, nuova) {
     var a = document.createElement('a'); a.href = href; a.textContent = testo;
     if (nuova) { a.target = '_blank'; a.rel = 'noopener'; }
     a.addEventListener('click', function () { scelta.close(); });
     voci.appendChild(a);
   }
-  function chiedi(t) {
-    if (wa.length === 1) { window.open(linkWA(wa[0].w, t), '_blank', 'noopener'); return true; }
-    if (!wa.length) { if (!email) return false; location.href = linkEmail(t); return true; }
+  function chiedi(t, c) {
+    if (wa.length === 1) { window.open(linkWA(wa[0].w, t, c), '_blank', 'noopener'); return true; }
+    if (!wa.length) { if (!email) return false; location.href = linkEmail(t, c); return true; }
     if (!scelta || typeof scelta.showModal !== 'function') return false;
     voci.innerHTML = '';
-    wa.forEach(function (c) { voce(linkWA(c.w, t), 'WhatsApp ' + c.n, true); });
-    if (email) voce(linkEmail(t), PAROLE_JS.email, false);
+    wa.forEach(function (n) { voce(linkWA(n.w, t, c), 'WhatsApp ' + n.n, true); });
+    if (email) voce(linkEmail(t, c), PAROLE_JS.email, false);
     scelta.showModal();
     return true;
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-chiedi]');
-    if (b && chiedi(b.getAttribute('data-chiedi'))) { e.preventDefault(); return; }
+    if (b && chiedi(b.getAttribute('data-chiedi'), b.getAttribute('data-codice') || '')) { e.preventDefault(); return; }
     // «Chiedi info su questi lavori»: tutti i preferiti visibili nella pagina
     var p = e.target.closest('[data-chiedi-preferiti]');
     if (!p) return;
     var titoli = [];
-    document.querySelectorAll('[data-preferiti] .lavoro:not([hidden]) [data-chiedi]').forEach(function (x) { titoli.push(x.getAttribute('data-chiedi')); });
+    document.querySelectorAll('[data-preferiti] .lavoro:not([hidden]) [data-chiedi]').forEach(function (x) { titoli.push(PAROLE_JS.voce_elenco(x.getAttribute('data-chiedi'), x.getAttribute('data-codice') || '')); });
     if (titoli.length && chiedi(titoli)) e.preventDefault();
   });
   if (scelta) {
