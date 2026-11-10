@@ -15,7 +15,8 @@
       "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
-      }
+      },
+      "id": "biglietti/bgl5-01"
     },
     {
       "nascosto": false,
@@ -29,7 +30,8 @@
       "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
-      }
+      },
+      "id": "biglietti/bgl6-01"
     },
     {
       "nascosto": false,
@@ -43,7 +45,8 @@
       "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
-      }
+      },
+      "id": "biglietti/bgl7-01"
     },
     {
       "nascosto": false,
@@ -57,7 +60,8 @@
       "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
-      }
+      },
+      "id": "biglietti/bgl8-01"
     },
     {
       "nascosto": false,
@@ -71,7 +75,8 @@
       "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
-      }
+      },
+      "id": "biglietti/bgl4-01"
     },
     {
       "nascosto": false,
@@ -84,7 +89,8 @@
       ],
       "en": {
         "titolo": "Set of Christmas greeting cards"
-      }
+      },
+      "id": "biglietti/bgl18-01"
     }
   ],
   "titolo": "Biglietti",

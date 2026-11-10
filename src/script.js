@@ -3,12 +3,14 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   video_ig: 'Video on Instagram', video: 'Video', foto: function (i, n) { return 'Photo ' + i + ' of ' + n; }, poi_video: ' · then the video', poi_video_solo: 'Then the video ›',
   msg_lavoro: function (t, p) { return 'Hello! I\'m interested in “' + t + '”, which I saw on your website (' + p + '). Could you give me some information?'; },
   msg: 'Hello! I\'m writing from your website: I\'d like some information.', oggetto: 'Information', email: 'Email',
-  apri_menu: 'Open the menu', chiudi_menu: 'Close the menu'
+  apri_menu: 'Open the menu', chiudi_menu: 'Close the menu',
+  mi_piace: 'Like', non_mi_piace_piu: 'Remove like'
 } : {
   video_ig: 'Video su Instagram', video: 'Video', foto: function (i, n) { return 'Foto ' + i + ' di ' + n; }, poi_video: ' · poi il video', poi_video_solo: 'Poi il video ›',
   msg_lavoro: function (t, p) { return 'Ciao! Mi interessa «' + t + '», che ho visto sul vostro sito (' + p + '). Potete darmi qualche informazione?'; },
   msg: 'Ciao! Vi scrivo dal vostro sito: vorrei qualche informazione.', oggetto: 'Informazioni', email: 'Email',
-  apri_menu: 'Apri il menu', chiudi_menu: 'Chiudi il menu'
+  apri_menu: 'Apri il menu', chiudi_menu: 'Chiudi il menu',
+  mi_piace: 'Mi piace', non_mi_piace_piu: 'Togli il mi piace'
 };
 
 (function () {
@@ -246,4 +248,66 @@ var PAROLE_JS = document.documentElement.lang === 'en' ? {
   pannello.addEventListener('click', function (e) { if (e.target.closest('a')) apri(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pannello.hidden) { apri(false); bottone.focus(); } });
   window.addEventListener('resize', function () { if (!pannello.hidden && window.innerWidth > 760) apri(false); });
+})();
+
+// ---- «Mi piace» ai lavori ----
+// I conteggi arrivano dalla funzione Netlify /api/mi-piace (netlify/functions/mi-piace.mjs).
+// Il cuore compare solo se la funzione risponde (sul sito pubblicato o con il sito locale);
+// il numero compare solo da «mi-piace-minimo» like in su (impostazione del pannello).
+// Il browser ricorda quali lavori ha già apprezzato, per non contare due volte lo stesso visitatore.
+(function () {
+  var bottoni = document.querySelectorAll('.mi-piace[data-id]');
+  if (!bottoni.length || !window.fetch) return;
+  var INDIRIZZO = '/api/mi-piace';
+  var meta = document.querySelector('meta[name="mi-piace-minimo"]');
+  var minimo = Math.max(1, parseInt(meta && meta.content, 10) || 4);
+  var CHIAVE = 'mi-piace-dati';
+  var miei = {};
+  try { miei = JSON.parse(localStorage.getItem(CHIAVE) || '{}') || {}; } catch (e) { miei = {}; }
+  function salvaMiei() { try { localStorage.setItem(CHIAVE, JSON.stringify(miei)); } catch (e) { /* navigazione privata: pazienza */ } }
+  var conteggi = {};
+
+  function aggiorna(id) {
+    var n = Math.max(0, conteggi[id] || 0);
+    document.querySelectorAll('.mi-piace[data-id="' + id.replace(/"/g, '') + '"]').forEach(function (b) {
+      var si = !!miei[id];
+      b.setAttribute('aria-pressed', si ? 'true' : 'false');
+      b.classList.toggle('attivo', si);
+      b.querySelector('.conta').textContent = n >= minimo ? String(n) : '';
+      b.title = si ? PAROLE_JS.non_mi_piace_piu : PAROLE_JS.mi_piace;
+    });
+  }
+
+  fetch(INDIRIZZO, { headers: { Accept: 'application/json' } })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (dati) {
+      conteggi = dati && typeof dati === 'object' ? dati : {};
+      bottoni.forEach(function (b) { b.hidden = false; aggiorna(b.getAttribute('data-id')); });
+    })
+    .catch(function () { /* funzione non disponibile (es. sito aperto da file): niente cuori */ });
+
+  var inCorso = {};
+  bottoni.forEach(function (b) {
+    b.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var id = b.getAttribute('data-id');
+      if (inCorso[id]) return;
+      inCorso[id] = true;
+      var aggiungi = !miei[id];
+      // Subito a schermo, poi conferma dal server
+      if (aggiungi) miei[id] = 1; else delete miei[id];
+      conteggi[id] = Math.max(0, (conteggi[id] || 0) + (aggiungi ? 1 : -1));
+      aggiorna(id);
+      if (aggiungi) { b.classList.remove('battito'); void b.offsetWidth; b.classList.add('battito'); }
+      fetch(INDIRIZZO, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, azione: aggiungi ? 'aggiungi' : 'togli' }) })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) { if (d && typeof d.conteggio === 'number') conteggi[id] = d.conteggio; salvaMiei(); })
+        .catch(function () {
+          // Non è andata: si torna com'era
+          if (aggiungi) delete miei[id]; else miei[id] = 1;
+          conteggi[id] = Math.max(0, (conteggi[id] || 0) + (aggiungi ? -1 : 1));
+        })
+        .then(function () { inCorso[id] = false; aggiorna(id); });
+    });
+  });
 })();

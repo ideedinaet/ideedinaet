@@ -83,6 +83,25 @@ categorie.forEach((c) => c.lavori.forEach((l) => {
 const novita = MOSTRA_NOVITA
   ? categorie.flatMap((c) => c.lavori).filter((l) => recente(l.data)).sort((a, b) => b.data.localeCompare(a.data))
   : [];
+// ---- «Mi piace» ai lavori (funzione Netlify in netlify/functions/mi-piace.mjs) ----
+const MI_PIACE = sito.mi_piace !== false && sito.mi_piace !== 'false';
+const MI_PIACE_MINIMO = Math.max(1, parseInt(sito.mi_piace_minimo, 10) || 4);
+// Identificativo stabile di un lavoro: il campo «id» (lo assegna il pannello, admin/mi-piace.js)
+// oppure, se manca, il percorso della foto principale senza estensione (es. "taglieri/fg1-1")
+const ID_LAVORO = /^[a-z0-9][a-z0-9/_-]{0,99}$/;
+const pulisciId = (v) => String(v || '').toLowerCase().replace(/^\/?immagini\//, '').replace(/\.[a-z0-9]+$/, '')
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9/_-]+/g, '-').replace(/^[^a-z0-9]+|-+$/g, '').slice(0, 100);
+{
+  const usati = new Set();
+  categorie.forEach((c) => c.lavori.forEach((l, i) => {
+    let id = ID_LAVORO.test(String(l.id || '')) ? l.id : pulisciId(l.foto) || pulisciId(c.slug + '/' + (l.titolo || 'lavoro-' + (i + 1)));
+    if (usati.has(id)) { let n = 2; while (usati.has(id + '-' + n)) n++; console.warn(`Attenzione: due lavori con lo stesso identificativo «${id}»`); id += '-' + n; }
+    usati.add(id);
+    l.idLavoro = id;
+  }));
+}
+const iconaCuore = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.3s-7.8-4.6-7.8-10.4A4.4 4.4 0 0 1 12 7.2a4.4 4.4 0 0 1 7.8 2.7c0 5.8-7.8 10.4-7.8 10.4z"/></svg>';
+
 // Date delle novità, dalla più recente: il browser le ricontrolla ogni giorno (src/script.js)
 const dateNovita = () => ` data-novita-date="${novita.map((l) => l.data).join(',')}"`;
 
@@ -145,7 +164,7 @@ const PAROLE = {
     foto_prec: 'Foto precedente', foto_succ: 'Foto successiva', su_questo: 'su questo lavoro', inquadra: 'Inquadra il codice con il telefono<br>oppure',
     apri_ig: 'Apri su Instagram', chiudi: 'Chiudi', a_chi: 'A chi vuoi scrivere?', annulla: 'Annulla', torna_su: 'Torna su',
     scrivici_wa: 'Scrivici su WhatsApp', non_trovata: 'Pagina non trovata', torna_home: 'Torna alla <a href="/">pagina principale</a>.',
-    altra_lingua: 'EN', altra_lingua_nome: 'English version', anteprima: 'anteprima',
+    altra_lingua: 'EN', altra_lingua_nome: 'English version', anteprima: 'anteprima', mi_piace: 'Mi piace',
   },
   en: {
     contatti: 'Contact', menu_principale: 'Main menu', apri_menu: 'Open the menu', email: 'Email', negozio: 'Online shop',
@@ -155,7 +174,7 @@ const PAROLE = {
     foto_prec: 'Previous photo', foto_succ: 'Next photo', su_questo: 'about this piece', inquadra: 'Scan the code with your phone<br>or',
     apri_ig: 'Open on Instagram', chiudi: 'Close', a_chi: 'Who would you like to write to?', annulla: 'Cancel', torna_su: 'Back to top',
     scrivici_wa: 'Message us on WhatsApp', non_trovata: 'Page not found', torna_home: 'Go back to the <a href="/en/">home page</a>.',
-    altra_lingua: 'IT', altra_lingua_nome: 'Versione italiana', anteprima: 'preview',
+    altra_lingua: 'IT', altra_lingua_nome: 'Versione italiana', anteprima: 'preview', mi_piace: 'Like',
   },
 };
 const P = (k) => PAROLE[LINGUA][k];
@@ -435,6 +454,8 @@ function figura(l, livello, conCategoria) {
   const azioni = [
     PUO_CHIEDERE && testi.bottone_chiedi ? `<a class="chiedi" href="#contatti" data-chiedi="${esc(l.titolo || c.titolo)}">${iconaWA}${T('bottone_chiedi')}</a>` : '',
     l.instagram ? `<a class="ig" href="${esc(l.instagram)}" target="_blank" rel="noopener" aria-label="${P('vedi_ig')}">${iconaInstagram}Instagram</a>` : '',
+    // Nascosto finché lo script non riceve i conteggi dal sito pubblicato (src/script.js)
+    MI_PIACE && !ANTEPRIMA ? `<button type="button" class="mi-piace" data-id="${esc(l.idLavoro)}" aria-pressed="false" aria-label="${P('mi_piace')}: ${esc(l.titolo || c.titolo)}" hidden>${iconaCuore}<span class="conta"></span></button>` : '',
   ].join('');
   return `<figure class="lavoro"${l.data ? ` data-data="${l.data}"` : ''}>
     <button type="button" data-grande="${immagine(l.foto, 1800, livello)}" data-titolo="${esc(l.titolo)}" data-testo="${esc([formattaInRiga(l.descrizione), esc(l.prezzo)].filter(Boolean).join(' · '))}" data-instagram="${esc(l.instagram)}"${l.video ? ` data-video="${esc(l.video.src)}" data-video-da="${l.video.da}" data-video-forma="${l.video.forma}"` : ''} data-altre="${esc(l.altre_foto.map((f) => immagine(f, 1800, livello)).join('|'))}" aria-label="${P('ingrandisci')} ${esc(l.titolo || P('foto'))}${l.altre_foto.length ? ` (${l.altre_foto.length + 1} ${P('foto')})` : ''}${l.video ? P('con_video') : ''}">
@@ -490,6 +511,7 @@ ${alternative}
 <meta property="og:description" content="${esc(descrizione)}">
 ${og ? `<meta property="og:image" content="${esc(og)}">` : ''}
 <meta property="og:locale" content="${IN_INGLESE() ? 'en_GB' : 'it_IT'}">
+${MI_PIACE && !ANTEPRIMA ? `<meta name="mi-piace-minimo" content="${MI_PIACE_MINIMO}">` : ''}
 ${verificaGoogle()}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fontTemi}&display=swap">
@@ -581,6 +603,15 @@ copia('immagini', 'immagini');
 copia('admin', 'admin');
 // File di verifica di Google Search Console (google….html nella cartella principale): vanno pubblicati così come sono
 for (const f of fs.readdirSync(RADICE)) if (/^google[a-z0-9]+\.html$/i.test(f)) copia(f, f);
+// Elenco dei lavori per la classifica dei «mi piace» nel pannello (admin/classifica.html)
+impostaLingua('it');
+scrivi('admin/classifica-lavori.json', JSON.stringify({
+  attivo: MI_PIACE,
+  lavori: categorie.flatMap((c) => c.lavori.map((l) => ({
+    id: l.idLavoro, titolo: l.titolo || '', categoria: c.titolo, pagina: '/' + c.slug + '/',
+    foto: l.foto ? immagine(l.foto, 400, 1) : '',
+  }))),
+}));
 scrivi('admin/tema.js', `window.TEMA_SITO = ${JSON.stringify(tema)};\nwindow.NETLIFY_IMMAGINI = ${NETLIFY};\n`);
 
 if (urlBase) {

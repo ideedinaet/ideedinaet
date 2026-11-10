@@ -13,7 +13,8 @@
       "titolo": "Borsellino Vintage",
       "en": {
         "titolo": "Vintage coin purse"
-      }
+      },
+      "id": "accessori/brl1-01"
     },
     {
       "nascosto": false,
@@ -26,7 +27,8 @@
       "titolo": "Borsellino Vintage",
       "en": {
         "titolo": "Vintage coin purse"
-      }
+      },
+      "id": "accessori/brl2-01"
     },
     {
       "nascosto": false,
@@ -40,7 +42,8 @@
       "titolo": "Pochette da sera",
       "en": {
         "titolo": "Evening clutch"
-      }
+      },
+      "id": "accessori/brs1-01"
     },
     {
       "nascosto": false,
@@ -54,7 +57,8 @@
       "titolo": "Portacellulare",
       "en": {
         "titolo": "Phone pouch"
-      }
+      },
+      "id": "accessori/brs2-01"
     },
     {
       "nascosto": false,
@@ -67,7 +71,8 @@
       "titolo": "Portacellulare",
       "en": {
         "titolo": "Phone pouch"
-      }
+      },
+      "id": "accessori/brs3-01"
     },
     {
       "nascosto": false,
@@ -81,7 +86,8 @@
       "titolo": "Portaocchiali",
       "en": {
         "titolo": "Glasses case"
-      }
+      },
+      "id": "accessori/poc2-01"
     },
     {
       "nascosto": false,
@@ -91,7 +97,8 @@
       "titolo": "Portaocchiali",
       "en": {
         "titolo": "Glasses case"
-      }
+      },
+      "id": "accessori/poc1-01"
     },
     {
       "nascosto": false,
@@ -107,7 +114,8 @@
       "titolo": "Bracciale in pelle verde militare",
       "en": {
         "titolo": "Military green leather bracelet"
-      }
+      },
+      "id": "accessori/brc1-01"
     },
     {
       "nascosto": false,
@@ -118,7 +126,8 @@
       "titolo": "Bracciale in pelle verde militare con Orecchini abbinati",
       "en": {
         "titolo": "Military green leather bracelet with matching earrings"
-      }
+      },
+      "id": "accessori/brc2-02"
     },
     {
       "nascosto": false,
@@ -128,7 +137,8 @@
       "titolo": "Bracciale in pelle rosa",
       "en": {
         "titolo": "Pink leather bracelet"
-      }
+      },
+      "id": "accessori/brc3-01"
     },
     {
       "nascosto": false,
@@ -138,7 +148,8 @@
       "titolo": "Bracciale in pelle caramello con Orecchini abbinati",
       "en": {
         "titolo": "Caramel leather bracelet with matching earrings"
-      }
+      },
+      "id": "accessori/brc4-02"
     },
     {
       "nascosto": false,
@@ -148,7 +159,8 @@
       "titolo": "Bracciale in pelle turchese",
       "en": {
         "titolo": "Turquoise leather bracelet"
-      }
+      },
+      "id": "accessori/brc5-01"
     },
     {
       "nascosto": false,
@@ -158,7 +170,8 @@
       "titolo": "Bracciale in pelle bordeaux con Orecchini abbinati",
       "en": {
         "titolo": "Burgundy leather bracelet with matching earrings"
-      }
+      },
+      "id": "accessori/brc6-02"
     },
     {
       "nascosto": false,
@@ -168,7 +181,8 @@
       "titolo": "Bracciale in pelle bianca",
       "en": {
         "titolo": "White leather bracelet"
-      }
+      },
+      "id": "accessori/brc7-01"
     },
     {
       "nascosto": false,
@@ -183,7 +197,8 @@
       "titolo": "T-Shirt personalizzata con vinile",
       "en": {
         "titolo": "T-shirt customised with vinyl"
-      }
+      },
+      "id": "accessori/tsh1-00"
     }
   ],
   "titolo": "Accessori",

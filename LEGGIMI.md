@@ -56,6 +56,21 @@ In alto a destra il pulsante **EN** / **IT** porta alla stessa pagina nell'altra
 - Anche il messaggio già scritto di «Ask for info» (WhatsApp o email) è in inglese.
 - Google trova le due versioni da solo: la mappa del sito contiene entrambe le lingue.
 
+## «Mi piace» ai lavori
+
+Sotto ogni lavoro c'è un cuore ♡: i visitatori possono mettere «mi piace» (uno per browser; premendo di nuovo lo tolgono).
+Il numero compare solo da 4 like in su (si cambia in *Impostazioni del sito → Mostra il numero di «mi piace» da*);
+sotto, si vede solo il cuore. Sito italiano e inglese contano insieme.
+
+- **Classifica:** nel pannello, pulsante **♥ Classifica** in alto (oppure `https://ideedinaet.it/admin/classifica.html`).
+- **Dove stanno i conteggi:** su Netlify (funzione `netlify/functions/mi-piace.mjs`, archivio «mi-piace» di Netlify Blobs).
+  Si salva solo il numero di like di ogni lavoro: nessun dato personale, nessun cookie.
+- **Costo:** ogni pagina aperta e ogni like è una piccola richiesta a Netlify: per un sito come questo, pochi crediti al mese.
+- **Ogni lavoro ha un identificativo fisso** (campo nascosto `id`, assegnato dal pannello al salvataggio):
+  i like restano al lavoro anche se si cambiano foto, titolo o categoria.
+- **In locale** i cuori funzionano, ma i conteggi sono di prova e si azzerano chiudendo la finestra del sito locale.
+- Per spegnerli: *Impostazioni del sito → Mostra i «mi piace» sui lavori*.
+
 ## Uso quotidiano
 
 **Bozze e pubblicazione.** Nel pannello «Salva» crea una *bozza*: il sito vero non cambia

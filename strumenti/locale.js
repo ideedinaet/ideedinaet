@@ -120,8 +120,27 @@ const TIPI = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': '
 const ricarica = `<script>try{new EventSource('/__ricarica').onmessage=function(){location.reload()}}catch(e){}</script>`;
 const avviso = `<div style="position:fixed;left:12px;bottom:12px;z-index:9999;background:#2563eb;color:#fff;font:600 12px system-ui;padding:6px 10px;border-radius:6px;opacity:.9">VERSIONE LOCALE — non è online</div>`;
 
+// «Mi piace» in locale: stessa logica della funzione Netlify, ma i conteggi stanno in memoria
+// (sono solo di prova e si azzerano chiudendo questa finestra; quelli veri sono sul sito pubblicato)
+const miPiace = import('../netlify/lib/mi-piace.mjs').then((m) => ({ ...m, archivio: m.archivioInMemoria() }));
+
 http.createServer((req, res) => {
   const url = decodeURIComponent(req.url.split('?')[0]);
+  if (url === '/api/mi-piace') {
+    const pezzi = [];
+    req.on('data', (d) => pezzi.push(d));
+    req.on('end', async () => {
+      try {
+        const { rispondi, archivio } = await miPiace;
+        const corpo = pezzi.length ? Buffer.concat(pezzi) : undefined;
+        const richiesta = new Request(`http://${req.headers.host || 'localhost'}${req.url}`, { method: req.method, headers: req.headers, body: req.method === 'GET' ? undefined : corpo });
+        const r = await rispondi(richiesta, archivio);
+        res.writeHead(r.status, Object.fromEntries(r.headers));
+        res.end(await r.text());
+      } catch (e) { res.writeHead(500); res.end(); }
+    });
+    return;
+  }
   if (url === '/__ricarica') {
     res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
     res.write('\n'); clienti.push(res);
