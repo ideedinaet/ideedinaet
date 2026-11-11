@@ -4,7 +4,141 @@
   "lavori": [
     {
       "nascosto": false,
-      "data": "2026-11-07",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl14-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl14-03.jpg",
+        "/immagini/biglietti/bgl14-04.jpg"
+      ],
+      "data": "2026-11-01",
+      "descrizione": "**L'emozione di una sorpresa che prende forma tra le mani.** Dietro la delicata copertina floreale impreziosita da un fiore traforato in rilievo, questo biglietto artigianale nasconde un ingegnoso gioco di pieghe tridimensionali. Aprendolo, i pannelli interni ruotano e si dispiegano per rivelare un messaggio speciale, una destinazione o una notizia importante, accompagnati da uno spazio dedicato ai tuoi auguri personali. Creato su misura su richiesta, trasforma ogni ricorrenza in un momento indimenticabile.",
+      "titolo": "Biglietto Auguri Pop-Up",
+      "codice": "BIG-07",
+      "id": "biglietti/bgl14-01"
+    },
+    {
+      "nascosto": false,
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl13-02.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl13-01.jpg",
+        "/immagini/biglietti/bgl13-03.jpg"
+      ],
+      "data": "2026-11-11",
+      "descrizione": "**Un dolce augurio con sorpresa**\nTenero e curato in ogni dettaglio, questo biglietto con tasca nasconde un cartoncino estraibile perfetto per scrivere la tua dedica speciale. Realizzato artigianalmente con carte selezionate, spago bicolore e busta kraft coordinata, è completamente personalizzabile nei colori, nei temi e nei messaggi. Un'idea originale non solo per un compleanno o una nascita, ma anche come invito unico per una festa.",
+      "titolo": "Biglietto Auguri Bimba/o",
+      "codice": "BIG-08",
+      "id": "biglietti/bgl13-02"
+    },
+    {
+      "nascosto": false,
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl12-01.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl12-02.jpg",
+        "/immagini/biglietti/bgl12-03.jpg",
+        "/immagini/biglietti/bgl12-04.jpg",
+        "/immagini/biglietti/bgl12-05.jpg",
+        "/immagini/biglietti/bgl12-06.jpg",
+        "/immagini/biglietti/bgl12-07.jpg",
+        "/immagini/biglietti/bgl12-09.jpg"
+      ],
+      "data": "2026-11-11",
+      "descrizione": "**Un regalo dentro il regalo**\nQuesto biglietto tridimensionale trasforma un augurio in una vera e propria scenografia di carta. Ideato per svelare la sorpresa di un viaggio in Toscana, ricostruisce un suggestivo paesaggio ricco di dettagli in rilievo e include una piccola pergamena per un messaggio personale. Custodito in una scatola realizzata su misura, è il modo più originale ed emozionante per rendere unico un momento speciale.\n\nE' completamente personalizzabile nei temi, nei colori e nelle destinazioni per rendere unico ogni tuo momento speciale: dal compleanno alla laurea, a un anniversario",
+      "titolo": "Biglietto Regalo 3D",
+      "codice": "BIG-09",
+      "id": "biglietti/bgl12-01"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl10-01.jpg",
+      "titolo": "Biglietto Compleanno",
+      "codice": "BIG-10",
+      "id": "biglietti/bgl10-01"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl9-00.jpg",
+      "altre_foto": [
+        "/immagini/biglietti/bgl9-03.jpg",
+        "/immagini/biglietti/bgl9-02.jpg",
+        "/immagini/biglietti/bgl9-04.jpg",
+        "/immagini/biglietti/bgl9-05.jpg",
+        "/immagini/biglietti/bgl9-06.jpg",
+        "/immagini/biglietti/bgl9-07.jpg",
+        "/immagini/biglietti/bgl9-08.jpg",
+        "/immagini/biglietti/bgl9-09.jpg"
+      ],
+      "titolo": "Biglietto Compleanno Z-Fold",
+      "codice": "BIG-11",
+      "id": "biglietti/bgl9-00"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl3-01.jpg",
+      "titolo": "Biglietti Compleanno",
+      "altre_foto": [
+        "/immagini/biglietti/bgl3-02.jpg",
+        "/immagini/biglietti/bgl3-03.jpg",
+        "/immagini/biglietti/bgl3-04.jpg",
+        "/immagini/biglietti/bgl3-05.jpg",
+        "/immagini/biglietti/bgl3-06.jpg"
+      ],
+      "codice": "BIG-12",
+      "id": "biglietti/bgl3-01"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl2-00.jpg",
+      "titolo": "Biglietti Compleanno",
+      "altre_foto": [
+        "/immagini/biglietti/bgl2-01.jpg",
+        "/immagini/biglietti/bgl2-02.jpg",
+        "/immagini/biglietti/bgl2-03.jpg",
+        "/immagini/biglietti/bgl2-04.jpg",
+        "/immagini/biglietti/bgl2-05.jpg",
+        "/immagini/biglietti/bgl2-06.jpg"
+      ],
+      "codice": "BIG-13",
+      "id": "biglietti/bgl2-00"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl1-01.jpg",
+      "titolo": "Biglietto Compleanno",
+      "altre_foto": [
+        "/immagini/biglietti/bgl1-02.jpg"
+      ],
+      "codice": "BIG-14",
+      "id": "biglietti/bgl1-01"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/biglietti/bgl21-00.jpg",
+      "titolo": "Set Biglietti Auguri Natale",
+      "altre_foto": [
+        "/immagini/biglietti/bgl21-01.jpg",
+        "/immagini/biglietti/bgl21-02.jpg",
+        "/immagini/biglietti/bgl21-03.jpg",
+        "/immagini/biglietti/bgl21-04.jpg"
+      ],
+      "codice": "BIG-15",
+      "id": "biglietti/bgl21-00"
+    },
+    {
+      "nascosto": false,
       "nascondi_video": false,
       "foto": "/immagini/biglietti/bgl5-01.jpg",
       "altre_foto": [
@@ -12,91 +146,92 @@
         "/immagini/biglietti/bgl5-02.jpg",
         "/immagini/biglietti/bgl5-03.jpg"
       ],
-      "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
       },
-      "id": "biglietti/bgl5-01",
-      "codice": "BIG-01"
+      "data": "2026-11-07",
+      "titolo": "Biglietto Auguri Natale",
+      "codice": "BIG-01",
+      "id": "biglietti/bgl5-01"
     },
     {
       "nascosto": false,
-      "data": "2026-11-07",
       "nascondi_video": false,
       "foto": "/immagini/biglietti/bgl6-01.jpg",
       "altre_foto": [
         "/immagini/biglietti/bgl6-02.jpg",
         "/immagini/biglietti/bgl6-03.jpg"
       ],
-      "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
       },
-      "id": "biglietti/bgl6-01",
-      "codice": "BIG-02"
+      "data": "2026-11-07",
+      "titolo": "Biglietto Auguri Natale",
+      "codice": "BIG-02",
+      "id": "biglietti/bgl6-01"
     },
     {
       "nascosto": false,
-      "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/biglietti/bgl7-01.jpg",
       "altre_foto": [
         "/immagini/biglietti/bgl7-02.jpg",
         "/immagini/biglietti/bgl7-03.jpg"
       ],
-      "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
       },
-      "id": "biglietti/bgl7-01",
-      "codice": "BIG-03"
+      "data": "2026-11-01",
+      "titolo": "Biglietto Auguri Natale",
+      "codice": "BIG-03",
+      "id": "biglietti/bgl7-01"
     },
     {
       "nascosto": false,
-      "data": "2026-11-02",
       "nascondi_video": false,
       "foto": "/immagini/biglietti/bgl8-01.jpg",
       "altre_foto": [
         "/immagini/biglietti/bgl8-02.jpg",
         "/immagini/biglietti/bgl8-03.jpg"
       ],
-      "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
       },
-      "id": "biglietti/bgl8-01",
-      "codice": "BIG-04"
+      "data": "2026-11-02",
+      "titolo": "Biglietto Auguri Natale",
+      "codice": "BIG-04",
+      "id": "biglietti/bgl8-01"
     },
     {
       "nascosto": false,
-      "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/biglietti/bgl4-01.jpg",
       "altre_foto": [
         "/immagini/biglietti/bgl4-02.jpg",
         "/immagini/biglietti/bgl4-03.jpg"
       ],
-      "titolo": "Biglietto Auguri Natale",
       "en": {
         "titolo": "Christmas greeting card"
       },
-      "id": "biglietti/bgl4-01",
-      "codice": "BIG-05"
+      "data": "2026-11-01",
+      "titolo": "Biglietto Auguri Natale",
+      "codice": "BIG-05",
+      "id": "biglietti/bgl4-01"
     },
     {
       "nascosto": false,
-      "data": "2026-11-01",
       "nascondi_video": false,
       "foto": "/immagini/biglietti/bgl18-01.jpg",
-      "titolo": "Set Biglietti Auguri Natale",
       "altre_foto": [
         null
       ],
       "en": {
         "titolo": "Set of Christmas greeting cards"
       },
-      "id": "biglietti/bgl18-01",
-      "codice": "BIG-06"
+      "data": "2026-11-01",
+      "titolo": "Set Biglietti Auguri Natale",
+      "codice": "BIG-06",
+      "id": "biglietti/bgl18-01"
     }
   ],
   "titolo": "Biglietti",
