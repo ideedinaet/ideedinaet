@@ -5,13 +5,103 @@
   "copertina": "/immagini/bomboniere/20260804_212634.jpg",
   "lavori": [
     {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "titolo": "Tenerezze di Pasqua",
+      "foto": "/immagini/bomboniere/img-20200827-wa0001.jpg",
+      "altre_foto": [
+        "/immagini/bomboniere/img-20200827-wa0000.jpg",
+        "/immagini/bomboniere/img-20200827-wa0003.jpg"
+      ],
+      "codice": "BOM-03",
+      "id": "bomboniere/img-20200827-wa0001"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/bomboniere/img_20191027_132919.jpg",
+      "titolo": "Nascita",
+      "altre_foto": [
+        "/immagini/bomboniere/img_20191027_133017.jpg"
+      ],
+      "codice": "BOM-04",
+      "id": "bomboniere/img_20191027_132919"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-11",
+      "nascondi_video": false,
+      "titolo": "Strenne di Natale",
+      "foto": "/immagini/bomboniere/img_20181213_001252.jpg",
+      "codice": "BOM-05",
+      "id": "bomboniere/img_20181213_001252"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-11",
+      "nascondi_video": false,
+      "titolo": "Strenne di Natale",
+      "foto": "/immagini/bomboniere/image_ebcbf5df.jpg",
+      "altre_foto": [
+        "/immagini/bomboniere/img_20181224_225900.jpg",
+        "/immagini/bomboniere/image_2767fda9.jpg",
+        ""
+      ],
+      "codice": "BOM-06",
+      "id": "bomboniere/image_ebcbf5df"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-11",
+      "nascondi_video": false,
+      "foto": "/immagini/bomboniere/20250505_200353.jpg",
+      "titolo": "Compleanno",
+      "altre_foto": [
+        "/immagini/bomboniere/20250504_200503.jpg",
+        "/immagini/bomboniere/20250504_200512.jpg",
+        "/immagini/bomboniere/20250505_200538.jpg",
+        "/immagini/bomboniere/20250505_201443.jpg"
+      ],
+      "codice": "BOM-07",
+      "id": "bomboniere/20250505_200353"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-01",
+      "nascondi_video": false,
+      "foto": "/immagini/bomboniere/image_bf1b2b5b.jpg",
+      "titolo": "Laurea",
+      "altre_foto": [
+        "/immagini/bomboniere/image_524b7806.jpg"
+      ],
+      "codice": "BOM-08",
+      "id": "bomboniere/image_bf1b2b5b"
+    },
+    {
+      "nascosto": false,
+      "data": "2026-11-11",
+      "nascondi_video": false,
+      "foto": "/immagini/bomboniere/img_20191201_115325.jpg",
+      "titolo": "Laurea",
+      "altre_foto": [
+        "/immagini/bomboniere/image_c8c9eab4.jpg",
+        "/immagini/bomboniere/img_20191201_115408.jpg"
+      ],
+      "codice": "BOM-09",
+      "id": "bomboniere/img_20191201_115325"
+    },
+    {
       "titolo": "Acquisto casa",
-      "foto": "/immagini/bomboniere/20230821_094226.jpg",
+      "foto": "/immagini/bomboniere/20230827_203603.jpg",
       "altre_foto": [
         "/immagini/bomboniere/20230821_094323.jpg",
         "/immagini/bomboniere/20230821_094329.jpg",
         "/immagini/bomboniere/20230821_094345.jpg",
-        "/immagini/bomboniere/20230821_094703.jpg"
+        "",
+        "/immagini/bomboniere/20230821_094226.jpg",
+        "/immagini/bomboniere/img-20230828-wa0009.jpeg"
       ],
       "en": {
         "titolo": "New home"
@@ -20,23 +110,26 @@
       "codice": "BOM-01"
     },
     {
-      "titolo": "Compleanno ",
-      "foto": "/immagini/bomboniere/20260804_212943.jpg",
-      "descrizione": "Portachiavi in legno massello di Rovere, Wengè con inserto puzzle in Amaranto,  con passante in cuoio e dettagli in acciaio.",
-      "prezzo": "",
-      "instagram": "https://www.instagram.com/reel/Dfj-tykSrQm/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "youtube": "https://youtube.com/shorts/JTFGvhhktjI",
+      "foto": "/immagini/bomboniere/20260818_185655.jpg",
       "altre_foto": [
         "/immagini/bomboniere/20260817_185202.jpg",
         "/immagini/bomboniere/20260817_185214.jpg",
-        "/immagini/bomboniere/20260817_185218.jpg"
+        "/immagini/bomboniere/20260817_185218.jpg",
+        "/immagini/bomboniere/20260818_185637.jpg",
+        "/immagini/bomboniere/20260817_185014.jpg",
+        "/immagini/bomboniere/img-20260830-wa0002.jpg"
       ],
-      "youtube": "https://youtube.com/shorts/JTFGvhhktjI",
       "en": {
         "titolo": "Birthday",
         "descrizione": "Keyring in solid Oak and Wenge with a puzzle insert in Purpleheart, a leather strap and steel details."
       },
-      "id": "bomboniere/20260804_212943",
-      "codice": "BOM-02"
+      "prezzo": "",
+      "descrizione": "Portachiavi in legno massello di Rovere, Wengè con inserto puzzle in Amaranto,  con passante in cuoio e dettagli in acciaio.",
+      "instagram": "https://www.instagram.com/reel/Dfj-tykSrQm/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+      "titolo": "Compleanno ",
+      "codice": "BOM-02",
+      "id": "bomboniere/20260804_212943"
     }
   ],
   "en": {
